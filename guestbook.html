@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Guestbook :: Swifty's Jook Joint</title>
+  <meta name="description" content="Sign Swifty's guestbook on your way through the joint." />
+  <meta name="theme-color" content="#14110f" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>📖</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="room-home">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <nav class="nav">
+        <a href="index.html">home</a>
+        <a href="fnaf.html">fnaf</a>
+        <a href="stardew.html">stardew</a>
+        <a href="undertale.html">undertale</a>
+        <a href="fencing.html">fencing</a>
+        <a href="guestbook.html" class="here">guestbook</a>
+        <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work&nbsp;↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back-link" href="index.html">← back to the joint</a>
+
+    <h1 class="sign">THE <span class="pink">GUESTBOOK</span></h1>
+    <p class="tagline">scribble something on your way through ✍️ · don't be a stranger</p>
+
+    <form class="gb-form panel" id="gb-form" autocomplete="off">
+      <div class="gb-row">
+        <input class="gb-input" id="gb-name" type="text" maxlength="32" placeholder="your name or handle" aria-label="your name" required />
+        <select class="gb-input gb-mood" id="gb-mood" aria-label="a mood">
+          <option value="👋">👋 hi</option>
+          <option value="🎷">🎷 jazzy</option>
+          <option value="🦝">🦝 trash</option>
+          <option value="🐻">🐻 freddy</option>
+          <option value="🌱">🌱 cozy</option>
+          <option value="❤️">❤️ determined</option>
+          <option value="🤺">🤺 en garde</option>
+          <option value="⭐">⭐ star</option>
+          <option value="🍕">🍕 pizza</option>
+        </select>
+      </div>
+      <textarea class="gb-input gb-msg" id="gb-msg" maxlength="280" rows="3" placeholder="leave a note… (be nice, the raccoon is watching)" aria-label="your message" required></textarea>
+      <div class="gb-actions">
+        <button class="gb-sign" type="submit">✍️ sign the book</button>
+        <span class="muted small" id="gb-left">280 left</span>
+      </div>
+      <p class="muted small" style="margin:6px 0 0;">entries are saved in your browser on this device.</p>
+    </form>
+
+    <h2>Signatures <span class="muted small" id="gb-count"></span></h2>
+    <div id="gb-list"><!-- entries injected by site.js --></div>
+
+    <nav class="room-nav">
+      <a href="index.html">← home</a>
+      <a href="fnaf.html">explore the rooms →</a>
+    </nav>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty · made with 🦝 + late nights</span>
+      <span>you are visitor №&nbsp;<b id="hits">000000</b></span>
+      <span class="btns88">
+        <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY&nbsp;WORK</a>
+        <a class="btn88" href="undertale.html">STAY&nbsp;DETERMINED</a>
+        <a class="btn88" href="index.html">BEST&nbsp;VIEWED&nbsp;@&nbsp;NIGHT</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/raccoon.js"></script>
+</body>
+</html>

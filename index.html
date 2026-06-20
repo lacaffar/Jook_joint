@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Swifty's Jook Joint</title>
+  <meta name="description" content="Swifty's Jook Joint — a cozy corner of the web. Rooms for FNAF, Stardew Valley, Undertale, and fencing. Mind the raccoon." />
+  <meta name="theme-color" content="#14110f" />
+  <meta property="og:title" content="Swifty's Jook Joint" />
+  <meta property="og:description" content="A cozy corner of the web. Pull up a stool." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🦝</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="room-home">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <nav class="nav">
+        <a href="index.html" class="here">home</a>
+        <a href="fnaf.html">fnaf</a>
+        <a href="stardew.html">stardew</a>
+        <a href="undertale.html">undertale</a>
+        <a href="fencing.html">fencing</a>
+        <a href="guestbook.html">guestbook</a>
+        <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work&nbsp;↗</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <h1 class="sign">SWIFTY'S <span class="pink">JOOK JOINT</span></h1>
+    <p class="tagline">a cozy corner of the web · pull up a stool · mind the raccoon 🦝</p>
+
+    <div class="nowplaying" id="nowplaying" aria-label="now playing">
+      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span>♪ now playing:&nbsp;</span><span class="track">—</span>
+    </div>
+
+    <div class="panel">
+      <p class="lead">hey, welcome in. 👋</p>
+      <p>This is my personal little hangout — separate from the <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work stuff</a>.
+        No corporate voice in here, just the things I think are neat. Each door leads to its own room.
+        Wander around, click on things, see what rattles.</p>
+      <p class="muted">There's a raccoon following your cursor. He's friendly. Mostly. Leave the trash where it is and you'll be fine.</p>
+    </div>
+
+    <h2>Rooms</h2>
+    <div class="rooms">
+      <a class="room-card" href="fnaf.html">
+        <span class="ico">🐻</span>
+        <span class="rname">Five Nights at Freddy's</span>
+        <span class="rdesc">animatronics, lore rabbit-holes, and a flickering office light.</span>
+      </a>
+      <a class="room-card" href="stardew.html">
+        <span class="ico">🌱</span>
+        <span class="rname">Stardew Valley</span>
+        <span class="rdesc">the farm, the villagers, and an honest day's pixelated work.</span>
+      </a>
+      <a class="room-card" href="undertale.html">
+        <span class="ico">❤️</span>
+        <span class="rname">Undertale</span>
+        <span class="rdesc">a dark room, a dialogue box, and a save point. stay determined.</span>
+      </a>
+      <a class="room-card" href="fencing.html">
+        <span class="ico">🤺</span>
+        <span class="rname">Fencing</span>
+        <span class="rdesc">steel, footwork, and the little red &amp; green lights.</span>
+      </a>
+    </div>
+
+    <h2>Systems status</h2>
+    <div class="panel tight">
+      <div class="status" id="status">
+        <div class="head"><span>// systems</span><b class="verdict">checking…</b></div>
+        <div class="rows"><!-- rows injected by site.js --></div>
+      </div>
+      <p class="note">These are my systems: my work page and my club <b>Windpack</b>. The top two are live-pinged. Edit the list in <code>js/site.js</code> (and swap in Windpack's real URL when it has one).</p>
+    </div>
+
+    <h2>About this place</h2>
+    <div class="panel">
+      <ul class="tick">
+        <li>handmade, no frameworks — just HTML, CSS &amp; a little JS</li>
+        <li>built to be poked at; every room has something interactive</li>
+        <li>looks best with the lights off 🌙</li>
+        <li>a <a href="guestbook.html">guestbook</a> — sign it on your way out ✍️</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty · made with 🦝 + late nights</span>
+      <span>you are visitor №&nbsp;<b id="hits">000000</b></span>
+      <span class="btns88">
+        <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY&nbsp;WORK</a>
+        <a class="btn88" href="undertale.html">STAY&nbsp;DETERMINED</a>
+        <a class="btn88" href="index.html">BEST&nbsp;VIEWED&nbsp;@&nbsp;NIGHT</a>
+      </span>
+    </div>
+  </footer>
+
+  <script src="js/site.js"></script>
+  <script src="js/raccoon.js"></script>
+</body>
+</html>
