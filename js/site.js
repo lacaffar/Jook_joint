@@ -77,27 +77,85 @@
   }
 
   /* =================================================================
-     JUKEBOX — now-playing ticker
+     JUKEBOX — now-playing ticker + audio playback
+     Drop .mp3 files into audio/ and add them to TRACKS below.
      ================================================================= */
+  var TRACKS = [
+    { title: 'Once Upon a Time — Toby Fox',          src: 'audio/01-once-upon-a-time.mp3' },
+    { title: 'Start Menu — Toby Fox',                src: 'audio/02-start-menu.mp3' },
+    { title: 'Your Best Friend — Toby Fox',          src: 'audio/03-your-best-friend.mp3' },
+    { title: 'Fallen Down — Toby Fox',               src: 'audio/04-fallen-down.mp3' },
+    { title: 'Determination — Toby Fox',             src: 'audio/11-determination.mp3' },
+    { title: 'Snowy — Toby Fox',                     src: 'audio/17-snowy.mp3' },
+    { title: 'Snowdin Town — Toby Fox',              src: 'audio/22-snowdin-town.mp3' },
+    { title: 'Shop — Toby Fox',                      src: 'audio/23-shop.mp3' },
+    { title: 'Undertale — Toby Fox',                 src: 'audio/71-undertale.mp3' },
+    { title: 'Fallen Down (Reprise) — Toby Fox',     src: 'audio/85-fallen-down-reprise.mp3' },
+    { title: 'Battle Against a True Hero — Toby Fox', src: 'audio/98-battle-against-a-true-hero.mp3' }
+  ];
+
   var track = document.querySelector('#nowplaying .track');
+  var jukeBtn = document.querySelector('#jukebox-btn');
+  var audio = new Audio();
+  audio.volume = 0.4;
+  var trackIdx = 0;
+  var playing = false;
+
+  function updateTicker() {
+    if (!track) return;
+    track.style.opacity = 0;
+    setTimeout(function () {
+      track.textContent = TRACKS[trackIdx].title;
+      track.style.opacity = 1;
+    }, 250);
+  }
+
   if (track) {
-    var SET = [
-      'Toreador March — Freddy Fazbear',
-      'Stardew Valley Overture — ConcernedApe',
-      'Megalovania — Toby Fox',
-      'Pelican Town (Spring) — ConcernedApe',
-      'Your Best Nightmare — Toby Fox',
-      'sabre clash, en garde mix',
-      'late-night porch radio static'
-    ];
-    var i = 0;
-    function spin() {
-      track.style.opacity = 0;
-      setTimeout(function () { track.textContent = SET[i = (i + 1) % SET.length]; track.style.opacity = 1; }, 250);
-    }
-    track.textContent = SET[0];
+    track.textContent = TRACKS[0].title;
     track.style.transition = 'opacity .25s';
-    setInterval(spin, 4200);
+  }
+
+  audio.addEventListener('ended', function () {
+    trackIdx = (trackIdx + 1) % TRACKS.length;
+    audio.src = TRACKS[trackIdx].src;
+    audio.play().catch(function () {});
+    updateTicker();
+  });
+
+  audio.addEventListener('error', function () {
+    trackIdx = (trackIdx + 1) % TRACKS.length;
+    updateTicker();
+    if (playing) {
+      audio.src = TRACKS[trackIdx].src;
+      audio.play().catch(function () {});
+    }
+  });
+
+  if (jukeBtn) {
+    jukeBtn.addEventListener('click', function () {
+      if (!playing) {
+        audio.src = TRACKS[trackIdx].src;
+        audio.play().catch(function () {});
+        jukeBtn.textContent = '⏸ jukebox';
+        jukeBtn.classList.add('playing');
+        playing = true;
+      } else {
+        audio.pause();
+        jukeBtn.textContent = '🎵 jukebox';
+        jukeBtn.classList.remove('playing');
+        playing = false;
+      }
+    });
+  }
+
+  // ticker rotation even when not playing audio
+  if (track) {
+    setInterval(function () {
+      if (!playing) {
+        trackIdx = (trackIdx + 1) % TRACKS.length;
+        updateTicker();
+      }
+    }, 4200);
   }
 
   /* =================================================================
