@@ -4,6 +4,7 @@
    ===================================================================== */
 
 .ut-battle{ margin:26px 0; }
+.ut-battle [hidden]{ display:none !important; }
 
 .ut-enemy{
   width:110px; margin:0 auto; user-select:none;

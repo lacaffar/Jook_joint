@@ -1,0 +1,218 @@
+/* =====================================================================
+   fnaf.css - ONE NIGHT AT SWIFTY'S.
+   VHS grain, a purple-black office, chunky door buttons, green cams.
+   ===================================================================== */
+
+/* stronger grain on this page */
+body.room-fnaf::after{
+  content:""; position:fixed; inset:-50%; z-index:9998; pointer-events:none;
+  background-image:
+    repeating-radial-gradient(circle at 17% 32%, rgba(255,255,255,.04) 0 1px, transparent 1px 4px),
+    repeating-radial-gradient(circle at 73% 61%, rgba(255,255,255,.03) 0 1px, transparent 1px 3px);
+  animation:fgGrain .35s steps(3) infinite;
+  opacity:.7;
+}
+@keyframes fgGrain{
+  0%{ transform:translate(0,0) } 33%{ transform:translate(-2%,1%) }
+  66%{ transform:translate(1%,-2%) } 100%{ transform:translate(2%,2%) }
+}
+
+/* display:flex on screens must not defeat the hidden attribute */
+.fnaf-game [hidden]{ display:none !important; }
+
+.fnaf-game{
+  position:relative; margin:20px 0; border:1px solid var(--line);
+  border-radius:12px; overflow:hidden; background:#060409;
+  min-height:420px; box-shadow:var(--shadow);
+}
+.fnaf-game > div{ min-height:420px; }
+
+/* ---- start menu ----------------------------------------------------- */
+.fg-menu{
+  display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+  gap:14px; padding:40px 8%;
+  background:
+    radial-gradient(700px 300px at 80% 20%, rgba(138,63,251,.12), transparent 60%),
+    #060409;
+}
+.fg-title{
+  font-family:var(--font-pixel); font-weight:700;
+  font-size:clamp(30px, 7vw, 54px); line-height:1.05; color:#ddd;
+  text-shadow:2px 0 var(--accent), -2px 0 var(--accent2);
+  animation:fgGlitch 4s infinite;
+}
+@keyframes fgGlitch{
+  0%,91%,94%,100%{ transform:none; opacity:1 }
+  92%{ transform:translateX(-3px) skewX(3deg); opacity:.7 }
+  93%{ transform:translateX(3px); opacity:.9 }
+}
+.fg-menu button{
+  font-family:var(--font-pixel); font-size:16px; letter-spacing:1px;
+  color:#cfc6dd; background:none; border:0; cursor:pointer; padding:4px 0;
+  text-align:left;
+}
+.fg-menu button:hover{ color:var(--accent); }
+.fg-menu button:hover::before{ content:"🐻 "; }
+.fg-hint{ color:var(--muted); font-family:var(--font-term); font-size:18px; margin:8px 0 0; }
+.fg-star{ color:var(--muted); font-size:12px; }
+
+/* ---- office ---------------------------------------------------------- */
+.fg-office{ display:flex; flex-direction:column; }
+.fg-hud{
+  display:flex; gap:16px; flex-wrap:wrap; justify-content:space-between;
+  font-family:var(--font-term); font-size:19px; color:#cfc6dd;
+  padding:10px 14px; border-bottom:1px solid var(--line); background:#0a0710;
+}
+#fg-power.low{ color:var(--down); animation:blink 1s steps(2) infinite; }
+
+.fg-room{
+  flex:1; display:flex; align-items:stretch; min-height:280px;
+  background:
+    linear-gradient(180deg, #0b0812 0%, #120c1c 55%, #0a0710 100%);
+}
+.fg-side{
+  width:26%; min-width:110px; display:flex; flex-direction:column; gap:8px;
+  align-items:center; justify-content:center; padding:12px 8px; position:relative;
+}
+.fg-doorway{
+  width:76px; height:150px; border:3px solid #241a35; border-radius:6px 6px 0 0;
+  background:#03020a; position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center;
+}
+.fg-doorway .fg-eyes{
+  font-family:var(--font-term); color:#ffd7d7; font-size:22px; letter-spacing:10px;
+  text-shadow:0 0 8px var(--accent); opacity:0; transition:opacity .12s;
+}
+.lightL-on .fg-side.left  .fg-doorway{ background:#1c1428; }
+.lightR-on .fg-side.right .fg-doorway{ background:#1c1428; }
+.eyes-L .fg-side.left  .fg-eyes{ opacity:1; }
+.eyes-R .fg-side.right .fg-eyes{ opacity:1; }
+.fg-doorway .fg-door{
+  position:absolute; inset:0; transform:translateY(-102%);
+  background:repeating-linear-gradient(0deg, #2e2344 0 12px, #241a35 12px 24px);
+  transition:transform .18s ease-in; border-bottom:4px solid #4b3a6e;
+}
+.doorL-closed .fg-side.left  .fg-door{ transform:translateY(0); }
+.doorR-closed .fg-side.right .fg-door{ transform:translateY(0); }
+
+.fg-btn{
+  font-family:var(--font-pixel); font-size:10px; letter-spacing:.5px;
+  width:86px; padding:9px 4px; cursor:pointer; border-radius:8px;
+  color:#cfc6dd; background:#181024; border:2px solid #33244d;
+  transition:all .1s;
+}
+.fg-btn:hover{ border-color:var(--accent2); }
+.doorL-closed .fg-side.left  .fg-btn.door,
+.doorR-closed .fg-side.right .fg-btn.door{ background:var(--accent); color:#160505; border-color:var(--accent); }
+.lightL-on .fg-side.left  .fg-btn.light,
+.lightR-on .fg-side.right .fg-btn.light{ background:#f5efc9; color:#221; border-color:#f5efc9; }
+
+.fg-desk{
+  flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding:14px; gap:6px; text-align:center;
+}
+.fg-desk .fan{ font-size:34px; animation:spin 1s linear infinite; opacity:.8; }
+.fg-desk .desk-note{ font-family:var(--font-term); font-size:17px; color:var(--muted); }
+
+#fg-cams{
+  font-family:var(--font-pixel); font-size:12px; letter-spacing:2px;
+  margin:0; padding:12px; width:100%; cursor:pointer;
+  color:#cfc6dd; background:#0a0710; border:0; border-top:1px solid var(--line);
+}
+#fg-cams:hover{ color:var(--accent2); background:#120c1c; }
+
+/* ---- camera view ------------------------------------------------------ */
+.fg-camview{ display:flex; flex-direction:column; background:#020503; }
+.fg-cam-screen{
+  flex:1; position:relative; min-height:240px; margin:12px; border:2px solid #1c3a24;
+  background:
+    repeating-linear-gradient(0deg, rgba(90,255,140,.05) 0 2px, transparent 2px 4px),
+    radial-gradient(500px 260px at 50% 40%, rgba(90,255,140,.08), transparent 70%),
+    #04120a;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
+}
+.fg-rec{
+  position:absolute; top:8px; left:10px; font-family:var(--font-term); font-size:18px;
+  color:#ff4d4d;
+}
+.fg-rec::before{ content:"● "; animation:blink 1.2s steps(2) infinite; }
+#fg-cam-label{
+  position:absolute; top:8px; right:10px; font-family:var(--font-term);
+  font-size:18px; color:#9ef0b4;
+}
+#fg-cam-body{ text-align:center; }
+.fg-silhouette{ width:120px; filter:brightness(.35) sepia(1) hue-rotate(80deg); animation:fgFlicker 2s steps(3) infinite; }
+.fg-silhouette svg{ width:100%; height:auto; }
+@keyframes fgFlicker{ 50%{ opacity:.55 } 75%{ transform:translateX(2px) } }
+.fg-empty{ font-family:var(--font-term); color:#5d8a6c; font-size:20px; }
+
+.fg-cam-map{
+  display:flex; gap:8px; flex-wrap:wrap; justify-content:center; padding:0 12px 4px;
+}
+.fg-cam-btn{
+  font-family:var(--font-term); font-size:18px; color:#9ef0b4; background:#04120a;
+  border:1px solid #1c3a24; border-radius:6px; padding:6px 14px; cursor:pointer;
+}
+.fg-cam-btn.active{ background:#123920; border-color:#9ef0b4; }
+#fg-cams-down{
+  font-family:var(--font-pixel); font-size:12px; letter-spacing:2px;
+  margin:8px 0 0; padding:12px; width:100%; cursor:pointer;
+  color:#9ef0b4; background:#020503; border:0; border-top:1px solid #1c3a24;
+}
+#fg-cams-down:hover{ background:#04120a; }
+
+/* ---- blackout / jumpscare / end --------------------------------------- */
+.fnaf-game.blackout .fg-room{ filter:brightness(.25); }
+.fnaf-game.blackout .fg-btn{ opacity:.3; pointer-events:none; }
+.fnaf-game.blackout #fg-cams{ opacity:.3; pointer-events:none; }
+
+.fg-jumpscare{
+  position:fixed !important; inset:0; z-index:10000; background:#000;
+  display:flex; align-items:center; justify-content:center; min-height:0 !important;
+}
+.fg-jumpscare svg{ width:min(80vw, 80vh); height:auto; animation:fgLunge .5s steps(4) infinite; }
+@keyframes fgLunge{
+  0%{ transform:scale(1) } 25%{ transform:scale(1.25) translate(-12px, 8px) }
+  50%{ transform:scale(1.5) translate(10px,-6px) } 75%{ transform:scale(1.8) }
+}
+.fnaf-game.shake{ animation:fgShake .1s linear infinite; }
+@keyframes fgShake{ 25%{ transform:translate(3px,-2px) } 75%{ transform:translate(-3px,2px) } }
+
+.fg-end{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px; text-align:center; padding:30px; background:#060409;
+}
+#fg-end-title{
+  font-family:var(--font-pixel); font-size:clamp(26px, 6vw, 44px);
+  color:var(--accent); margin:0;
+}
+.fnaf-game.won #fg-end-title{ color:#f5efc9; text-shadow:0 0 18px #f5efc9; }
+#fg-end-body{ font-family:var(--font-term); font-size:20px; color:#cfc6dd; line-height:1.5; }
+.fg-end button{
+  font-family:var(--font-pixel); font-size:14px; color:#cfc6dd; background:none;
+  border:0; cursor:pointer; padding:4px;
+}
+.fg-end button:hover{ color:var(--accent); }
+
+/* ---- incident-report restyle of the lore below ------------------------ */
+.incident{ position:relative; }
+.incident::before{
+  content:"FAZBEAR ENTERTAINMENT · INTERNAL · DO NOT DISTRIBUTE";
+  display:block; font-family:var(--font-term); font-size:15px; letter-spacing:2px;
+  color:var(--accent); border-bottom:1px dashed var(--line);
+  padding-bottom:6px; margin-bottom:10px; opacity:.85;
+}
+
+@media (max-width:560px){
+  .fg-side{ min-width:96px; }
+  .fg-doorway{ width:60px; height:120px; }
+  .fg-btn{ width:76px; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  body.room-fnaf::after{ animation:none; opacity:.3; }
+  .fg-title{ animation:none; }
+  .fg-jumpscare svg{ animation:none; }
+  .fnaf-game.shake{ animation:none; }
+  .fg-silhouette{ animation:none; }
+}

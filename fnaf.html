@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Office - FNAF :: Swifty's Jook Joint</title>
-  <meta name="description" content="Swifty's Five Nights at Freddy's room. Mind the cameras, watch the power." />
+  <title>One Night at Swifty's - FNAF :: Swifty's Jook Joint</title>
+  <meta name="description" content="Swifty's Five Nights at Freddy's room. Take the night shift: doors, lights, cameras, and not nearly enough power." />
   <meta name="theme-color" content="#0c0910" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🐻</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/fnaf.css" />
 </head>
 <body class="room-fnaf">
 
@@ -25,28 +26,88 @@
     <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">THE OFFICE</h1>
-    <p class="tagline">12:00 AM · power: <b style="color:var(--accent)">87%</b> · it's quiet… too quiet.</p>
+    <p class="tagline">night shift, 12AM-6AM · pay: $120/wk · <b style="color:var(--accent)">survivors wanted</b></p>
 
-    <div class="panel" style="text-align:center;">
-      <div class="office-eyes" aria-hidden="true">👁&nbsp;&nbsp;&nbsp;👁</div>
-      <p class="muted" style="margin:6px 0 0;">something is in the dark with you.</p>
-    </div>
+    <!-- ============ ONE NIGHT AT SWIFTY'S ============ -->
+    <section class="fnaf-game" id="fnaf-game" aria-label="One Night at Swifty's - a survival game">
 
-    <div class="panel">
+      <div class="fg-menu" id="fg-menu">
+        <div class="fg-title">ONE NIGHT<br>AT SWIFTY'S</div>
+        <button id="fg-new" type="button">&gt; NEW NIGHT</button>
+        <button id="fg-continue" type="button" hidden>&gt; CONTINUE</button>
+        <p class="fg-hint">a raccoon in a bear suit walks the halls.<br>
+          doors stop him. lights find him. cameras slow him.<br>
+          everything costs power. 6AM is a long way off.</p>
+        <p class="fg-star">★ scroll down for the lore files ★</p>
+      </div>
+
+      <div class="fg-office" id="fg-office" hidden>
+        <div class="fg-hud">
+          <span id="fg-night">NIGHT 1</span>
+          <span id="fg-time">12:00 AM</span>
+          <span id="fg-power">POWER: 100%</span>
+          <span id="fg-usage">USAGE: ▮</span>
+        </div>
+        <div class="fg-room">
+          <div class="fg-side left">
+            <div class="fg-doorway"><span class="fg-eyes" aria-hidden="true">◉ ◉</span><div class="fg-door"></div></div>
+            <button class="fg-btn door" id="fg-doorL" type="button">DOOR</button>
+            <button class="fg-btn light" id="fg-lightL" type="button">LIGHT</button>
+          </div>
+          <div class="fg-desk">
+            <div class="fan" aria-hidden="true">🌀</div>
+            <p class="desk-note">the fan does nothing. it stays on out of principle.</p>
+          </div>
+          <div class="fg-side right">
+            <div class="fg-doorway"><span class="fg-eyes" aria-hidden="true">◉ ◉</span><div class="fg-door"></div></div>
+            <button class="fg-btn door" id="fg-doorR" type="button">DOOR</button>
+            <button class="fg-btn light" id="fg-lightR" type="button">LIGHT</button>
+          </div>
+        </div>
+        <button id="fg-cams" type="button">▲ ▲ CAMERAS ▲ ▲</button>
+      </div>
+
+      <div class="fg-camview" id="fg-camview" hidden>
+        <div class="fg-cam-screen">
+          <span class="fg-rec">REC</span>
+          <span id="fg-cam-label">CAM 1A - THE STAGE</span>
+          <div id="fg-cam-body"></div>
+        </div>
+        <div class="fg-cam-map" role="group" aria-label="camera selector">
+          <button class="fg-cam-btn" data-room="stage"  type="button">1A stage</button>
+          <button class="fg-cam-btn" data-room="dining" type="button">1B dining</button>
+          <button class="fg-cam-btn" data-room="hallL"  type="button">2A west hall</button>
+          <button class="fg-cam-btn" data-room="hallR"  type="button">2B east hall</button>
+        </div>
+        <button id="fg-cams-down" type="button">▼ ▼ OFFICE ▼ ▼</button>
+      </div>
+
+      <div class="fg-jumpscare" id="fg-jumpscare" hidden aria-hidden="true">🦝</div>
+
+      <div class="fg-end" id="fg-end" hidden>
+        <p id="fg-end-title"></p>
+        <p id="fg-end-body"></p>
+        <button id="fg-retry" type="button">&gt; RETRY</button>
+        <button id="fg-quit" type="button">&gt; BACK TO MENU</button>
+      </div>
+    </section>
+
+    <div class="panel incident">
       <p class="lead">Five Nights at Freddy's broke my brain in the best way.</p>
       <p>It's the rare horror series where the <i>scariest</i> part isn't the jumpscare - it's the lore.
         A kids' pizzeria with a body count, told through minigames, newspaper clippings, and a community
         that has been arguing about timelines since 2014. I'm in it for the rabbit-holes.</p>
-      <p class="note">Make this yours: drop in your real first game, your scariest memory, your headcanon.</p>
     </div>
 
     <h2>Ranking (fight me)</h2>
-    <ol>
-      <li><b>FNAF 1</b> - nothing beats the original power-management dread.</li>
-      <li><b>Sister Location</b> - voice acting + Circus Baby = elite.</li>
-      <li><b>FNAF 2</b> - the Puppet. the music box. the panic.</li>
-      <li>… (re-order to taste)</li>
-    </ol>
+    <div class="panel incident">
+      <ol style="margin:0;">
+        <li><b>FNAF 1</b> - nothing beats the original power-management dread.</li>
+        <li><b>Sister Location</b> - voice acting + Circus Baby = elite.</li>
+        <li><b>FNAF 2</b> - the Puppet. the music box. the panic.</li>
+        <li>… (re-order to taste)</li>
+      </ol>
+    </div>
 
     <h2>Favorite animatronics</h2>
     <ul class="chips">
@@ -54,7 +115,7 @@
     </ul>
 
     <h2>Lore corner</h2>
-    <div class="panel">
+    <div class="panel incident">
       <h3>Hot takes</h3>
       <ul class="tick">
         <li>the books are semi-canon and that's fine, actually</li>
@@ -63,7 +124,7 @@
       </ul>
     </div>
 
-    <p class="muted"><small>* the raccoon keeps wandering into frame. he is not on the payroll.</small></p>
+    <p class="muted"><small>* the night guard before you only left a sticky note: "he likes the cameras. use that."</small></p>
 
     <nav class="room-nav">
       <a href="index.html">← home</a>
@@ -82,5 +143,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/fnaf.js"></script>
 </body>
 </html>
