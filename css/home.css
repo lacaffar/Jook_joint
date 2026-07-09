@@ -1,0 +1,156 @@
+/* =====================================================================
+   home.css - the bar scene. A CSS cross-section of the jook joint:
+   five themed doors, a counter, a jukebox, a tip jar, a light switch,
+   and one deeply territorial trash can.
+   ===================================================================== */
+
+.bar-scene{
+  position:relative; margin:20px 0 8px; border-radius:14px; overflow:hidden;
+  border:1px solid var(--line); box-shadow:var(--shadow);
+  background:
+    linear-gradient(180deg, #241c15 0%, #1c1510 62%, #120d09 62%, #0e0a07 100%);
+  padding:26px 18px 18px;
+  transition:filter .4s;
+}
+
+/* string lights along the top */
+.bar-scene::before{
+  content:"✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦ ✦"; position:absolute; top:6px; left:0; right:0;
+  text-align:center; letter-spacing:18px; color:var(--warn); font-size:10px;
+  text-shadow:0 0 8px var(--warn); opacity:.8;
+}
+
+/* ---- the doors ------------------------------------------------------ */
+.bar-wall{
+  display:flex; gap:12px; justify-content:center; align-items:flex-end;
+  flex-wrap:wrap; padding:18px 0 22px;
+}
+.bar-door{
+  width:104px; height:158px; border-radius:10px 10px 3px 3px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+  text-decoration:none; position:relative;
+  border:3px solid #0a0705; box-shadow:0 6px 16px rgba(0,0,0,.5), inset 0 0 18px rgba(0,0,0,.45);
+  transition:transform .16s ease, box-shadow .16s ease;
+}
+.bar-door:hover, .bar-door:focus-visible{
+  transform:translateY(-6px) rotate(-1deg); text-decoration:none;
+  box-shadow:0 14px 26px rgba(0,0,0,.6), 0 0 22px var(--glow, var(--accent)), inset 0 0 18px rgba(0,0,0,.4);
+  outline:none;
+}
+.bar-door .knob{ position:absolute; right:9px; top:52%; width:8px; height:8px; border-radius:50%;
+  background:#d9b36a; box-shadow:0 0 5px #d9b36a; }
+.bar-door .ico{ font-size:34px; filter:drop-shadow(0 3px 3px rgba(0,0,0,.6)); }
+.bar-door .plq{
+  font-family:var(--font-pixel); font-size:8.5px; letter-spacing:.4px; text-align:center;
+  color:#f5e9cf; background:rgba(0,0,0,.42); border:1px solid rgba(255,255,255,.14);
+  border-radius:4px; padding:3px 6px; max-width:92px;
+}
+
+.door-fnaf{ --glow:#e23b3b; background:linear-gradient(180deg,#241531,#170e20); }
+.door-fnaf::after{ content:"◠"; position:absolute; top:-14px; color:#ffe9a8; font-size:14px;
+  text-shadow:0 0 9px #ffe9a8; animation:flickerHard 3.5s infinite; }
+.door-stardew{ --glow:#8fcf4f; background:linear-gradient(180deg,#2c4420,#1d2f14); }
+.door-stardew::after{ content:"🌿"; position:absolute; top:-10px; left:6px; font-size:16px; }
+.door-undertale{ --glow:#ff2a2a; background:#000; border-color:#3a3a3a; }
+.door-undertale .ico{ color:#ff2a2a; text-shadow:0 0 12px #ff2a2a; }
+.door-fencing{ --glow:#3da9fc; background:linear-gradient(180deg,#2c3546,#1d2430); }
+.door-hamilton{ --glow:#e8c15a; background:linear-gradient(180deg,#3a2c12,#241a0a); }
+.door-guestbook{ --glow:#ff5d8f; background:linear-gradient(180deg,#38222c,#22151c); }
+
+.door-backroom{
+  --glow:#ffb347;
+  background:repeating-linear-gradient(0deg,#2a1c12 0 12px,#241811 12px 24px); /* brick */
+  opacity:0; pointer-events:none; transform:scale(.96);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.bar-scene.all-caps .door-backroom{ opacity:1; pointer-events:auto; transform:none; }
+.bar-scene.all-caps .door-backroom .plq{ animation:pulse 2s infinite; }
+
+/* ---- the counter ------------------------------------------------------ */
+.bar-counter{
+  position:relative; display:flex; align-items:flex-end; justify-content:space-between;
+  gap:10px; padding:10px 14px 2px;
+  border-top:6px solid #4a3320;
+  background:linear-gradient(180deg,#3a2817,#241811);
+  border-radius:6px 6px 0 0; min-height:74px;
+}
+.bar-counter .stools{ font-size:26px; letter-spacing:14px; opacity:.9; }
+
+.hotspot{
+  background:none; border:0; cursor:pointer; font-size:30px; line-height:1;
+  padding:6px; border-radius:10px; position:relative;
+  transition:transform .12s;
+}
+.hotspot:hover{ transform:translateY(-3px) scale(1.08); }
+.hotspot:focus-visible{ outline:2px solid var(--accent); }
+
+#scene-jukebox{ font-size:38px; }
+#scene-jukebox.spinning::after{
+  content:"♪"; position:absolute; top:-12px; right:-4px; color:var(--accent2);
+  animation:noteFloat 1.2s ease-in-out infinite;
+}
+@keyframes noteFloat{ 0%{ transform:translateY(0); opacity:1 } 100%{ transform:translateY(-14px); opacity:0 } }
+
+#tip-jar .coin-float{
+  position:absolute; left:50%; top:-6px; transform:translateX(-50%);
+  font-family:var(--font-term); font-size:16px; color:var(--warn);
+  animation:coinUp .9s ease forwards; pointer-events:none; white-space:nowrap;
+}
+@keyframes coinUp{ to{ transform:translate(-50%,-26px); opacity:0 } }
+#tip-jar.clink{ animation:clink .3s; }
+@keyframes clink{ 40%{ transform:rotate(-7deg) } 80%{ transform:rotate(5deg) } }
+
+#light-switch{
+  position:absolute; top:12px; right:14px; font-size:20px; color:var(--warn);
+  border:1px solid var(--line); background:rgba(0,0,0,.4); border-radius:8px;
+}
+
+#trash-can.shake{ animation:trashShake .35s; }
+@keyframes trashShake{ 25%{ transform:rotate(-9deg) } 60%{ transform:rotate(7deg) } }
+.trash-raccoon{
+  position:absolute; bottom:80%; left:50%; width:52px; transform:translateX(-50%);
+  animation:trashPop 2.4s ease;
+  pointer-events:none;
+}
+.trash-raccoon svg{ width:100%; height:auto; }
+@keyframes trashPop{
+  0%{ transform:translate(-50%, 40px); opacity:0 }
+  18%,80%{ transform:translate(-50%, 0); opacity:1 }
+  100%{ transform:translate(-50%, 46px); opacity:0 }
+}
+
+/* ---- lights off -------------------------------------------------------- */
+body.lights-off .bar-scene{ filter:brightness(.45) saturate(1.3); }
+body.lights-off .bar-door{ box-shadow:0 0 26px var(--glow, var(--accent)), inset 0 0 18px rgba(0,0,0,.6); }
+body.lights-off .sign{ text-shadow:0 0 10px color-mix(in srgb, var(--accent) 90%, #fff),
+  0 0 30px var(--accent), 0 0 70px var(--accent); }
+body.lights-off .bar-scene::before{ opacity:1; }
+body.lights-off .bar-counter::after{
+  content:"◉ ◉"; position:absolute; left:24px; bottom:22px; color:#ffd7d7; font-size:13px;
+  letter-spacing:5px; text-shadow:0 0 7px var(--accent2); animation:blink 4s steps(2) infinite;
+}
+
+/* ---- konami party ------------------------------------------------------- */
+.rac-party{
+  position:fixed; left:-70px; width:56px; z-index:9600; pointer-events:none;
+  animation:racRun linear forwards;
+}
+.rac-party svg{ width:100%; height:auto; }
+.rac-party.reverse{ left:auto; right:-70px; animation-name:racRunBack; scale:-1 1; }
+@keyframes racRun{ to{ transform:translateX(calc(100vw + 140px)) } }
+@keyframes racRunBack{ to{ transform:translateX(calc(-100vw - 140px)) } }
+
+/* accessible plain list of rooms below the scene */
+.room-list{ font-size:14px; color:var(--muted); text-align:center; margin:2px 0 0; }
+.room-list a{ white-space:nowrap; }
+
+@media (max-width:560px){
+  .bar-door{ width:46%; max-width:150px; }
+  .bar-counter{ flex-wrap:wrap; }
+  .bar-counter .stools{ display:none; }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .rac-party{ display:none; }
+  .door-fnaf::after{ animation:none; }
+}

@@ -4,16 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Swifty's Jook Joint</title>
-  <meta name="description" content="Swifty's Jook Joint - a cozy corner of the web. Rooms for FNAF, Stardew Valley, Undertale, and fencing. Mind the raccoon." />
+  <meta name="description" content="Swifty's Jook Joint - a cozy corner of the web where every room is a game. FNAF, Stardew, Undertale, fencing, Hamilton. Mind the raccoon." />
   <meta name="theme-color" content="#14110f" />
   <meta property="og:title" content="Swifty's Jook Joint" />
-  <meta property="og:description" content="A cozy corner of the web. Pull up a stool." />
+  <meta property="og:description" content="A cozy corner of the web where every room is a game. Pull up a stool." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🦝</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
 </head>
 <body class="room-home">
 
@@ -27,48 +28,79 @@
   <main class="wrap">
 
     <h1 class="sign">SWIFTY'S <span class="pink">JOOK JOINT</span></h1>
-    <p class="tagline">a cozy corner of the web · pull up a stool · mind the raccoon 🦝</p>
+    <p class="tagline">a cozy corner of the web · every room is a game · mind the raccoon 🦝</p>
 
     <div class="nowplaying" id="nowplaying" aria-label="now playing">
       <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span>♪ now playing:&nbsp;</span><span class="track">...</span>
     </div>
 
+    <!-- ============ THE BAR ============ -->
+    <section class="bar-scene" id="bar-scene" aria-label="the bar - pick a door">
+      <button class="hotspot" id="light-switch" type="button" aria-label="toggle the lights" title="the light switch. best viewed at night, they said.">⏻</button>
+
+      <div class="bar-wall">
+        <a class="bar-door door-fnaf" href="fnaf.html">
+          <span class="ico" aria-hidden="true">🐻</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">FNAF<br>night shift</span>
+        </a>
+        <a class="bar-door door-stardew" href="stardew.html">
+          <span class="ico" aria-hidden="true">🌱</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">STARDEW<br>the farm</span>
+        </a>
+        <a class="bar-door door-undertale" href="undertale.html">
+          <span class="ico" aria-hidden="true">❤️</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">UNDERTALE<br>a battle</span>
+        </a>
+        <a class="bar-door door-fencing" href="fencing.html">
+          <span class="ico" aria-hidden="true">🤺</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">FENCING<br>allez!</span>
+        </a>
+        <a class="bar-door door-hamilton" href="hamilton.html">
+          <span class="ico" aria-hidden="true">🎩</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">HAMILTON<br>the duel</span>
+        </a>
+        <a class="bar-door door-guestbook" href="guestbook.html">
+          <span class="ico" aria-hidden="true">📖</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">GUESTBOOK<br>sign it</span>
+        </a>
+        <a class="bar-door door-backroom" href="backroom.html" aria-hidden="true" tabindex="-1">
+          <span class="ico" aria-hidden="true">🦝</span><span class="knob" aria-hidden="true"></span>
+          <span class="plq">???<br>staff only</span>
+        </a>
+      </div>
+
+      <div class="bar-counter">
+        <span class="stools" aria-hidden="true">🪑🪑🪑</span>
+        <button class="hotspot" id="scene-jukebox" type="button" aria-label="the jukebox - play or pause the music" title="the jukebox. it only knows Toby Fox. it is at peace.">📻</button>
+        <button class="hotspot" id="tip-jar" type="button" aria-label="the tip jar">🫙</button>
+        <button class="hotspot" id="trash-can" type="button" aria-label="the trash can. probably leave it alone." title="property of: 🦝">🗑️</button>
+      </div>
+    </section>
+
+    <p class="room-list">doors:
+      <a href="fnaf.html">fnaf</a> ·
+      <a href="stardew.html">stardew</a> ·
+      <a href="undertale.html">undertale</a> ·
+      <a href="fencing.html">fencing</a> ·
+      <a href="hamilton.html">hamilton</a> ·
+      <a href="guestbook.html">guestbook</a>
+    </p>
+
     <div class="panel">
       <p class="lead">hey, welcome in. 👋</p>
       <p>This is my personal little hangout - separate from the <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work stuff</a>.
-        No corporate voice in here, just the things I think are neat. Each door leads to its own room.
-        Wander around, click on things, see what rattles.</p>
-      <p class="muted">There's a raccoon following your cursor. He's friendly. Mostly. Leave the trash where it is and you'll be fine.</p>
+        No corporate voice in here, just the things I think are neat. <b>Every door leads to a room,
+        and every room has a game in it.</b> Win the game, and the raccoon pays you in bottle caps.</p>
+      <p class="muted">There's a raccoon following your cursor. He's friendly. Mostly. Leave the trash where it is and you'll be fine.
+        <span class="muted">(old-timers say the joint reacts to a certain up-up-down-down code.)</span></p>
     </div>
 
-    <h2>Rooms</h2>
-    <div class="rooms">
-      <a class="room-card" href="fnaf.html">
-        <span class="ico">🐻</span>
-        <span class="rname">Five Nights at Freddy's</span>
-        <span class="rdesc">animatronics, lore rabbit-holes, and a flickering office light.</span>
-      </a>
-      <a class="room-card" href="stardew.html">
-        <span class="ico">🌱</span>
-        <span class="rname">Stardew Valley</span>
-        <span class="rdesc">the farm, the villagers, and an honest day's pixelated work.</span>
-      </a>
-      <a class="room-card" href="undertale.html">
-        <span class="ico">❤️</span>
-        <span class="rname">Undertale</span>
-        <span class="rdesc">a dark room, a dialogue box, and a save point. stay determined.</span>
-      </a>
-      <a class="room-card" href="fencing.html">
-        <span class="ico">🤺</span>
-        <span class="rname">Fencing</span>
-        <span class="rdesc">steel, footwork, and the little red &amp; green lights.</span>
-      </a>
-      <a class="room-card" href="hamilton.html">
-        <span class="ico">🎩</span>
-        <span class="rname">Hamilton</span>
-        <span class="rdesc">non-stop, all the way, and I am not throwing away my shot.</span>
-      </a>
+    <h2>The raccoon's collection</h2>
+    <div class="panel tight" style="text-align:center;">
+      <div data-cap-shelf aria-label="bottle cap collection"></div>
+      <p class="muted small" style="margin:10px 0 0;">win the game in each room to earn its cap ·
+        collect all five and <i>something</i> opens up.</p>
     </div>
 
     <h2>Systems status</h2>
@@ -77,15 +109,14 @@
         <div class="head"><span>// systems</span><b class="verdict">checking…</b></div>
         <div class="rows"><!-- rows injected by site.js --></div>
       </div>
-      <p class="note">These are my systems: my work page and my club <b>Windpack</b>. The top two are live-pinged. Edit the list in <code>js/site.js</code> (and swap in Windpack's real URL when it has one).</p>
     </div>
 
     <h2>About this place</h2>
     <div class="panel">
       <ul class="tick">
         <li>handmade, no frameworks - just HTML, CSS &amp; a little JS</li>
-        <li>built to be poked at; every room has something interactive</li>
-        <li>looks best with the lights off 🌙</li>
+        <li>built to be poked at; <b>every room is playable</b></li>
+        <li>looks best with the lights off 🌙 (there's a switch in the bar)</li>
         <li>a <a href="guestbook.html">guestbook</a> - sign it on your way out ✍️</li>
       </ul>
     </div>
@@ -108,5 +139,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/home.js"></script>
 </body>
 </html>
