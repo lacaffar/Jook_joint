@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Back Room :: Swifty's Jook Joint</title>
+  <meta name="robots" content="noindex" />
+  <meta name="description" content="Staff only. Raccoon only, really." />
+  <meta name="theme-color" content="#171008" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🦝</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/backroom.css" />
+</head>
+<body class="room-backroom">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox">🎵 jukebox</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="back-link" href="index.html">← back to the joint</a>
+
+    <!-- locked -->
+    <div id="br-locked" hidden>
+      <div class="br-locked">
+        <h1 class="sign">STAFF ONLY</h1>
+        <p class="tagline">the door has five cap-shaped keyholes. of course it does.</p>
+        <div class="br-door">
+          <span class="peep" aria-hidden="true">🦝</span>
+          <div id="br-keyholes" aria-label="cap keyholes"></div>
+        </div>
+        <p class="muted">win the game in every room, then come back.<br>
+          <span class="small">(the keyholes are links, if you need directions.)</span></p>
+      </div>
+    </div>
+
+    <!-- unlocked -->
+    <div id="br-den" hidden>
+      <h1 class="sign">THE BACK ROOM</h1>
+      <p class="tagline">so you found all five. he's been expecting you.</p>
+
+      <div class="br-hero">
+        <div class="rac" id="br-rac" aria-hidden="true">🦝</div>
+        <div class="br-treasures" aria-label="the raccoon's treasures">
+          <span title="the good bottle cap">◍</span>
+          <span title="a spork. legendary.">🥄</span>
+          <span title="one (1) shiny">✨</span>
+          <span title="the leftover pizza of destiny">🍕</span>
+          <span title="a glove stolen from a fencer">🧤</span>
+          <span title="somebody's quill">🪶</span>
+          <span title="a parsnip. do not eat.">🥕</span>
+        </div>
+      </div>
+
+      <h2>Your caps</h2>
+      <div class="panel tight" style="text-align:center;">
+        <div data-cap-shelf aria-label="your bottle cap collection"></div>
+      </div>
+
+      <h2>The certificate</h2>
+      <div class="br-cert">
+        <p class="small-caps">swifty's jook joint · office of the raccoon</p>
+        <h2>HONORARY TRASH PANDA</h2>
+        <p>this certifies that</p>
+        <div id="br-cert-name">A FRIEND OF THE RACCOON</div>
+        <p>survived the night shift, farmed nine parsnips, spared the raccoon,<br>
+           took a bout to five, and outwitted Aaron Burr.</p>
+        <p class="date">awarded <span id="br-cert-date"></span> · pawprint on file</p>
+        <div class="br-cert-controls">
+          <input id="br-name" type="text" maxlength="32" placeholder="your name here" aria-label="name on the certificate" />
+          <button id="br-download" type="button">⬇ download it (PNG)</button>
+        </div>
+      </div>
+
+      <h2>Your numbers</h2>
+      <div class="panel tight">
+        <ul id="br-stats"></ul>
+      </div>
+
+      <h2>Credits</h2>
+      <div class="br-credits" aria-label="site credits">
+        <div>
+          <b>SWIFTY'S JOOK JOINT</b><br>
+          <span class="role">a small web joint, est. 2026</span><br><br>
+          <b>the office</b><br><span class="role">doors, lights, and poor pay</span><br><br>
+          <b>raccoon hollow</b><br><span class="role">nine parsnips, as foretold</span><br><br>
+          <b>the encounter</b><br><span class="role">nobody had to die</span><br><br>
+          <b>the piste</b><br><span class="role">allez, allez, allez</span><br><br>
+          <b>weehawken, dawn</b><br><span class="role">ten questions, ten paces</span><br><br>
+          <b>the raccoon</b><br><span class="role">as himself</span><br><br>
+          <b>you</b><br><span class="role">honorary trash panda</span><br><br>
+          🦝<br><br>
+        </div>
+      </div>
+
+      <h2>Danger zone</h2>
+      <div class="panel tight" style="text-align:center;">
+        <button id="br-reset" type="button">⟲ reset all progress</button>
+        <p class="muted small" style="margin:8px 0 0;">wipes caps, nights, farm and scores on this device.</p>
+      </div>
+    </div>
+
+    <nav class="room-nav">
+      <a href="index.html">← back to the joint</a>
+      <a href="guestbook.html">sign the book →</a>
+    </nav>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty · staff only past this point</span>
+      <span><a href="index.html">back to the joint</a></span>
+    </div>
+  </footer>
+
+  <script src="js/sfx.js"></script>
+  <script src="js/quest.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/raccoon.js"></script>
+  <script>
+    /* the den mascot uses the shared sprite once raccoon.js has run */
+    (function(){ var r = document.querySelector('#br-rac'); if (r && window.RaccoonSVG) r.innerHTML = window.RaccoonSVG; })();
+  </script>
+  <script src="js/rooms/backroom.js"></script>
+</body>
+</html>

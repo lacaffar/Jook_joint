@@ -1,0 +1,117 @@
+/* =====================================================================
+   backroom.css - the raccoon's den. Warm string-light glow, trash
+   treasures, one very official certificate.
+   ===================================================================== */
+
+body.room-backroom{
+  --bg:#171008; --bg2:#221812; --bg3:#2f2118; --ink:#f2e6d0; --muted:#a89579;
+  --line:#453424; --accent:#ffb347; --accent2:#ff5d8f; --link:#ffb347;
+}
+
+/* ---- locked state ---------------------------------------------------- */
+.br-locked{ text-align:center; padding:30px 0 10px; }
+.br-door{
+  width:190px; height:270px; margin:10px auto 18px; border-radius:12px 12px 4px 4px;
+  background:repeating-linear-gradient(0deg,#2a1c12 0 14px,#241811 14px 28px);
+  border:4px solid #0a0705; box-shadow:0 10px 30px rgba(0,0,0,.6), inset 0 0 22px rgba(0,0,0,.5);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px;
+}
+.br-door .peep{ font-size:34px; filter:brightness(.6); }
+#br-keyholes{ display:flex; gap:8px; }
+.br-keyhole{
+  width:30px; height:30px; border-radius:50%; border:2px dashed var(--line);
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+  color:var(--muted); background:#120c08; text-decoration:none;
+}
+.br-keyhole.filled{ border-style:solid; border-color:var(--accent);
+  box-shadow:0 0 10px color-mix(in srgb, var(--accent) 45%, transparent); }
+.br-keyhole:hover{ transform:scale(1.12); text-decoration:none; }
+
+/* ---- the den ----------------------------------------------------------- */
+.br-den[hidden], .br-locked[hidden]{ display:none !important; }
+
+.br-hero{
+  text-align:center; padding:16px 0 4px;
+}
+.br-hero .rac{ width:96px; margin:0 auto; animation:utIdleBr 2.6s ease-in-out infinite; }
+.br-hero .rac svg{ width:100%; height:auto; }
+@keyframes utIdleBr{ 50%{ transform:translateY(-5px) } }
+
+.br-treasures{
+  display:flex; gap:14px; justify-content:center; flex-wrap:wrap;
+  font-size:26px; margin:8px 0; filter:drop-shadow(0 3px 3px rgba(0,0,0,.5));
+}
+.br-treasures span{ cursor:default; transition:transform .15s; }
+.br-treasures span:hover{ transform:translateY(-4px) rotate(-6deg); }
+
+/* certificate */
+.br-cert{
+  border:4px double var(--accent); border-radius:8px; padding:24px 20px; text-align:center;
+  background:
+    radial-gradient(400px 200px at 50% 0%, rgba(255,179,71,.08), transparent 70%),
+    var(--bg2);
+  box-shadow:var(--shadow);
+}
+.br-cert .small-caps{
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:3px; color:var(--muted);
+  margin:0 0 4px; font-size:15px;
+}
+.br-cert h2{
+  font-family:Georgia, serif; letter-spacing:2px; color:var(--accent);
+  font-size:clamp(22px, 5vw, 34px); margin:4px 0 10px;
+}
+#br-cert-name{
+  font-family:Georgia, serif; font-size:clamp(20px, 4.6vw, 30px); color:var(--accent2);
+  border-bottom:1px solid var(--line); display:inline-block; padding:0 22px 4px;
+  min-width:200px; text-transform:uppercase;
+}
+.br-cert p{ font-family:Georgia, serif; }
+.br-cert .date{ color:var(--muted); font-style:italic; font-size:14px; }
+.br-cert-controls{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:14px; }
+#br-name{
+  font-family:Georgia, serif; font-size:16px; color:var(--ink); background:var(--bg);
+  border:1px solid var(--line); border-radius:8px; padding:10px 14px; min-width:220px;
+}
+#br-name:focus{ outline:none; border-color:var(--accent); }
+#br-download{
+  font-family:var(--font-pixel); font-size:12px; color:#1c1207; background:var(--accent);
+  border:0; border-radius:8px; padding:11px 18px; cursor:pointer;
+}
+#br-download:hover{ filter:brightness(1.1); }
+
+/* credits */
+.br-credits{
+  height:200px; overflow:hidden; position:relative; text-align:center;
+  font-family:var(--font-term); font-size:20px; line-height:1.7;
+  background:#0e0a06; border-radius:10px; border:1px solid var(--line);
+}
+.br-credits > div{ animation:creditsRoll 26s linear infinite; padding-top:200px; }
+.br-credits b{ color:var(--accent); }
+.br-credits .role{ color:var(--muted); font-size:16px; }
+@keyframes creditsRoll{ to{ transform:translateY(-100%) } }
+.br-credits:hover > div{ animation-play-state:paused; }
+
+#br-stats{ list-style:none; padding:0; margin:8px 0; }
+#br-stats li{ padding:3px 0; border-bottom:1px dashed var(--line); }
+#br-stats b{ color:var(--accent); float:right; }
+
+#br-reset{
+  font-family:var(--font-pixel); font-size:11px; color:var(--down);
+  background:none; border:1px solid var(--down); border-radius:8px;
+  padding:9px 14px; cursor:pointer; opacity:.8;
+}
+#br-reset:hover{ opacity:1; background:rgba(255,91,91,.08); }
+
+/* confetti */
+.br-confetti{
+  position:fixed; top:-30px; z-index:9600; font-size:20px; pointer-events:none;
+  animation:confettiFall linear forwards;
+}
+@keyframes confettiFall{
+  to{ transform:translateY(110vh) rotate(340deg); opacity:.7 }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .br-credits > div{ animation:none; padding-top:10px; }
+  .br-confetti{ display:none; }
+}
