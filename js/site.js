@@ -1,5 +1,5 @@
 /* =====================================================================
-   site.js — shared behaviour for Swifty's Jook Joint.
+   site.js - shared behaviour for Swifty's Jook Joint.
    Everything is feature-detected, so this one file runs on every page.
    ===================================================================== */
 (function () {
@@ -77,21 +77,21 @@
   }
 
   /* =================================================================
-     JUKEBOX — now-playing ticker + audio playback
+     JUKEBOX - now-playing ticker + audio playback
      Drop .mp3 files into audio/ and add them to TRACKS below.
      ================================================================= */
   var TRACKS = [
-    { title: 'Once Upon a Time — Toby Fox',          src: 'audio/01-once-upon-a-time.mp3' },
-    { title: 'Start Menu — Toby Fox',                src: 'audio/02-start-menu.mp3' },
-    { title: 'Your Best Friend — Toby Fox',          src: 'audio/03-your-best-friend.mp3' },
-    { title: 'Fallen Down — Toby Fox',               src: 'audio/04-fallen-down.mp3' },
-    { title: 'Determination — Toby Fox',             src: 'audio/11-determination.mp3' },
-    { title: 'Snowy — Toby Fox',                     src: 'audio/17-snowy.mp3' },
-    { title: 'Snowdin Town — Toby Fox',              src: 'audio/22-snowdin-town.mp3' },
-    { title: 'Shop — Toby Fox',                      src: 'audio/23-shop.mp3' },
-    { title: 'Undertale — Toby Fox',                 src: 'audio/71-undertale.mp3' },
-    { title: 'Fallen Down (Reprise) — Toby Fox',     src: 'audio/85-fallen-down-reprise.mp3' },
-    { title: 'Battle Against a True Hero — Toby Fox', src: 'audio/98-battle-against-a-true-hero.mp3' }
+    { title: 'Once Upon a Time - Toby Fox',          src: 'audio/01-once-upon-a-time.mp3' },
+    { title: 'Start Menu - Toby Fox',                src: 'audio/02-start-menu.mp3' },
+    { title: 'Your Best Friend - Toby Fox',          src: 'audio/03-your-best-friend.mp3' },
+    { title: 'Fallen Down - Toby Fox',               src: 'audio/04-fallen-down.mp3' },
+    { title: 'Determination - Toby Fox',             src: 'audio/11-determination.mp3' },
+    { title: 'Snowy - Toby Fox',                     src: 'audio/17-snowy.mp3' },
+    { title: 'Snowdin Town - Toby Fox',              src: 'audio/22-snowdin-town.mp3' },
+    { title: 'Shop - Toby Fox',                      src: 'audio/23-shop.mp3' },
+    { title: 'Undertale - Toby Fox',                 src: 'audio/71-undertale.mp3' },
+    { title: 'Fallen Down (Reprise) - Toby Fox',     src: 'audio/85-fallen-down-reprise.mp3' },
+    { title: 'Battle Against a True Hero - Toby Fox', src: 'audio/98-battle-against-a-true-hero.mp3' }
   ];
 
   var track = document.querySelector('#nowplaying .track');
@@ -159,7 +159,7 @@
   }
 
   /* =================================================================
-     RETRO HIT COUNTER (per-visitor, localStorage — purely for vibes)
+     RETRO HIT COUNTER (per-visitor, localStorage - purely for vibes)
      ================================================================= */
   var hit = document.querySelector('#hits');
   if (hit) {
@@ -173,7 +173,7 @@
   }
 
   /* =================================================================
-     UNDERTALE — save point
+     UNDERTALE - save point
      ================================================================= */
   var save = document.querySelector('#savepoint');
   if (save) {
@@ -194,7 +194,7 @@
   }
 
   /* =================================================================
-     FENCING — scoreboard lamps (click a side to score a touch)
+     FENCING - scoreboard lamps (click a side to score a touch)
      ================================================================= */
   document.querySelectorAll('.lamp').forEach(function (lamp) {
     lamp.style.cursor = 'pointer';
@@ -211,7 +211,27 @@
   });
 
   /* =================================================================
-     GUESTBOOK — saved in localStorage (per-browser; works on a static
+     HAMILTON - "my shot" button, cycles a line from the show
+     ================================================================= */
+  var shot = document.querySelector('#my-shot');
+  if (shot) {
+    var shotOut = document.querySelector('#shot-msg');
+    var SHOT_LINES = [
+      'I am not throwing away my shot.',
+      'History has its eyes on you.',
+      'Talk less, smile more.',
+      'Look around, look around, how lucky we are to be alive right now.',
+      'Non-stop!'
+    ];
+    var shotIdx = 0;
+    shot.addEventListener('click', function () {
+      shotIdx = (shotIdx + 1) % SHOT_LINES.length;
+      if (shotOut) shotOut.textContent = '"' + SHOT_LINES[shotIdx] + '"';
+    });
+  }
+
+  /* =================================================================
+     GUESTBOOK - saved in localStorage (per-browser; works on a static
      host with no backend). Rendered with textContent, so a signature
      can never inject markup or script.
      ================================================================= */

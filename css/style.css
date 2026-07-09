@@ -1,5 +1,5 @@
 /* =====================================================================
-   SWIFTY'S JOOK JOINT — shared stylesheet
+   SWIFTY'S JOOK JOINT - shared stylesheet
    Cozy small-web / neocities vibe, inspired by dimden.dev.
    Each "room" (page) overrides a few CSS variables via a body class.
    ===================================================================== */
@@ -271,10 +271,10 @@ small,.small{ font-size:13px; }
 }
 
 /* =====================================================================
-   ROOM THEMES — override tokens per page via <body class="room-…">
+   ROOM THEMES - override tokens per page via <body class="room-…">
    ===================================================================== */
 
-/* FNAF — purple/red security office, flickery & uneasy */
+/* FNAF - purple/red security office, flickery & uneasy */
 body.room-fnaf{
   --bg:#0c0910; --bg2:#15101c; --bg3:#221731; --ink:#e9e2f2; --muted:#9a86b8;
   --line:#352847; --accent:#e23b3b; --accent2:#8a3ffb; --link:#ff6a6a;
@@ -283,13 +283,13 @@ body.room-fnaf .sign{ animation:flickerHard 3.5s infinite; }
 @keyframes flickerHard{ 0%,12%,14%,40%,42%,100%{opacity:1} 13%,41%,70%{opacity:.25} 71%{opacity:1} }
 .office-eyes{ font-size:30px; letter-spacing:14px; color:var(--accent); animation:blink 4s steps(2) infinite; }
 
-/* Stardew — cozy green farm, golden hour */
+/* Stardew - cozy green farm, golden hour */
 body.room-stardew{
   --bg:#10160e; --bg2:#18211440; --bg2:#172013; --bg3:#23301d; --ink:#eef2df; --muted:#9fae87;
   --line:#33422a; --accent:#8fcf4f; --accent2:#f2c24b; --link:#a7e065;
 }
 
-/* Undertale — black void, white text, determination yellow + red */
+/* Undertale - black void, white text, determination yellow + red */
 body.room-undertale{
   --bg:#000; --bg2:#0a0a0a; --bg3:#141414; --ink:#ffffff; --muted:#9a9a9a;
   --line:#2a2a2a; --accent:#ffd400; --accent2:#ff2a2a; --link:#ffd400;
@@ -310,7 +310,7 @@ body.room-undertale{ font-size:20px; }
 .savepoint .yel{ animation:spin 3s linear infinite; display:inline-block; text-shadow:0 0 10px var(--accent); }
 @keyframes spin{ to{ transform:rotate(360deg) } }
 
-/* Fencing — steel piste, scoring lights */
+/* Fencing - steel piste, scoring lights */
 body.room-fencing{
   --bg:#0c0e13; --bg2:#141822; --bg3:#1d2330; --ink:#e7ecf5; --muted:#8b97ad;
   --line:#2a3243; --accent:#d8dee9; --accent2:#3da9fc; --link:#7fc4ff;
@@ -328,6 +328,12 @@ body.room-fencing{
 .lamp.green.on .bulb{ background:#27e36a; box-shadow:0 0 26px 6px #27e36a, inset 0 0 10px #fff; }
 .lamp .lab{ font-family:var(--font-pixel); font-size:10px; color:var(--muted); margin-top:8px; }
 .enguarde{ text-align:center; font-family:var(--font-pixel); color:var(--muted); letter-spacing:2px; }
+
+/* Hamilton - candlelit parchment and revolutionary blue/gold */
+body.room-hamilton{
+  --bg:#1a1408; --bg2:#231a0e; --bg3:#312413; --ink:#f2e6c9; --muted:#b3a184;
+  --line:#4a3a20; --accent:#e8c15a; --accent2:#3c6ea5; --link:#e8c15a;
+}
 
 /* =====================================================================
    RACCOON cursor-follower
