@@ -3,14 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Farm - Stardew Valley :: Swifty's Jook Joint</title>
-  <meta name="description" content="Swifty's Stardew Valley room. The farm, the villagers, an honest day's work." />
+  <title>Raccoon Hollow - Stardew Valley :: Swifty's Jook Joint</title>
+  <meta name="description" content="Swifty's Stardew Valley room. A little walkable farm: till, plant, water, sleep, harvest. Talk to the neighbors." />
   <meta name="theme-color" content="#10160e" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🌱</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/stardew.css" />
 </head>
 <body class="room-stardew">
 
@@ -24,28 +25,68 @@
   <main class="wrap">
     <a class="back-link" href="index.html">← back to the joint</a>
 
-    <h1 class="sign">THE FARM</h1>
-    <p class="tagline">Day 14 · ☀️ Spring · the radio says it'll be clear tomorrow</p>
+    <h1 class="sign">RACCOON HOLLOW</h1>
+    <p class="tagline">grandpa left you a farm. grandpa also left a note: <b style="color:var(--accent2)">"nine parsnips."</b></p>
 
-    <div class="panel" style="text-align:center; font-size:30px; letter-spacing:6px;">
-      🌳🐔🌱🌱💧🌱🌱🐄🌳<br>🏡🌷🌱🟫🟫🌱🌻🚜
+    <!-- ============ the walkable farm ============ -->
+    <section aria-label="Raccoon Hollow - a walkable farm">
+      <div class="farm-frame">
+        <div id="farm-hud"></div>
+        <div id="farm"></div>
+        <p id="farm-msg"></p>
+      </div>
+
+      <div class="farm-pad" aria-label="touch controls">
+        <button type="button" data-dir="left" aria-label="walk left">⬅</button>
+        <button type="button" data-dir="up" aria-label="walk up">⬆</button>
+        <button type="button" data-dir="down" aria-label="walk down">⬇</button>
+        <button type="button" data-dir="right" aria-label="walk right">➡</button>
+        <button type="button" data-dir="act" class="act" aria-label="interact">USE</button>
+      </div>
+    </section>
+
+    <!-- farmhouse overlay -->
+    <div class="farm-overlay" id="farm-house" hidden>
+      <div class="farm-card">
+        <h3>🏡 the farmhouse</h3>
+        <ul>
+          <li><b>Farm:</b> Raccoon Hollow</li>
+          <li><b>Map:</b> Forest - foraging &amp; vibes over min-maxing</li>
+          <li><b>Farmer:</b> Swifty, year 1</li>
+          <li><b>Pet:</b> the cat, obviously 🐈‍⬛</li>
+          <li><b>Favorite villager:</b> Granny Fern (don't tell Robbie)</li>
+        </ul>
+        <button class="primary" id="farm-sleep" type="button">😴 sleep until morning</button>
+        <button id="farm-house-close" type="button">back outside</button>
+      </div>
     </div>
 
-    <div class="panel">
+    <!-- mine overlay -->
+    <div class="farm-overlay" id="farm-mine" hidden>
+      <div class="farm-card">
+        <h3>⛰️ the mines (level 1 of 120, allegedly)</h3>
+        <button id="farm-rock" type="button" aria-label="whack the rock">🪨</button>
+        <p id="farm-mine-note">whack the rock.</p>
+        <button id="farm-mine-close" type="button">climb out</button>
+      </div>
+    </div>
+
+    <div id="farm-night" hidden>… 💤 …</div>
+
+    <div class="panel journal">
       <p class="lead">Grandpa left me a farm, and I have never been more at peace.</p>
       <p>Stardew is my comfort game. Wake up, water the crops, say hi to the town, fall down a mine shaft,
         go to bed, do it again. There's something deeply right about a game where the whole point is to
         slow down and tend to things.</p>
-      <p class="note">Edit me: your farm name, your map type, your in-game spouse, your year-1 goals.</p>
     </div>
 
-    <h2>Farm file</h2>
-    <div class="panel tight">
+    <h2>How to farm (the journal)</h2>
+    <div class="panel journal tight">
       <ul class="tick">
-        <li><b>Farm name:</b> Raccoon Hollow <span class="muted">(change me)</span></li>
-        <li><b>Map:</b> Forest - foraging &amp; vibes over min-maxing</li>
-        <li><b>Favorite villager:</b> pick yours (mine's a toss-up)</li>
-        <li><b>Pet:</b> the cat, obviously 🐈‍⬛</li>
+        <li><b>E / SPACE</b> on soil: till → plant → water</li>
+        <li><b>sleep</b> in the farmhouse to grow watered crops</li>
+        <li>harvest <b>9 parsnips</b> and something good happens 🦝</li>
+        <li>the mine pays in geodes. Granny Fern pays in gossip.</li>
       </ul>
     </div>
 
@@ -56,7 +97,7 @@
     </ul>
 
     <h2>This season's to-do</h2>
-    <div class="panel">
+    <div class="panel journal">
       <ul class="tick">
         <li>upgrade the watering can</li>
         <li>befriend the whole town to 2+ hearts</li>
@@ -65,7 +106,7 @@
       </ul>
     </div>
 
-    <p class="muted"><small>* the raccoon tried to forage your crops. shoo.</small></p>
+    <p class="muted"><small>* the raccoon tried to forage your crops. he is in the bush by the south path. you saw NOTHING.</small></p>
 
     <nav class="room-nav">
       <a href="fnaf.html">← fnaf</a>
@@ -84,5 +125,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/stardew.js"></script>
 </body>
 </html>
