@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/undertale.css" />
 </head>
 <body class="room-undertale">
 
@@ -39,6 +40,34 @@
       </button>
       <p id="save-msg" class="muted" style="margin:10px 0 0; font-family:var(--font-term); font-size:20px;">* …</p>
     </div>
+
+    <!-- ============ the encounter ============ -->
+    <section class="ut-battle" id="ut-battle" aria-label="a battle with a raccoon">
+      <div class="ut-enemy" id="ut-enemy" aria-hidden="true">🦝</div>
+      <p class="ut-enemy-name">✱ RACCOON  LV ?</p>
+      <div class="ut-box" id="ut-box">
+        <div class="ut-text" id="ut-text"></div>
+        <span class="ut-soul" id="ut-soul" hidden aria-hidden="true">♥</span>
+        <div class="ut-fightbar" id="ut-fightbar" hidden aria-label="press Z, Enter or tap to strike">
+          <div class="ut-center"></div><div class="ut-sweep"></div>
+        </div>
+      </div>
+      <div class="ut-hud">
+        <span class="ut-lv">SWIFTY&nbsp;&nbsp;LV 1</span>
+        <span class="ut-hpbar" aria-hidden="true"><i id="ut-hpfill"></i></span>
+        <span class="ut-hp" id="ut-hp">20 / 20</span>
+      </div>
+      <div class="ut-menu" id="ut-menu">
+        <button type="button" data-cmd="fight">FIGHT</button>
+        <button type="button" data-cmd="act">ACT</button>
+        <button type="button" data-cmd="item">ITEM</button>
+        <button type="button" data-cmd="mercy">MERCY</button>
+      </div>
+      <div class="ut-submenu" id="ut-submenu" hidden></div>
+      <p class="muted" style="font-family:var(--font-term); font-size:19px; text-align:center; margin-top:10px;">
+        * dodge with arrows / WASD (or drag the heart). ACT until he can be SPARED.
+      </p>
+    </section>
 
     <h2 style="font-family:var(--font-term); color:var(--accent); font-size:26px;">Why this game</h2>
     <div class="dialogue">
@@ -75,5 +104,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/undertale.js"></script>
 </body>
 </html>
