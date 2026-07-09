@@ -1,0 +1,82 @@
+/* =====================================================================
+   fencing.css - THE PISTE. Rough-draft duel UI: referee line, big
+   direction buttons, cards. Steel blues from the room theme.
+   ===================================================================== */
+
+/* a piste stripe behind the game */
+.piste-game{
+  position:relative; overflow:hidden; text-align:center;
+}
+.piste-game::before{
+  content:""; position:absolute; inset:auto 0 0 0; height:10px;
+  background:repeating-linear-gradient(90deg,
+    var(--accent2) 0 40px, transparent 40px 48px);
+  opacity:.35;
+}
+
+.ref-line{
+  font-family:var(--font-pixel); font-size:clamp(18px, 4vw, 26px);
+  letter-spacing:2px; min-height:1.5em; margin:6px 0 4px; color:var(--ink);
+}
+.ref-line.allez{ color:var(--accent2); animation:allezFlash .25s steps(2) 3; }
+@keyframes allezFlash{ 50%{ opacity:.3 } }
+.ref-line.good{ color:var(--ok); }
+.ref-line.bad{ color:var(--down); }
+.ref-line.card-y{ color:var(--warn); }
+.ref-line.card-y::after{ content:" ▮"; color:var(--warn); }
+.ref-line.card-r{ color:var(--down); }
+.ref-line.card-r::after{ content:" ▮"; color:var(--down); }
+
+.fence-msg{
+  font-family:var(--font-term); font-size:19px; color:var(--muted);
+  min-height:1.4em; margin:0 0 10px;
+}
+
+.dir-row{ display:flex; gap:14px; justify-content:center; margin:14px 0; }
+.dir-btn{
+  width:86px; height:86px; font-size:40px; line-height:1;
+  color:var(--ink); background:var(--bg3);
+  border:2px solid var(--line); border-radius:14px; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px;
+  transition:transform .08s, border-color .12s, box-shadow .12s;
+  touch-action:manipulation; user-select:none;
+}
+.dir-btn small{ font-family:var(--font-pixel); font-size:9px; color:var(--muted); }
+.dir-btn:active{ transform:scale(.94); }
+.dir-btn.target{
+  border-color:var(--accent2);
+  box-shadow:0 0 22px color-mix(in srgb, var(--accent2) 60%, transparent);
+}
+
+.duel-hud{
+  font-family:var(--font-term); font-size:18px; color:var(--muted);
+  border-top:1px dashed var(--line); padding-top:10px; margin-top:6px;
+  white-space:pre-wrap;
+}
+
+.weapon-row{
+  display:flex; gap:8px; justify-content:center; align-items:center;
+  flex-wrap:wrap; margin:10px 0 4px;
+}
+.weapon-row label{
+  font-family:var(--font-pixel); font-size:11px; color:var(--muted);
+  border:1px solid var(--line); border-radius:999px; padding:6px 14px; cursor:pointer;
+}
+.weapon-row input{ position:absolute; opacity:0; pointer-events:none; }
+.weapon-row input:checked + span{ color:var(--accent2); }
+.weapon-row label:has(input:checked){
+  border-color:var(--accent2); color:var(--accent2);
+  box-shadow:0 0 10px color-mix(in srgb, var(--accent2) 35%, transparent);
+}
+#bout-start{
+  font-family:var(--font-pixel); font-size:13px; letter-spacing:1px;
+  color:var(--bg); background:var(--accent2); border:0; border-radius:10px;
+  padding:12px 22px; cursor:pointer; margin:8px 0 2px;
+  transition:transform .12s, filter .12s;
+}
+#bout-start:hover{ transform:translateY(-2px); filter:brightness(1.1); }
+
+@media (max-width:560px){
+  .dir-row{ gap:10px; }
+  .dir-btn{ width:31%; height:76px; font-size:34px; }
+}

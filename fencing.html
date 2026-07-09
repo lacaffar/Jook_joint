@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/fencing.css" />
 </head>
 <body class="room-fencing">
 
@@ -27,14 +28,31 @@
     <h1 class="sign">THE PISTE</h1>
     <p class="tagline">en garde · prêt · <b style="color:var(--accent2)">allez!</b></p>
 
-    <div class="scorebox" aria-label="scoring lights - click a side to score">
-      <div class="lamp red"><div class="bulb"></div><div class="lab">LEFT · ON TARGET</div></div>
-      <div class="enguarde" style="display:flex; align-items:center;">VS</div>
-      <div class="lamp green"><div class="bulb"></div><div class="lab">RIGHT · ON TARGET</div></div>
+    <div class="scorebox" aria-label="scoring lights">
+      <div class="lamp red"><div class="bulb"></div><div class="lab">THE MACHINE</div></div>
+      <div class="enguarde" id="score-mid" style="display:flex; align-items:center;">0 · 0</div>
+      <div class="lamp green"><div class="bulb"></div><div class="lab">YOU</div></div>
     </div>
-    <p class="muted" style="text-align:center; margin-top:-6px;">
-      tap a light to score a touch · <a href="#" id="double-touch">simultaneous!</a>
-    </p>
+
+    <!-- ============ ALLEZ! the duel ============ -->
+    <section class="panel piste-game" id="piste" aria-label="Allez - a reaction duel">
+      <p class="ref-line" id="ref-line">choose a weapon. salute. begin.</p>
+      <p class="fence-msg">react in the called direction before the window closes.
+        keys: <b>W/A/D</b> or arrows - or tap the buttons. in foil &amp; sabre, right-of-way
+        decides whether you're attacking or parrying. don't jump the gun.</p>
+      <div class="dir-row" aria-label="direction buttons">
+        <button class="dir-btn" id="dir-left" type="button" aria-label="left">⬅<small>A</small></button>
+        <button class="dir-btn" id="dir-high" type="button" aria-label="high">⬆<small>W</small></button>
+        <button class="dir-btn" id="dir-right" type="button" aria-label="right">➡<small>D</small></button>
+      </div>
+      <div class="weapon-row" role="radiogroup" aria-label="weapon">
+        <label><input type="radio" name="weapon" value="foil" checked /><span>🤺 foil</span></label>
+        <label><input type="radio" name="weapon" value="epee" /><span>⚔️ épée</span></label>
+        <label><input type="radio" name="weapon" value="sabre" /><span>🗡️ sabre</span></label>
+      </div>
+      <button id="bout-start" type="button">en garde - bout to 5</button>
+      <p class="duel-hud"></p>
+    </section>
 
     <div class="panel">
       <p class="lead">Fencing is physical chess with a side of adrenaline.</p>
@@ -88,5 +106,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/fencing.js"></script>
 </body>
 </html>
