@@ -1,56 +1,56 @@
 # Swifty's Jook Joint 🦝
 
-A cozy, multi-page personal site in the small-web / [dimden.dev](https://dimden.dev/) style.
-Hand-built with plain HTML, CSS, and a little vanilla JS - no frameworks, no build step.
+A cozy, multi-page personal site in the small-web / [dimden.dev](https://dimden.dev/) style -
+except **every room is a playable game**. Hand-built with plain HTML, CSS, and vanilla JS.
+No frameworks, no build step, no image or extra audio assets (all art is CSS/emoji/inline SVG,
+all new sound is synthesized with the WebAudio API).
 
-## Pages
-| File | Room |
-|------|------|
-| `index.html`     | Home - neon sign, **systems status**, rooms grid, jukebox ticker |
-| `fnaf.html`      | Five Nights at Freddy's - flickering office |
-| `stardew.html`   | Stardew Valley - the farm |
-| `undertale.html` | Undertale - dialogue box + save point |
-| `fencing.html`   | Fencing - interactive scoring lights |
-| `hamilton.html`  | Hamilton - my shot, cast recording ranked |
-| `guestbook.html` | Guestbook - sign it; entries saved in the browser |
-| `404.html`       | Friendly not-found page |
+## Rooms & games
+| File | Room | The game |
+|------|------|----------|
+| `index.html`     | The bar | Interactive scene: themed doors, jukebox, tip jar, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
+| `fnaf.html`      | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
+| `stardew.html`   | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
+| `undertale.html` | The encounter | **FIGHT / ACT / ITEM / MERCY** battle with bullet-hell dodging; ACT your way to the pacifist spare |
+| `fencing.html`   | The piste | **Allez!** - directional reaction duel; foil/sabre roll right-of-way (attack vs parry), épée is a speed race |
+| `hamilton.html`  | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
+| `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
+| `backroom.html`  | The back room | 🔒 **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
+| `404.html`       | Lost | Dig a door out of the raccoon's trash can |
 
-## The bits that move
-- **Raccoon cursor-follower** - `js/raccoon.js`. A self-contained pixel SVG that chases your
-  mouse, faces the way it runs, and occasionally chitters. Hidden on touch screens and dialled
-  down for `prefers-reduced-motion`.
-- **Systems status panel** - `js/site.js`. The top two entries (your work page + Windpack) are
-  *live-pinged*: if the site loads, it shows `[ OK ]`, otherwise `[ DOWN ]`.
-- **Guestbook** - `guestbook.html` + `js/site.js`. Visitors sign with a name, a mood emoji, and a
-  message; entries persist in `localStorage`. Because GitHub Pages has no backend, signatures are
-  saved **per-browser** (each visitor sees their own + the seed entries). To make it a *shared*
-  guestbook everyone can see, wire it to a free backend later - e.g. [giscus](https://giscus.app)
-  (GitHub Discussions) or a form service like Formspree.
-- **Visitor counter** - `js/site.js` (`#hits`). A retro hit counter that ticks up per visit
-  (stored in `localStorage`, starting from a small base for vibes).
+## The Bottle Cap Hunt (site-wide meta-puzzle)
+Win the game in each of the five main rooms and the raccoon tosses you a **bottle cap**
+(`js/quest.js`, stored in `localStorage.sjj_caps`). Collect all five and a **sixth door**
+fades into the bar on the home page → the Back Room.
 
-## How to customise
-1. **Your systems** - edit the `SYSTEMS` array near the top of [`js/site.js`](js/site.js).
-   When Windpack gets its own domain, swap its `url` and `ping` (the `ping` must be an **image**
-   URL on that site, e.g. a favicon or logo).
-2. **Theme colors** - each room re-skins itself by overriding CSS variables in
-   [`css/style.css`](css/style.css) (search for `body.room-fnaf`, `body.room-stardew`, etc.).
-3. **Content** - anything marked with a `✎` note in a page is a placeholder meant for you.
-4. **Site name / handle** - replace "Swifty" / "Swifty's Jook Joint" throughout if you like.
+## Shared machinery
+- **`js/quest.js`** - the cap system: `SJJQuest.award/has/count/all/renderShelf`, toasts, the
+  `sjj:caps` event. Any element with `data-cap-shelf` renders the collection.
+- **`js/sfx.js`** - `SFX.*` synth sounds (blips, coins, static, jumpscare…). Mute toggle in the
+  topbar, persisted.
+- **`js/site.js`** - jukebox (real MP3s in `audio/`), systems status pings, hit counter, guestbook.
+- **`js/raccoon.js`** - the pixel raccoon cursor-follower; exports `window.RaccoonSVG` for the
+  battle sprite, jumpscare, konami party and back room.
+- **Per-room code** - each page loads its own `css/<room>.css` + `js/rooms/<room>.js`, so every
+  room can look and behave like a different game.
+
+## Progress kept in localStorage (`sjj_*`)
+`sjj_caps`, `sjj_fnaf_night`, `sjj_fencing_best`, `sjj_hamilton_best`, `sjj_stardew`,
+`sjj_tipjar`, `sjj_lights`, `sjj_mute`, `sjj_save`, `sjj_guestbook`, `sjj_hits`.
+The Back Room has a reset button.
+
+## Accessibility & phones
+Every game is touch-playable (D-pad on the farm, drag-the-heart in the battle, tap zones on the
+piste). Flashing/shake effects calm down under `prefers-reduced-motion`; the cursor raccoon
+hides on touch screens; door hotspots have a plain-text fallback list.
 
 ## Run it locally
-It's static - just open `index.html` in a browser. Or serve the folder:
+It's static - just open `index.html`, or:
 ```bash
 # from inside personal.page/
 python -m http.server 8080      # then visit http://localhost:8080
 ```
 
 ## Deploy
-Any static host works. Two easy options:
-
-- **GitHub Pages** - make this folder a repo, push it, then in *Settings → Pages* serve from the
-  `main` branch root. Links are all relative, so it works at a subpath too.
-- **Neocities** - drag-and-drop the whole `personal.page` folder into your dashboard.
-
-Because every link is relative (`fnaf.html`, `css/style.css`, …), the site runs the same from
-`file://`, a subfolder, or a custom domain like `personal.site`.
+Any static host (GitHub Pages, Neocities, …). All links are relative, so it works at a
+subpath or `file://` too.

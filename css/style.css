@@ -260,7 +260,13 @@ small,.small{ font-size:13px; }
 @keyframes gbIn{ from{ opacity:0; transform:translateY(-6px) } }
 .gb-entry .gb-meta{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:4px; }
 .gb-entry .gb-who{ font-family:var(--font-pixel); font-size:13px; color:var(--accent); }
-.gb-entry .gb-mood-ico{ font-size:16px; }
+.gb-entry .gb-mood-ico{ /* a little wax seal */
+  font-size:13px; width:26px; height:26px; display:inline-flex;
+  align-items:center; justify-content:center; border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #c23b3b, #7e1f1f 70%);
+  box-shadow:0 1px 3px rgba(0,0,0,.55), inset 0 0 4px rgba(0,0,0,.45);
+  transform:rotate(-8deg);
+}
 .gb-entry .gb-date{ color:var(--muted); font-size:12.5px; margin-left:auto; }
 .gb-entry .gb-body{ white-space:pre-wrap; overflow-wrap:anywhere; margin:0; }
 .gb-entry.host{ border-left-color:var(--accent); }

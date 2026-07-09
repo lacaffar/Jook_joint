@@ -26,9 +26,38 @@
     <div class="panel">
       <p class="lead">🦝 *chitters apologetically*</p>
       <p>There's nothing down this hallway but trash and dust. Let's get you back.</p>
+      <button id="lost-trash" type="button" aria-label="dig through the trash"
+        style="font-size:52px; background:none; border:0; cursor:pointer; transition:transform .12s;">🗑️</button>
+      <p id="lost-msg" class="muted" style="font-family:var(--font-term); font-size:19px; min-height:1.4em;">
+        he did stash some doors in his trash can, though. dig around.</p>
       <p><a href="index.html">← back to the joint</a></p>
     </div>
   </main>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('lost-trash');
+      var out = document.getElementById('lost-msg');
+      var DOORS = [
+        ['fnaf.html', 'a night shift schedule falls out → the office'],
+        ['stardew.html', 'a parsnip rolls out → the farm'],
+        ['undertale.html', 'a save point tumbles out → the encounter'],
+        ['fencing.html', 'a stolen glove flops out → the piste'],
+        ['hamilton.html', 'a dusty quill drops out → weehawken'],
+        ['guestbook.html', 'a pen falls out → the guestbook']
+      ];
+      btn.addEventListener('click', function () {
+        btn.style.transform = 'rotate(' + (Math.random() * 16 - 8) + 'deg)';
+        var d = DOORS[(Math.random() * DOORS.length) | 0];
+        out.innerHTML = '';
+        var a = document.createElement('a');
+        a.href = d[0];
+        a.textContent = d[1];
+        out.appendChild(a);
+        if (window.SFX) SFX.step();
+      });
+    })();
+  </script>
 
   <footer class="site-foot">
     <div class="wrap"><span>© <span class="js-year">2026</span> Swifty</span></div>

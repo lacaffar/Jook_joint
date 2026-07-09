@@ -192,7 +192,8 @@
       { name: 'Swifty', mood: '🎷', host: true, ts: Date.now() - 864e5 * 3,
         msg: 'welcome to the joint! pull up a stool and say hi.' },
       { name: 'the raccoon', mood: '🦝', ts: Date.now() - 36e5 * 5,
-        msg: '*left a muddy pawprint and a single bottle cap*' }
+        msg: '*left a muddy pawprint and a single bottle cap*\n' +
+             'gur onpx ebbz vf oruvaq gur svsgu pnc. (he writes in ROT13. nobody knows why.)' }
     ];
 
     function load() {
