@@ -173,64 +173,6 @@
   }
 
   /* =================================================================
-     UNDERTALE - save point
-     ================================================================= */
-  var save = document.querySelector('#savepoint');
-  if (save) {
-    var out = document.querySelector('#save-msg');
-    function lastSaved() {
-      var t = null;
-      try { t = localStorage.getItem('sjj_save'); } catch (e) {}
-      if (out) out.textContent = t
-        ? '* File saved. (last: ' + t + ')'
-        : '* (The shadow of the trash can looms ahead, filling you with determination.)';
-    }
-    save.addEventListener('click', function () {
-      var stamp = new Date().toLocaleString();
-      try { localStorage.setItem('sjj_save', stamp); } catch (e) {}
-      if (out) out.textContent = '* You felt your determination harden. (saved ' + stamp + ')';
-    });
-    lastSaved();
-  }
-
-  /* =================================================================
-     FENCING - scoreboard lamps (click a side to score a touch)
-     ================================================================= */
-  document.querySelectorAll('.lamp').forEach(function (lamp) {
-    lamp.style.cursor = 'pointer';
-    lamp.addEventListener('click', function () {
-      lamp.classList.add('on');
-      setTimeout(function () { lamp.classList.remove('on'); }, 1100);
-    });
-  });
-  var both = document.querySelector('#double-touch');
-  if (both) both.addEventListener('click', function () {
-    document.querySelectorAll('.lamp').forEach(function (l) {
-      l.classList.add('on'); setTimeout(function () { l.classList.remove('on'); }, 1100);
-    });
-  });
-
-  /* =================================================================
-     HAMILTON - "my shot" button, cycles a line from the show
-     ================================================================= */
-  var shot = document.querySelector('#my-shot');
-  if (shot) {
-    var shotOut = document.querySelector('#shot-msg');
-    var SHOT_LINES = [
-      'I am not throwing away my shot.',
-      'History has its eyes on you.',
-      'Talk less, smile more.',
-      'Look around, look around, how lucky we are to be alive right now.',
-      'Non-stop!'
-    ];
-    var shotIdx = 0;
-    shot.addEventListener('click', function () {
-      shotIdx = (shotIdx + 1) % SHOT_LINES.length;
-      if (shotOut) shotOut.textContent = '"' + SHOT_LINES[shotIdx] + '"';
-    });
-  }
-
-  /* =================================================================
      GUESTBOOK - saved in localStorage (per-browser; works on a static
      host with no backend). Rendered with textContent, so a signature
      can never inject markup or script.

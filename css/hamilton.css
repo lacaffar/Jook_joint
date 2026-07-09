@@ -1,0 +1,133 @@
+/* =====================================================================
+   hamilton.css - THE ROOM WHERE IT HAPPENS.
+   Deliberate style break from the pixel rooms: parchment, ink serif,
+   candlelight gold, playbill borders.
+   ===================================================================== */
+
+body.room-hamilton{
+  --parch:#f0e2c0; --parch2:#e6d3a8; --inkk:#2b2013; --sepia:#6b573a;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(232,193,90,.14), transparent 60%),
+    repeating-linear-gradient(90deg, transparent 0 120px, rgba(232,193,90,.02) 120px 121px),
+    var(--bg);
+}
+
+/* serif voice for this room's prose */
+body.room-hamilton p, body.room-hamilton li{ font-family:Georgia, 'Times New Roman', serif; }
+
+/* ---- the duel stage ------------------------------------------------ */
+.duel{
+  border:3px double var(--accent); border-radius:6px; margin:22px 0;
+  background:linear-gradient(170deg, var(--parch), var(--parch2));
+  color:var(--inkk);
+  box-shadow:0 0 0 6px var(--bg2), var(--shadow);
+  padding:22px 24px 26px; position:relative; overflow:hidden;
+}
+.duel::before{ /* aged paper mottling */
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
+  background:
+    radial-gradient(220px 120px at 15% 20%, rgba(107,87,58,.14), transparent 70%),
+    radial-gradient(260px 160px at 85% 80%, rgba(107,87,58,.16), transparent 70%),
+    radial-gradient(160px 90px at 70% 10%, rgba(107,87,58,.10), transparent 70%);
+}
+.duel > *{ position:relative; }
+.duel h2{
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:2px;
+  color:var(--inkk); margin:0 0 4px; font-size:26px; text-align:center;
+}
+.duel h2::before, .duel h2::after{ content:" ✦ "; color:var(--sepia); }
+.duel .duel-sub{
+  text-align:center; color:var(--sepia); font-style:italic;
+  font-family:Georgia, serif; margin:0 0 14px; font-size:15px;
+}
+
+/* pace track */
+.pace-track{
+  display:flex; justify-content:space-between; align-items:center;
+  border-top:1px solid var(--sepia); border-bottom:1px solid var(--sepia);
+  padding:8px 6px; margin:14px 0; font-size:22px; line-height:1;
+  color:var(--sepia); user-select:none;
+}
+.pace-track .pace{ flex:1; text-align:center; }
+.pace-track .burr{ font-size:26px; filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+.pace-track .you{ font-size:24px; }
+.duel.lost .pace-track .burr{ animation:burrLunge .5s ease forwards; }
+@keyframes burrLunge{ to{ transform:translateX(18px) scale(1.15); } }
+
+/* intro / end screens */
+.duel-intro, .duel-end{ text-align:center; }
+.duel-intro p, .duel-end p{ margin:8px 0; }
+.duel-best{ color:var(--sepia); font-style:italic; font-size:14px; }
+.duel-start{
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:2px;
+  font-size:18px; color:var(--parch); background:var(--inkk);
+  border:1px solid var(--sepia); border-radius:4px; padding:10px 26px;
+  cursor:pointer; margin-top:10px;
+  transition:transform .12s, box-shadow .12s;
+}
+.duel-start:hover{ transform:translateY(-2px); box-shadow:0 4px 14px rgba(43,32,19,.5); }
+.duel-end-title{
+  font-family:Georgia, serif; font-size:30px; letter-spacing:3px;
+  font-variant:small-caps; margin:6px 0;
+}
+.duel.lost .duel-end-title{ color:#8c1d1d; }
+
+/* question card */
+.duel-qnum{
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:1px;
+  color:var(--sepia); font-size:14px; text-align:center; margin:2px 0 10px;
+}
+.duel-q{
+  font-family:Georgia, serif; font-size:21px; line-height:1.45; text-align:center;
+  margin:0 0 16px; color:var(--inkk);
+}
+.duel-q::before{ content:"❝"; color:var(--sepia); margin-right:6px; }
+.duel-choices{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.duel-choice{
+  font-family:Georgia, serif; font-size:16px; line-height:1.35; text-align:left;
+  color:var(--inkk); background:rgba(255,252,240,.55);
+  border:1px solid var(--sepia); border-radius:4px; padding:10px 14px; cursor:pointer;
+  transition:background .12s, transform .12s;
+}
+.duel-choice:hover:not(:disabled){ background:#fffdf4; transform:translateY(-1px); }
+.duel-choice:disabled{ cursor:default; opacity:.75; }
+.duel-choice.right{ background:#d9e8c8; border-color:#4a6b2a; color:#233312; opacity:1; }
+.duel-choice.wrong{ background:#eccaca; border-color:#8c1d1d; color:#4d1010; opacity:1;
+  animation:shake .3s; }
+@keyframes shake{ 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
+
+.duel-foot{
+  font-family:Georgia, serif; font-style:italic; font-size:15px; line-height:1.5;
+  margin:14px 0 0; padding:8px 12px; border-left:3px solid var(--sepia);
+  background:rgba(255,252,240,.4);
+}
+.duel-foot.good{ border-left-color:#4a6b2a; }
+.duel-foot.bad{ border-left-color:#8c1d1d; }
+.duel-next{
+  display:block; margin:14px auto 0;
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:1px; font-size:16px;
+  color:var(--parch); background:var(--inkk); border:1px solid var(--sepia);
+  border-radius:4px; padding:8px 20px; cursor:pointer;
+}
+.duel-next:hover{ box-shadow:0 3px 10px rgba(43,32,19,.5); }
+
+/* ---- playbill restyle for the content below ------------------------ */
+.playbill{
+  border:1px solid var(--accent); border-radius:4px; padding:4px;
+  margin:26px 0;
+}
+.playbill-inner{
+  border:3px double var(--accent); border-radius:2px; padding:18px 22px;
+}
+.playbill h2{
+  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:3px;
+  text-align:center; color:var(--accent); margin:6px 0 12px;
+}
+.playbill h2::before{ content:"★ "; } .playbill h2::after{ content:" ★"; }
+.playbill ol{ font-family:Georgia, serif; }
+.playbill .chips li{ font-family:Georgia, serif; font-size:15px; border-radius:4px; }
+
+@media (max-width:560px){
+  .duel-choices{ grid-template-columns:1fr; }
+  .pace-track{ font-size:16px; }
+}

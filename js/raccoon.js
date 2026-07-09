@@ -1,5 +1,5 @@
 (function () {
-  if (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) return;
+  var COARSE = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
 
   // 16x16 pixel art raccoon drawn on a grid - each "rect" is one pixel
   // palette: #222 dark, #555 mid-grey, #888 light fur, #ccc face, #fff eye whites, #111 pupils, #333 nose
@@ -95,6 +95,10 @@
         px(3, 14, '#333') + px(4, 14, '#333') + px(9, 14, '#333') + px(10, 14, '#333') +
       '</g>' +
     '</svg>';
+
+  // other rooms borrow the sprite (undertale battle, konami party, back room)
+  window.RaccoonSVG = SVG;
+  if (COARSE) return;
 
   var el = document.createElement('div');
   el.id = 'raccoon';
