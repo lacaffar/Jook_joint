@@ -101,6 +101,32 @@
     });
   }
 
+  /* ---- the stools ------------------------------------------------------ */
+  var STOOL_LINES = ['*squeak*', '*creak*', 'this one wobbles.', 'best seat in the house.',
+                     'reserved. for whom? unclear.', 'the raccoon naps here at 3pm.'];
+  document.querySelectorAll('.stool').forEach(function (stool, i) {
+    stool.addEventListener('click', function () {
+      stool.classList.remove('wobble'); void stool.offsetWidth; stool.classList.add('wobble');
+      if (window.SFX) SFX.step();
+      var bub = document.createElement('div');
+      bub.className = 'rac-speech';
+      bub.textContent = STOOL_LINES[(Math.random() * STOOL_LINES.length) | 0];
+      var r = stool.getBoundingClientRect();
+      bub.style.left = (r.left + r.width / 2) + 'px';
+      bub.style.top = (r.top - 4) + 'px';
+      document.body.appendChild(bub);
+      requestAnimationFrame(function () { bub.classList.add('show'); });
+      setTimeout(function () { bub.remove(); }, 1800);
+    });
+  });
+
+  /* ---- smack the neon sign --------------------------------------------- */
+  var sign = document.querySelector('.sign');
+  if (sign) sign.addEventListener('click', function () {
+    sign.classList.remove('smacked'); void sign.offsetWidth; sign.classList.add('smacked');
+    if (window.SFX) SFX.buzz();
+  });
+
   /* ---- ↑↑↓↓←→←→BA ---------------------------------------------------------- */
   var CODE = ['arrowup','arrowup','arrowdown','arrowdown','arrowleft','arrowright','arrowleft','arrowright','b','a'];
   var pos = 0;

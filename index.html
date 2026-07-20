@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Swifty's Jook Joint</title>
   <meta name="description" content="Swifty's Jook Joint - a cozy corner of the web where every room is a game. FNAF, Stardew, Undertale, fencing, Hamilton. Mind the raccoon." />
   <meta name="theme-color" content="#14110f" />
@@ -71,7 +73,11 @@
       </div>
 
       <div class="bar-counter">
-        <span class="stools" aria-hidden="true">🪑🪑🪑</span>
+        <span class="stools">
+          <button class="hotspot stool" type="button" aria-label="a bar stool">🪑</button>
+          <button class="hotspot stool" type="button" aria-label="another bar stool">🪑</button>
+          <button class="hotspot stool" type="button" aria-label="the raccoon's bar stool">🪑</button>
+        </span>
         <button class="hotspot" id="scene-jukebox" type="button" aria-label="the jukebox - play or pause the music" title="the jukebox. it only knows Toby Fox. it is at peace.">📻</button>
         <button class="hotspot" id="tip-jar" type="button" aria-label="the tip jar">🫙</button>
         <button class="hotspot" id="trash-can" type="button" aria-label="the trash can. probably leave it alone." title="property of: 🦝">🗑️</button>

@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>The Room Where It Happens - Hamilton :: Swifty's Jook Joint</title>
   <meta name="description" content="Swifty's Hamilton room. Ten questions at dawn in Weehawken - survive the Duel of Wits." />
   <meta name="theme-color" content="#1a1408" />
@@ -56,6 +58,40 @@
         <p class="duel-end-body"></p>
         <p class="duel-best"></p>
         <button class="duel-start" type="button">Demand a rematch</button>
+      </div>
+    </section>
+
+    <!-- ============ NON-STOP (typing game) ============ -->
+    <section class="duel grind" id="grind" aria-label="Non-Stop - a typing game">
+      <h2>Non-Stop</h2>
+      <p class="duel-sub">Why do you write like you're running out of time? Because the ink IS the timer.</p>
+
+      <div class="ink-row" aria-hidden="true">
+        <span class="ink-label">INK</span>
+        <span class="ink-bar"><i id="ink-fill"></i></span>
+        <span class="ink-quill">🪶</span>
+      </div>
+
+      <div class="grind-intro">
+        <p>The man wrote <b>51 essays</b> in a hurry, so you will too. Copy each passage
+           before the inkwell runs dry - every finished essay buys you a little more ink,
+           and the well drains faster the longer you write.</p>
+        <p class="grind-best"></p>
+        <button class="duel-start grind-start" type="button">Pick up the quill</button>
+      </div>
+
+      <div class="grind-play" hidden>
+        <p class="duel-qnum grind-count"></p>
+        <p class="grind-target" id="grind-target"></p>
+        <input class="grind-input" id="grind-input" type="text" autocomplete="off"
+               autocapitalize="off" spellcheck="false" aria-label="type the passage"
+               placeholder="write, Hamilton, write…" />
+      </div>
+
+      <div class="duel-end grind-end" hidden>
+        <p class="duel-end-title grind-end-title"></p>
+        <p class="grind-end-body"></p>
+        <button class="duel-start grind-start" type="button">Pick the quill back up</button>
       </div>
     </section>
 

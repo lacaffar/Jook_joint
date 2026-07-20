@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>The Guestbook :: Swifty's Jook Joint</title>
   <meta name="description" content="Sign Swifty's guestbook on your way through the joint." />
   <meta name="theme-color" content="#14110f" />
@@ -43,6 +45,11 @@
         </select>
       </div>
       <textarea class="gb-input gb-msg" id="gb-msg" maxlength="280" rows="3" placeholder="leave a note… (be nice, the raccoon is watching)" aria-label="your message" required></textarea>
+      <div class="gb-stamp-wrap">
+        <span class="muted small">draw a stamp for your signature (optional) - click or drag:</span>
+        <div class="gb-stamp-pad" id="gb-stamp" aria-label="an 8 by 8 pixel doodle pad"></div>
+        <button type="button" id="gb-stamp-clear" class="gb-stamp-clear">wipe it</button>
+      </div>
       <div class="gb-actions">
         <button class="gb-sign" type="submit">✍️ sign the book</button>
         <span class="muted small" id="gb-left">280 left</span>

@@ -44,15 +44,24 @@
       var row = document.createElement('div');
       var live = !!s.ping;
       row.className = 'status-row ' + (live ? 'check' : (s.state || 'ok'));
-      var label = live ? '··' : (s.state === 'down' ? 'DOWN' : 'OK');
-      var svc = s.url
-        ? '<a class="svc" href="' + s.url + '" target="_blank" rel="noopener">' + s.svc + '</a>'
-        : '<span class="svc">' + s.svc + '</span>';
-      row.innerHTML =
-        '<span class="tag' + (live ? ' blink' : '') + '">' + label + '</span>' +
-        svc +
-        '<span class="fill"></span>' +
-        '<span class="ping">' + (s.note || '') + '</span>';
+
+      var tag = document.createElement('span');
+      tag.className = 'tag' + (live ? ' blink' : '');
+      tag.textContent = live ? '··' : (s.state === 'down' ? 'DOWN' : 'OK');
+
+      var svc = document.createElement(s.url ? 'a' : 'span');
+      svc.className = 'svc';
+      svc.textContent = s.svc;
+      if (s.url) { svc.href = s.url; svc.target = '_blank'; svc.rel = 'noopener'; }
+
+      var fill = document.createElement('span');
+      fill.className = 'fill';
+
+      var ping = document.createElement('span');
+      ping.className = 'ping';
+      ping.textContent = s.note || '';
+
+      row.appendChild(tag); row.appendChild(svc); row.appendChild(fill); row.appendChild(ping);
       statusBox.appendChild(row);
 
       if (live) {
@@ -187,14 +196,62 @@
     var left  = document.querySelector('#gb-left');
     var countEl = document.querySelector('#gb-count');
 
+    // the raccoon's paw, as an 8x8 stamp
+    var PAW = '01100110' + '01100110' + '00000000' + '00111100' +
+              '01111110' + '01111110' + '00111100' + '00000000';
+
     // starter entries (only shown until the visitor saves their own)
     var seed = [
       { name: 'Swifty', mood: '🎷', host: true, ts: Date.now() - 864e5 * 3,
         msg: 'welcome to the joint! pull up a stool and say hi.' },
-      { name: 'the raccoon', mood: '🦝', ts: Date.now() - 36e5 * 5,
+      { name: 'the raccoon', mood: '🦝', ts: Date.now() - 36e5 * 5, stamp: PAW,
         msg: '*left a muddy pawprint and a single bottle cap*\n' +
              'gur onpx ebbz vf oruvaq gur svsgu pnc. (he writes in ROT13. nobody knows why.)' }
     ];
+
+    /* ---- the stamp pad: an 8x8 doodle saved with your signature ------ */
+    var padEl = document.querySelector('#gb-stamp');
+    var padCells = [];
+    if (padEl) {
+      var painting = false, paintTo = true;
+      for (var ci = 0; ci < 64; ci++) {
+        (function (cell) {
+          cell.className = 'gb-stamp-cell';
+          cell.addEventListener('pointerdown', function (ev) {
+            ev.preventDefault();
+            painting = true;
+            paintTo = !cell.classList.contains('on');
+            cell.classList.toggle('on', paintTo);
+          });
+          cell.addEventListener('pointerenter', function () {
+            if (painting) cell.classList.toggle('on', paintTo);
+          });
+          padEl.appendChild(cell);
+          padCells.push(cell);
+        })(document.createElement('span'));
+      }
+      window.addEventListener('pointerup', function () { painting = false; });
+      var clearBtn = document.querySelector('#gb-stamp-clear');
+      if (clearBtn) clearBtn.addEventListener('click', function () {
+        padCells.forEach(function (c) { c.classList.remove('on'); });
+      });
+    }
+    function padValue() {
+      var s = '';
+      padCells.forEach(function (c) { s += c.classList.contains('on') ? '1' : '0'; });
+      return s.indexOf('1') >= 0 ? s : '';
+    }
+    function stampNode(bits) {
+      var el = document.createElement('span');
+      el.className = 'gb-stamp';
+      el.setAttribute('aria-label', 'a pixel stamp');
+      for (var i = 0; i < 64; i++) {
+        var d = document.createElement('i');
+        if (bits.charAt(i) === '1') d.className = 'on';
+        el.appendChild(d);
+      }
+      return el;
+    }
 
     function load() {
       try { var raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {}
@@ -223,7 +280,9 @@
         var who  = document.createElement('span'); who.className = 'gb-who';  who.textContent = en.name;
         var ico  = document.createElement('span'); ico.className = 'gb-mood-ico'; ico.textContent = en.mood || '';
         var date = document.createElement('span'); date.className = 'gb-date'; date.textContent = fmt(en.ts);
-        meta.appendChild(who); meta.appendChild(ico); meta.appendChild(date);
+        meta.appendChild(who); meta.appendChild(ico);
+        if (typeof en.stamp === 'string' && /^[01]{64}$/.test(en.stamp)) meta.appendChild(stampNode(en.stamp));
+        meta.appendChild(date);
         var body = document.createElement('p'); body.className = 'gb-body'; body.textContent = en.msg;
         card.appendChild(meta); card.appendChild(body);
         list.appendChild(card);
@@ -240,9 +299,13 @@
       var msg  = msgI.value.trim().slice(0, 280);
       if (!name || !msg) return;
       var arr = load();
-      arr.unshift({ name: name, mood: moodI.value, msg: msg, ts: Date.now() });
+      var entry = { name: name, mood: moodI.value, msg: msg, ts: Date.now() };
+      var stamp = padValue();
+      if (stamp) entry.stamp = stamp;
+      arr.unshift(entry);
       store(arr); render();
       nameI.value = ''; msgI.value = ''; updateLeft(); nameI.focus();
+      padCells.forEach(function (c) { c.classList.remove('on'); });
     });
 
     render();

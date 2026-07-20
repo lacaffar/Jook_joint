@@ -111,6 +111,40 @@ body.room-hamilton p, body.room-hamilton li{ font-family:Georgia, 'Times New Rom
 }
 .duel-next:hover{ box-shadow:0 3px 10px rgba(43,32,19,.5); }
 
+/* ---- NON-STOP typing game (shares the parchment via .duel) --------- */
+.ink-row{
+  display:flex; align-items:center; gap:10px; margin:12px 0 14px;
+  font-family:Georgia, serif;
+}
+.ink-label{
+  font-variant:small-caps; letter-spacing:2px; font-size:14px; color:var(--sepia);
+}
+.ink-bar{
+  flex:1; height:14px; border:1px solid var(--sepia); border-radius:3px;
+  background:rgba(255,252,240,.5); overflow:hidden;
+}
+.ink-bar i{
+  display:block; height:100%; width:100%;
+  background:linear-gradient(90deg, #1d2b52, #2b2013);
+  transition:width .18s linear;
+}
+.grind.dry .ink-bar i{ background:#8c1d1d; }
+.ink-quill{ font-size:20px; }
+.grind-play .grind-target{
+  font-family:Georgia, serif; font-size:19px; line-height:1.55; text-align:center;
+  margin:0 0 14px; color:var(--sepia); min-height:3em;
+}
+.grind-target b{ color:var(--inkk); font-weight:600; }
+.grind-input{
+  display:block; width:100%; box-sizing:border-box;
+  font-family:Georgia, serif; font-size:17px; color:var(--inkk);
+  background:rgba(255,252,240,.65); border:1px solid var(--sepia); border-radius:4px;
+  padding:10px 14px;
+}
+.grind-input:focus{ outline:none; box-shadow:0 0 0 3px rgba(107,87,58,.3); }
+.grind-input.bad{ border-color:#8c1d1d; background:#f3dcdc; animation:shake .25s; }
+.grind-end-body{ font-family:Georgia, serif; font-size:16px; line-height:1.6; }
+
 /* ---- playbill restyle for the content below ------------------------ */
 .playbill{
   border:1px solid var(--accent); border-radius:4px; padding:4px;

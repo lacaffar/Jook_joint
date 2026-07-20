@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <meta name="description" content="404 - this room doesn't exist at Swifty's Jook Joint." />
   <title>404 - lost in the joint</title>
   <meta name="theme-color" content="#14110f" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🦝</text></svg>" />
@@ -34,31 +37,6 @@
     </div>
   </main>
 
-  <script>
-    (function () {
-      var btn = document.getElementById('lost-trash');
-      var out = document.getElementById('lost-msg');
-      var DOORS = [
-        ['fnaf.html', 'a night shift schedule falls out → the office'],
-        ['stardew.html', 'a parsnip rolls out → the farm'],
-        ['undertale.html', 'a save point tumbles out → the encounter'],
-        ['fencing.html', 'a stolen glove flops out → the piste'],
-        ['hamilton.html', 'a dusty quill drops out → weehawken'],
-        ['guestbook.html', 'a pen falls out → the guestbook']
-      ];
-      btn.addEventListener('click', function () {
-        btn.style.transform = 'rotate(' + (Math.random() * 16 - 8) + 'deg)';
-        var d = DOORS[(Math.random() * DOORS.length) | 0];
-        out.innerHTML = '';
-        var a = document.createElement('a');
-        a.href = d[0];
-        a.textContent = d[1];
-        out.appendChild(a);
-        if (window.SFX) SFX.step();
-      });
-    })();
-  </script>
-
   <footer class="site-foot">
     <div class="wrap"><span>© <span class="js-year">2026</span> Swifty</span></div>
   </footer>
@@ -67,5 +45,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
+  <script src="js/rooms/notfound.js"></script>
 </body>
 </html>

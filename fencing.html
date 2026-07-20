@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>The Piste - Fencing :: Swifty's Jook Joint</title>
   <meta name="description" content="Swifty's fencing room. Steel, footwork, and the little red and green lights." />
   <meta name="theme-color" content="#0c0e13" />
@@ -36,10 +38,16 @@
 
     <!-- ============ ALLEZ! the duel ============ -->
     <section class="panel piste-game" id="piste" aria-label="Allez - a reaction duel">
+      <div class="piste-strip" aria-hidden="true">
+        <span class="fencer machine" id="fencer-them">🤺</span>
+        <span class="strip-mid"></span>
+        <span class="fencer you" id="fencer-you">🤺</span>
+      </div>
       <p class="ref-line" id="ref-line">choose a weapon. salute. begin.</p>
       <p class="fence-msg">react in the called direction before the window closes.
         keys: <b>W/A/D</b> or arrows - or tap the buttons. in foil &amp; sabre, right-of-way
-        decides whether you're attacking or parrying. don't jump the gun.</p>
+        decides whether you're attacking or parrying - and watch for <b>feints</b>.
+        don't jump the gun.</p>
       <div class="dir-row" aria-label="direction buttons">
         <button class="dir-btn" id="dir-left" type="button" aria-label="left">⬅<small>A</small></button>
         <button class="dir-btn" id="dir-high" type="button" aria-label="high">⬆<small>W</small></button>

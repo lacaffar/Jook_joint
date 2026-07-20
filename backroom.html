@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>The Back Room :: Swifty's Jook Joint</title>
   <meta name="robots" content="noindex" />
   <meta name="description" content="Staff only. Raccoon only, really." />
@@ -123,10 +125,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
-  <script>
-    /* the den mascot uses the shared sprite once raccoon.js has run */
-    (function(){ var r = document.querySelector('#br-rac'); if (r && window.RaccoonSVG) r.innerHTML = window.RaccoonSVG; })();
-  </script>
   <script src="js/rooms/backroom.js"></script>
 </body>
 </html>

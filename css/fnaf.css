@@ -20,6 +20,23 @@ body.room-fnaf::after{
 /* display:flex on screens must not defeat the hidden attribute */
 .fnaf-game [hidden]{ display:none !important; }
 
+/* ---- phone guy -------------------------------------------------------- */
+.fg-phone{
+  position:absolute; left:4%; right:4%; bottom:6%; z-index:20;
+  background:rgba(4,2,8,.92); border:1px solid #3a2a55; border-radius:10px;
+  padding:14px 16px; box-shadow:0 0 24px rgba(138,63,251,.25);
+}
+.fg-phone-text{
+  font-family:var(--font-term); font-size:19px; line-height:1.4; color:#cdbfe8;
+  margin:0 0 10px; min-height:3em;
+}
+.fg-phone-skip{
+  font-family:var(--font-pixel); font-size:10px; letter-spacing:1px;
+  color:#8a6fc0; background:none; border:1px solid #3a2a55; border-radius:6px;
+  padding:6px 12px; cursor:pointer;
+}
+.fg-phone-skip:hover{ color:#cdbfe8; border-color:#8a6fc0; }
+
 .fnaf-game{
   position:relative; margin:20px 0; border:1px solid var(--line);
   border-radius:12px; overflow:hidden; background:#060409;

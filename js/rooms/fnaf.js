@@ -19,8 +19,10 @@
   var camLabel = $('#fg-cam-label'), camBody = $('#fg-cam-body');
   var endTitle = $('#fg-end-title'), endBody = $('#fg-end-body');
 
-  if (window.RaccoonSVG) {
-    scrScare.innerHTML = window.RaccoonSVG;
+  /* Swift-Trap wears the animatronic style (glowing red pupils) */
+  var scareSVG = window.RaccoonArt ? RaccoonArt.svg('animatronic') : window.RaccoonSVG;
+  if (scareSVG) {
+    scrScare.innerHTML = scareSVG;
     scrScare.setAttribute('aria-label', 'jumpscare');
   }
 
@@ -96,7 +98,7 @@
     if (st.pos === st.cam) {
       var s = document.createElement('div');
       s.className = 'fg-silhouette';
-      s.innerHTML = window.RaccoonSVG || '🦝';
+      s.innerHTML = scareSVG || '🦝';
       camBody.appendChild(s);
     } else {
       var e = document.createElement('p');
@@ -250,16 +252,67 @@
     });
   });
 
+  /* ---- phone guy -------------------------------------------------------- */
+  var PHONE = {
+    1: 'Uh, hello? Hello hello! Welcome to the night shift at Swifty\'s. So - the raccoon ' +
+       'in the bear suit, Swift-Trap? He, uh, wanders at night. Totally normal. Check the ' +
+       'cameras, shut the doors if he gets close, and watch your power. You\'ll be fine. Probably. Talk tomorrow!',
+    2: 'Hey, night two! Great, great. So, uh, he\'s faster tonight. The doors are your ' +
+       'friends. The power bill is not. If you hear something AT a door... that\'s a door thing now. Okay bye!',
+    3: 'Wow, you\'re still here. Respect. Quick version: cameras slow him down, lights find ' +
+       'him, doors stop him, and everything costs power. The math is the horror. Good luck.'
+  };
+  var phoneBox = null;
+  function phoneIntro(night, cb) {
+    var script = PHONE[Math.min(night, 3)];
+    phoneBox = document.createElement('div');
+    phoneBox.className = 'fg-phone';
+    var p = document.createElement('p');
+    p.className = 'fg-phone-text';
+    p.textContent = '📞 *ring… ring…*';
+    var skip = document.createElement('button');
+    skip.type = 'button';
+    skip.className = 'fg-phone-skip';
+    skip.textContent = '> HANG UP';
+    phoneBox.appendChild(p); phoneBox.appendChild(skip);
+    scrOffice.appendChild(phoneBox);
+    if (window.SFX) { SFX.blip(); setTimeout(SFX.blip, 350); }
+
+    var i = 0, done = false, tw = null;
+    function finish() {
+      if (done) return;
+      done = true;
+      clearInterval(tw);
+      if (phoneBox) { phoneBox.remove(); phoneBox = null; }
+      cb();
+    }
+    skip.addEventListener('click', finish);
+    later(function () {
+      if (done) return;
+      tw = setInterval(function () {
+        i += 2;
+        p.textContent = script.slice(0, i);
+        if (i % 8 === 0 && window.SFX) SFX.blip();
+        if (i >= script.length) { clearInterval(tw); later(finish, 1600); }
+      }, 34);
+    }, 900);
+  }
+
   /* ---- start / menu ----------------------------------------------------- */
   function startNight(night) {
     stopTimers();
+    if (phoneBox) { phoneBox.remove(); phoneBox = null; }
     st = newState(night);
     game.classList.remove('won', 'blackout');
     show(scrOffice);
     renderHud(); renderOffice();
-    every(aiTick, Math.max(1600, 3300 - night * 250));
-    every(powerTick, 250);
-    if (window.SFX) SFX.hum();
+    phoneIntro(night, function () {
+      if (st.over) return;
+      st.t0 = performance.now();          /* the clock starts when he hangs up */
+      every(aiTick, Math.max(1600, 3300 - night * 250));
+      every(powerTick, 250);
+      if (window.SFX) SFX.hum();
+    });
   }
 
   $('#fg-new').addEventListener('click', function () { startNight(1); });

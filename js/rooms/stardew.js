@@ -127,7 +127,8 @@
   function renderHud() {
     hud.innerHTML = '<b>☀️ Day ' + st.day + '</b> · Spring · <b>💰 ' + st.gold + 'g</b> · ' +
       '🥕 harvested <b>' + st.harvested + '</b>/9' +
-      (st.harvested >= 9 ? ' ✓' : '');
+      (st.harvested >= 9 ? ' ✓' : '') +
+      (st.fish ? ' · 🎣 <b>' + st.fish + '</b>' : '');
   }
   renderHud();
 
@@ -153,7 +154,102 @@
     return null;
   }
 
+  /* ---- fishing ----------------------------------------------------------
+     cast at the pond → wait for the ! → hook with E → then a tug-of-war:
+     reel (E) while the fish is CALM, hold still while it THRASHES.       */
+  var fishing = null;
+  var FISH = [
+    { name: 'a carp', ico: '🐟', g: 30, w: 30 },
+    { name: 'a bass', ico: '🐟', g: 45, w: 24 },
+    { name: 'a catfish', ico: '🐡', g: 75, w: 14 },
+    { name: 'an old boot', ico: '👢', g: 5, w: 16 },
+    { name: 'a rusty can (he will want this)', ico: '🥫', g: 3, w: 10 },
+    { name: 'the LEGENDARY RACCOONFISH', ico: '🦝🐟', g: 150, w: 6 }
+  ];
+  function pickFish() {
+    var total = FISH.reduce(function (a, f) { return a + f.w; }, 0);
+    var r = Math.random() * total;
+    for (var i = 0; i < FISH.length; i++) { r -= FISH[i].w; if (r <= 0) return FISH[i]; }
+    return FISH[0];
+  }
+  function bar(p) {
+    var full = Math.round(Math.max(0, Math.min(100, p)) / 10), out = '';
+    for (var i = 0; i < 10; i++) out += i < full ? '▰' : '▱';
+    return out;
+  }
+  function cancelFish(text) {
+    if (!fishing) return;
+    clearTimeout(fishing.t); clearInterval(fishing.iv);
+    fishing = null;
+    if (text) msg(text);
+  }
+  function castLine() {
+    if (fishing) return;
+    fishing = { phase: 'wait' };
+    msg('* you cast a line into the pond… 🎣 (wait for the ! - then E, fast)', null, true);
+    if (window.SFX) SFX.click();
+    fishing.t = setTimeout(function () {
+      if (!fishing) return;
+      fishing.phase = 'bite';
+      msg('* ‼️ SOMETHING BITES ‼️  (E!)', null, true);
+      if (window.SFX) SFX.ding();
+      fishing.t = setTimeout(function () {
+        cancelFish('* …it got away. the water judges you silently.');
+        if (window.SFX) SFX.deny();
+      }, 900);
+    }, 1600 + Math.random() * 2600);
+  }
+  function hookFish() {
+    clearTimeout(fishing.t);
+    fishing.phase = 'reel';
+    fishing.prog = 30;
+    fishing.calm = true;
+    fishing.flips = 0;
+    fishing.fish = pickFish();
+    var flip = function () {
+      if (!fishing) return;
+      fishing.calm = Math.random() < 0.55;
+      fishing.flips++;
+      if (fishing.flips > 14) { cancelFish('* the line snaps. it was probably enormous.'); if (window.SFX) SFX.deny(); return; }
+      renderReel();
+      fishing.iv = setTimeout(flip, 650 + Math.random() * 500);
+    };
+    var renderReel = function () {
+      msg((fishing.calm ? '🐟 it\'s CALM - reel it in! (E)' : '🌊 it THRASHES - hold still!') +
+        '  ' + bar(fishing.prog), null, true);
+    };
+    fishing.renderReel = renderReel;
+    flip();
+    if (window.SFX) SFX.blip();
+  }
+  function reelTap() {
+    if (fishing.calm) {
+      fishing.prog += 18;
+      if (window.SFX) SFX.click();
+    } else {
+      fishing.prog -= 22;
+      if (window.SFX) SFX.deny();
+    }
+    if (fishing.prog >= 100) return landFish();
+    if (fishing.prog <= 0) { cancelFish('* it spits the hook and leaves. rude.'); return; }
+    fishing.renderReel();
+  }
+  function landFish() {
+    var f = fishing.fish;
+    cancelFish();
+    st.gold += f.g;
+    st.fish = (st.fish || 0) + 1;
+    persist(); renderHud();
+    msg('* you caught ' + f.name + '! ' + f.ico + '  +' + f.g + 'g');
+    if (window.SFX) SFX.coin();
+  }
+
   function interact() {
+    if (fishing) {
+      if (fishing.phase === 'bite') return hookFish();
+      if (fishing.phase === 'reel') return reelTap();
+      return cancelFish('* you reel in early. nothing but weeds.');
+    }
     var tx = px + facing.x, ty = py + facing.y;
     if (ty < 0 || ty >= ROWS || tx < 0 || tx >= COLS) return;
     var n = npcAt(tx, ty);
@@ -174,7 +270,7 @@
       if (window.SFX) SFX.step();
       return;
     }
-    if (ch === '~') { msg('* you skip a stone. it sinks with dignity.'); return; }
+    if (ch === '~') return castLine();
     if (ch === 'T') { msg('* a sturdy tree. Robbie would want you to chop it. you pat it instead.'); return; }
     msg('* nothing here but honest dirt.');
   }
@@ -267,6 +363,7 @@
     var now = performance.now();
     if (now - lastMove < 130) return;
     lastMove = now;
+    if (fishing) cancelFish('* you wandered off. the line goes slack.');
     facing = { x: dx, y: dy };
     playerEl.classList.toggle('flip', dx < 0);
     var nx = px + dx, ny = py + dy;

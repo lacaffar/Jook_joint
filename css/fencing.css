@@ -14,10 +14,47 @@
   opacity:.35;
 }
 
+/* ---- the strip: two fencers acting out each exchange ---------------- */
+.piste-strip{
+  position:relative; display:flex; align-items:center; justify-content:space-between;
+  height:74px; margin:2px 0 10px; padding:0 8%;
+  background:linear-gradient(180deg, transparent 46%, color-mix(in srgb, var(--accent2) 14%, transparent) 47%, transparent 62%);
+  user-select:none;
+}
+.strip-mid{
+  position:absolute; left:50%; top:12%; bottom:12%; width:2px;
+  background:repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 12px);
+}
+.fencer{
+  font-size:44px; line-height:1; display:inline-block;
+  transition:transform .14s ease;
+  filter:drop-shadow(0 4px 4px rgba(0,0,0,.5));
+}
+.fencer.machine{ transform:scaleX(-1); filter:hue-rotate(140deg) saturate(1.6) drop-shadow(0 4px 4px rgba(0,0,0,.5)); }
+.fencer.you.lunge{ animation:lungeL .5s ease; }
+.fencer.machine.lunge{ animation:lungeR .5s ease; }
+@keyframes lungeL{ 35%{ transform:translateX(-46px) rotate(-8deg) } }
+@keyframes lungeR{ 35%{ transform:scaleX(-1) translateX(-46px) rotate(-8deg) } }
+.fencer.you.hit{ animation:stungL .5s ease; }
+.fencer.machine.hit{ animation:stungR .5s ease; }
+@keyframes stungL{ 30%{ transform:translateX(14px) rotate(14deg); filter:drop-shadow(0 0 10px var(--down)) } }
+@keyframes stungR{ 30%{ transform:scaleX(-1) translateX(14px) rotate(14deg); filter:hue-rotate(140deg) drop-shadow(0 0 10px var(--down)) } }
+.fencer.you.salute{ animation:saluteL 1.4s ease; }
+.fencer.machine.salute{ animation:saluteR 1.4s ease; }
+@keyframes saluteL{ 30%,60%{ transform:rotate(-22deg) translateY(-6px) } }
+@keyframes saluteR{ 30%,60%{ transform:scaleX(-1) rotate(-22deg) translateY(-6px) } }
+.piste-strip.clash::after{
+  content:"✦"; position:absolute; left:50%; top:38%; transform:translate(-50%,-50%);
+  font-size:30px; color:#fff; text-shadow:0 0 14px var(--accent2), 0 0 30px #fff;
+  animation:clashPop .45s ease forwards;
+}
+@keyframes clashPop{ 0%{ opacity:0; scale:.4 } 30%{ opacity:1; scale:1.3 } 100%{ opacity:0; scale:.8 } }
+
 .ref-line{
   font-family:var(--font-pixel); font-size:clamp(18px, 4vw, 26px);
   letter-spacing:2px; min-height:1.5em; margin:6px 0 4px; color:var(--ink);
 }
+.ref-line.feint{ color:var(--warn); font-style:italic; }
 .ref-line.allez{ color:var(--accent2); animation:allezFlash .25s steps(2) 3; }
 @keyframes allezFlash{ 50%{ opacity:.3 } }
 .ref-line.good{ color:var(--ok); }

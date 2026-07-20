@@ -44,7 +44,9 @@
   var menu    = stage.querySelector('#ut-menu');
   var sub     = stage.querySelector('#ut-submenu');
 
-  if (window.RaccoonSVG) enemyEl.innerHTML = window.RaccoonSVG;
+  /* the encounter raccoon wears the monochrome Undertale style */
+  if (window.RaccoonArt) enemyEl.innerHTML = RaccoonArt.svg('mono');
+  else if (window.RaccoonSVG) enemyEl.innerHTML = window.RaccoonSVG;
 
   var HP_MAX = 20, ENEMY_MAX = 30;
   var st; /* battle state */
@@ -154,6 +156,7 @@
     check: { label: 'Check', gain: 10, line: '* RACCOON - ATK 4 DEF 9\n* Smells like pizza. Loves shiny things.\n* Seems to want something from you.' },
     pet: { label: 'Pet', gain: 30, line: '* You pet the raccoon.\n* His tail goes THUMP THUMP THUMP.' },
     compliment: { label: 'Compliment', gain: 30, line: '* You tell the raccoon his mask is very fashionable.\n* He washes his hands, flattered.' },
+    joke: { label: 'Joke', gain: 30, line: '* You tell a joke about a locked dumpster.\n* The raccoon WHEEZES. He slaps the floor.' },
     trash: { label: 'Offer trash', gain: 30, line: '* You offer the raccoon a pristine piece of garbage.\n* HIS EYES. THEY SPARKLE.' }
   };
   function doAct() {
@@ -230,7 +233,9 @@
     '* The raccoon does a little spin. Garbage orbits him like moons.',
     '* The raccoon chitters a warning. It sounds almost polite.',
     '* The raccoon remembers something upsetting about a locked dumpster.',
-    '* Smells like pizza.'
+    '* Smells like pizza.',
+    '* The raccoon is aiming the pizza. That seems unfair.',
+    '* The raccoon hums something from the jukebox upstairs.'
   ];
 
   function enemyTurn() {
@@ -246,9 +251,9 @@
     soulX = r.width / 2; soulY = r.height * 0.7;
     soul.hidden = false;
     var bullets = [];
-    var pattern = (st.turn - 1) % 3;
+    var pattern = (st.turn - 1) % 4;
     var duration = Math.min(8000, 5200 + st.turn * 400);
-    var spawnEvery = Math.max(160, (pattern === 1 ? 520 : 300) * Math.pow(0.93, st.turn));
+    var spawnEvery = Math.max(160, (pattern === 1 ? 520 : pattern === 3 ? 560 : 300) * Math.pow(0.93, st.turn));
     var start = performance.now(), lastSpawn = 0, iframesUntil = 0, alive = true;
 
     function spawn(now) {
@@ -266,6 +271,17 @@
         o.x = fromLeft ? -12 : w + 12;
         o.y = 14 + Math.random() * (h - 28);
         o.vx = (fromLeft ? 1 : -1) * (2.2 + Math.random() * 1.2 + st.turn * 0.1);
+      } else if (pattern === 3) {     /* pizza slices aimed at the SOUL */
+        b.textContent = '🍕';
+        var edge = (Math.random() * 4) | 0;
+        if (edge === 0) { o.x = 10 + Math.random() * (w - 20); o.y = -10; }
+        else if (edge === 1) { o.x = 10 + Math.random() * (w - 20); o.y = h + 10; }
+        else if (edge === 2) { o.x = -12; o.y = 14 + Math.random() * (h - 28); }
+        else { o.x = w + 12; o.y = 14 + Math.random() * (h - 28); }
+        var adx = soulX - o.x, ady = soulY - o.y;
+        var alen = Math.hypot(adx, ady) || 1;
+        var aspd = 1.9 + Math.random() * 0.9 + st.turn * 0.08;
+        o.vx = adx / alen * aspd; o.vy = ady / alen * aspd;
       } else {                        /* rising wobbly bones */
         b.textContent = '𓄼';
         o.x = 10 + Math.random() * (w - 20); o.y = h + 10;
@@ -331,6 +347,7 @@
   function spareWin() {
     st.over = true;
     enemyEl.classList.add('spared');
+    try { localStorage.removeItem('sjj_ut_dust'); } catch (e) {}
     type('* You spared the raccoon.\n* YOU WON! You earned 0 XP and 0 gold.\n* The raccoon leaves... a bottle cap.', function () {
       if (window.SJJQuest) SJJQuest.award('undertale');
       setMenu(false);
@@ -341,6 +358,7 @@
     st.over = true;
     barWrap.hidden = true;
     enemyEl.classList.add('dusted');
+    try { localStorage.setItem('sjj_ut_dust', '1'); } catch (e) {}
     type('* ...\n* YOU WON! You earned 12 EXP and 40 gold.\n* It does not feel like winning.\n* (He drops a bottle cap anyway. You monster.)', function () {
       if (window.SJJQuest) SJJQuest.award('undertale');
       setMenu(false);
@@ -393,5 +411,9 @@
   setHp(HP_MAX);
   updateName();
   setMenu(true);
-  type('* A wild raccoon blocks the way!');
+  var dusted = false;
+  try { dusted = localStorage.getItem('sjj_ut_dust') === '1'; } catch (e) {}
+  type(dusted
+    ? '* A wild raccoon blocks the way!\n* ...he remembers what you did.\n* (He forgives you anyway. That makes it worse.)'
+    : '* A wild raccoon blocks the way!');
 })();

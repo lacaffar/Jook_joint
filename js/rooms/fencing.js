@@ -1,9 +1,10 @@
 /* =====================================================================
-   fencing.js - ALLEZ! a directional reaction duel (rough draft).
-   En garde… prêt… then a line flashes: press the matching direction
+   fencing.js - ALLEZ! a directional reaction duel, v2.
+   En garde… prêt… then the call: press the matching direction
    (W/A/D or arrows, or tap the big buttons) before the window closes.
-   Foil & sabre roll right-of-way each exchange - with priority you
-   attack, without it you parry. Épée is a pure speed race. First to 5.
+   Foil & sabre roll right-of-way each exchange and sometimes throw a
+   FEINT - hold your nerve until the real call. Épée is a pure speed
+   race. First to 5. Two fencers on the strip act it all out.
    ===================================================================== */
 (function () {
   'use strict';
@@ -21,17 +22,22 @@
   var lampThem = document.querySelector('.lamp.red');
   var lampYou  = document.querySelector('.lamp.green');
   var scoreMid = document.querySelector('#score-mid');
+  var youEl    = root.querySelector('#fencer-you');
+  var themEl   = root.querySelector('#fencer-them');
+  var stripEl  = root.querySelector('.piste-strip');
 
   var SYM = { high: '⬆', left: '⬅', right: '➡' };
   var WORD = { high: 'HIGH', left: 'LEFT', right: 'RIGHT' };
   var DIRS = ['high', 'left', 'right'];
+  var WINDOW_BY_WEAPON = { foil: 700, epee: 660, sabre: 600 };
 
-  var state = 'idle';          /* idle | wait | prompt | over            */
+  var state = 'idle';          /* idle | wait | feint | prompt | between | over */
   var me = 0, them = 0;
-  var windowMs = 700;          /* reaction window - the "opponent" */
+  var windowMs = 700;
   var target = null, role = '', t0 = 0;
   var yellow = false;
   var timers = [];
+  var times = [];              /* your reaction times this bout */
 
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
@@ -68,6 +74,19 @@
     DIRS.forEach(function (d) { dirBtns[d].classList.toggle('target', d === dir); });
   }
 
+  /* ---- fencer pantomime -------------------------------------------- */
+  function pose(el, cls, ms) {
+    el.classList.remove('lunge', 'hit', 'salute');
+    void el.offsetWidth;
+    el.classList.add(cls);
+    later(function () { el.classList.remove(cls); }, ms || 700);
+  }
+  function clash() {
+    stripEl.classList.remove('clash'); void stripEl.offsetWidth;
+    stripEl.classList.add('clash');
+    later(function () { stripEl.classList.remove('clash'); }, 450);
+  }
+
   function exchange() {
     state = 'wait';
     target = null;
@@ -85,7 +104,30 @@
     note(pr);
     say('En garde…');
     later(function () { say('Prêt…'); }, 900);
+
     var delay = 900 + 800 + Math.random() * (w === 'sabre' ? 1000 : 2000);
+
+    /* foil & sabre: sometimes the machine shows a false intention */
+    if (w !== 'epee' && Math.random() < 0.3) {
+      var feintAt = 900 + 500 + Math.random() * 600;
+      var fake = DIRS[(Math.random() * 3) | 0];
+      later(function () {
+        if (state !== 'wait') return;
+        state = 'feint';
+        say('… ' + WORD[fake] + '—? no.', 'feint');
+        glow(fake);
+        pose(themEl, 'lunge', 260);
+        if (window.SFX) SFX.blip();
+        later(function () {
+          if (state !== 'feint') return;
+          state = 'wait';
+          glow(null);
+          say('Prêt…');
+        }, 480);
+      }, feintAt);
+      delay = Math.max(delay, feintAt + 900);
+    }
+
     later(function () {
       state = 'prompt';
       target = DIRS[(Math.random() * 3) | 0];
@@ -96,6 +138,7 @@
                             'HIT '    + WORD[target] + '! ' + SYM[target];
       say(call, 'allez');
       glow(target);
+      pose(themEl, 'lunge', windowMs + 200);
       if (window.SFX) SFX.click();
       later(function () { if (state === 'prompt') resolve(false, null, 'too slow - the machine takes the touch'); }, windowMs);
     }, delay);
@@ -108,8 +151,12 @@
     timers = [];
     if (won) {
       me++;
+      times.push(ms);
       lamp(lampYou);
-      if (window.SFX) SFX.buzz();
+      pose(youEl, 'lunge');
+      pose(themEl, 'hit');
+      clash();
+      if (window.SFX) { (role === 'parry' ? SFX.parry : SFX.slash)(); later(SFX.buzz, 140); }
       var verb = role === 'parry' ? 'parry-riposte' : 'touch';
       say('TOUCHE! ' + verb + ' in ' + ms + 'ms', 'good');
       note(ms < 250 ? 'lightning. actual lightning.' : ms < 400 ? 'clean and quick.' : 'that one was close.');
@@ -117,11 +164,13 @@
     } else {
       them++;
       lamp(lampThem);
+      pose(themEl, 'lunge');
+      pose(youEl, 'hit');
       if (window.SFX) SFX.deny();
       say('POINT AGAINST.', 'bad');
       note(why);
     }
-    windowMs = Math.max(400, windowMs - 40);
+    windowMs = Math.max(380, windowMs - 40);
     hud();
     if (me >= 5) return win();
     if (them >= 5) return lose();
@@ -132,6 +181,7 @@
     state = 'between';
     clearTimers();
     glow(null);
+    pose(youEl, 'lunge', 300);
     if (!yellow) {
       yellow = true;
       say('HALT! false start - yellow card', 'card-y');
@@ -148,10 +198,17 @@
     later(exchange, 1600);
   }
 
+  function avgMs() {
+    if (!times.length) return 0;
+    return Math.round(times.reduce(function (a, b) { return a + b; }, 0) / times.length);
+  }
+
   function win() {
     state = 'over';
     say('VICTORY ' + me + '–' + them, 'good');
-    note('salute! the raccoon taps his glove against yours. 🦝🤺');
+    note('salute! avg reaction ' + avgMs() + 'ms over ' + times.length + ' touches. the raccoon taps his glove against yours. 🦝🤺');
+    pose(youEl, 'salute', 1600);
+    pose(themEl, 'salute', 1600);
     startBtn.hidden = false;
     startBtn.textContent = 'fence another bout';
     if (window.SFX) SFX.coin();
@@ -161,12 +218,15 @@
   function lose() {
     state = 'over';
     say('DEFEAT ' + me + '–' + them, 'bad');
-    note('the machine salutes. it has no honor. run it back.');
+    note('the machine salutes. it has no honor.' +
+      (times.length ? ' your avg was ' + avgMs() + 'ms - shave it down.' : ' run it back.'));
+    pose(themEl, 'salute', 1600);
     startBtn.hidden = false;
     startBtn.textContent = 'demand a rematch';
   }
 
   function input(dir) {
+    if (state === 'feint') return resolve(false, null, 'you bit on the feint - watch the referee, not the blade');
     if (state === 'wait') return falseStart();
     if (state !== 'prompt') return;
     if (dir === target) {
@@ -193,10 +253,14 @@
   });
 
   startBtn.addEventListener('click', function () {
-    me = 0; them = 0; yellow = false; windowMs = 700;
+    me = 0; them = 0; yellow = false; times = [];
+    windowMs = WINDOW_BY_WEAPON[weapon()] || 700;
     startBtn.hidden = true;
+    pose(youEl, 'salute', 900);
+    pose(themEl, 'salute', 900);
+    if (window.SFX) SFX.parry();
     hud();
-    exchange();
+    later(exchange, 700);
   });
 
   hud();

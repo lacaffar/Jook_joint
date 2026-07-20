@@ -246,6 +246,147 @@
   renderTrack();
   show(els.intro);
 
+  /* =================================================================
+     NON-STOP - the typing game. Copy each passage before the ink runs
+     dry. Passages are Hamilton's own (public domain) plus house nonsense.
+     ================================================================= */
+  var grind = document.querySelector('#grind');
+  if (grind) (function () {
+    var LINES = [
+      /* the man's own words (1770s-1790s, public domain) */
+      'The sacred rights of mankind are not to be rummaged for among old parchments or musty records.',
+      'There is a certain enthusiasm in liberty, that makes human nature rise above itself.',
+      'A nation which can prefer disgrace to danger is prepared for a master, and deserves one.',
+      'I never expect to see a perfect work from imperfect man.',
+      'Energy in the executive is a leading character in the definition of good government.',
+      'Safety from external danger is the most powerful director of national conduct.',
+      'The passions of men will not conform to the dictates of reason and justice without constraint.',
+      'Real firmness is good for everything; strut is good for nothing.',
+      /* house nonsense */
+      'Dear sir: your pamphlet was bad and you should feel bad. Yours, A. Ham.',
+      'An essay a day keeps Aaron Burr away.',
+      'The raccoon is not a member of the cabinet and his vote does not count.',
+      'Memo to the Treasury: someone keeps paying the national debt in bottle caps.',
+      'Item one: buy more ink. Item two: buy more paper. Item three: sleep (optional).',
+      'Talk less. Write more. The quill is mightier than the flintlock, usually.'
+    ];
+    var START_INK = 100, ESSAY_INK = 16, GOAL = 51;
+
+    var els = {
+      intro: grind.querySelector('.grind-intro'),
+      play:  grind.querySelector('.grind-play'),
+      end:   grind.querySelector('.grind-end'),
+      ink:   grind.querySelector('#ink-fill'),
+      count: grind.querySelector('.grind-count'),
+      target: grind.querySelector('#grind-target'),
+      input: grind.querySelector('#grind-input'),
+      best:  grind.querySelector('.grind-best'),
+      endTitle: grind.querySelector('.grind-end-title'),
+      endBody:  grind.querySelector('.grind-end-body')
+    };
+
+    var ink, essays, words, startAt, line, lastLine = -1, tick = null, running = false;
+
+    function bestEssays() {
+      var b = 0; try { b = parseInt(localStorage.getItem('sjj_hamilton_essays') || '0', 10); } catch (e) {}
+      return b;
+    }
+    function renderBest() {
+      var b = bestEssays();
+      els.best.textContent = b > 0
+        ? 'personal record: ' + b + ' essay' + (b === 1 ? '' : 's') + ' before the well ran dry.'
+        : 'the well is full. the page is blank. history has its eyes on you.';
+    }
+    function showG(el) {
+      [els.intro, els.play, els.end].forEach(function (s) { s.hidden = (s !== el); });
+    }
+    function renderInk() {
+      els.ink.style.width = Math.max(0, ink) + '%';
+      grind.classList.toggle('dry', ink < 25);
+    }
+
+    function nextLine() {
+      var i;
+      do { i = (Math.random() * LINES.length) | 0; } while (i === lastLine && LINES.length > 1);
+      lastLine = i;
+      line = LINES[i];
+      els.count.textContent = 'Essay No. ' + (essays + 1) + ' of ' + GOAL;
+      els.input.value = '';
+      els.input.classList.remove('bad');
+      renderTarget(0);
+    }
+
+    function renderTarget(doneLen) {
+      els.target.textContent = '';
+      var done = document.createElement('b');
+      done.textContent = line.slice(0, doneLen);
+      els.target.appendChild(done);
+      els.target.appendChild(document.createTextNode(line.slice(doneLen)));
+    }
+
+    function finishEssay() {
+      essays++;
+      words += line.split(' ').length;
+      ink = Math.min(100, ink + ESSAY_INK);
+      if (window.SFX) SFX.ding();
+      if (essays >= GOAL) return end(true);
+      nextLine();
+    }
+
+    function end(wroteThemAll) {
+      running = false;
+      clearInterval(tick); tick = null;
+      var mins = (performance.now() - startAt) / 60000;
+      var wpm = mins > 0 ? Math.round(words / mins) : 0;
+      showG(els.end);
+      els.endTitle.textContent = wroteThemAll ? 'FIFTY-ONE.' : 'THE WELL RUNS DRY.';
+      els.endBody.textContent = wroteThemAll
+        ? 'All ' + GOAL + ' essays at ' + wpm + ' words per minute. Madison wrote twenty-nine. You are unwell, and history thanks you.'
+        : 'You wrote ' + essays + ' essay' + (essays === 1 ? '' : 's') + ' (' + words + ' words, ' + wpm +
+          ' wpm) before the ink gave out. The deadline, as ever, was undefeated.';
+      try {
+        if (essays > bestEssays()) localStorage.setItem('sjj_hamilton_essays', String(essays));
+      } catch (e) {}
+      renderBest();
+      if (window.SFX) (wroteThemAll ? SFX.chime : SFX.deny)();
+    }
+
+    function startGrind() {
+      ink = START_INK; essays = 0; words = 0; startAt = performance.now();
+      running = true;
+      showG(els.play);
+      nextLine();
+      renderInk();
+      els.input.focus();
+      clearInterval(tick);
+      tick = setInterval(function () {
+        if (!running) return;
+        ink -= (0.55 + essays * 0.045);   /* drains faster as you go */
+        renderInk();
+        if (ink <= 0) end(false);
+      }, 250);
+    }
+
+    els.input.addEventListener('input', function () {
+      if (!running) return;
+      var v = els.input.value;
+      if (line.indexOf(v) === 0) {
+        els.input.classList.remove('bad');
+        renderTarget(v.length);
+        if (v === line) finishEssay();
+        else if (v.length % 4 === 0 && v.length && window.SFX) SFX.blip();
+      } else {
+        els.input.classList.add('bad');
+      }
+    });
+
+    grind.querySelectorAll('.grind-start').forEach(function (b) {
+      b.addEventListener('click', startGrind);
+    });
+    renderBest();
+    showG(els.intro);
+  })();
+
   /* ---- "my shot" line cycler (moved here from site.js) -------------- */
   var shot = document.querySelector('#my-shot');
   if (shot) {

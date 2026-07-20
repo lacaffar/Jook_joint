@@ -10,6 +10,10 @@
   var den = document.querySelector('#br-den');
   if (!locked || !den) return;
 
+  /* the den mascot uses the shared sprite once raccoon.js has run */
+  var mascot = document.querySelector('#br-rac');
+  if (mascot && window.RaccoonSVG) mascot.innerHTML = window.RaccoonSVG;
+
   var open = window.SJJQuest && SJJQuest.all();
 
   /* ---- locked door: show which caps are missing ----------------------- */
