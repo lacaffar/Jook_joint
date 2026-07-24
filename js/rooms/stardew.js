@@ -114,13 +114,22 @@
     grid.appendChild(el);
     return el;
   }
-  var playerEl = makeSprite('player', '🧑‍🌾');
+  var playerEl = makeSprite('player', '');
   NPCS.forEach(function (n) { n.el = makeSprite('npc', n.face); place(n.el, n.x, n.y); });
+
+  /* Clint, the playable character (clint.png). Rows: 0 down, 1 side (right),
+     2 up; cols: 0 idle, 1 step. Left is the side row, flipped. */
+  var PW = 24, PH = 48, playerWalk = 0, walkIdleT = null;
+  function setPlayerFrame() {
+    var row = facing.y > 0 ? 0 : (facing.y < 0 ? 2 : 1);
+    playerEl.style.backgroundPosition = '-' + (playerWalk * PW) + 'px -' + (row * PH) + 'px';
+  }
 
   function place(el, x, y) {
     el.style.transform = 'translate(' + (x * TILE) + 'px,' + (y * TILE) + 'px)';
   }
   place(playerEl, px, py);
+  setPlayerFrame();
 
   /* ---- HUD -------------------------------------------------------------- */
   var hud = document.querySelector('#farm-hud');
@@ -366,6 +375,7 @@
     if (fishing) cancelFish('* you wandered off. the line goes slack.');
     facing = { x: dx, y: dy };
     playerEl.classList.toggle('flip', dx < 0);
+    setPlayerFrame();
     var nx = px + dx, ny = py + dy;
     if (nx < 0 || nx >= COLS || ny < 0 || ny >= ROWS) return;
     if (SOLID[MAP[ny][nx]] || npcAt(nx, ny)) {
@@ -374,6 +384,9 @@
     }
     px = nx; py = ny;
     place(playerEl, px, py);
+    playerWalk ^= 1; setPlayerFrame();
+    clearTimeout(walkIdleT);
+    walkIdleT = setTimeout(function () { playerWalk = 0; setPlayerFrame(); }, 200);
     if (window.SFX) SFX.step();
     if (px === RACCOON_BUSH.x && py === RACCOON_BUSH.y) {
       var bush = document.querySelector('#rac-bush');

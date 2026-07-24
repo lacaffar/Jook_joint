@@ -49,8 +49,14 @@
   filter:drop-shadow(0 3px 2px rgba(0,0,0,.4)); pointer-events:none;
 }
 .farm-sprite.flip{ scale:-1 1; }
+/* Clint, the playable character (clint.png: 2 walk frames x 3 dir rows) */
+.farm-sprite.player{
+  width:24px; height:48px; margin-left:5px; margin-top:-14px;
+  background:url("../clint.png") no-repeat 0 0;
+  background-size:48px 144px; image-rendering:pixelated;
+}
 .farm-sprite.player.step{ animation:bump .15s; }
-@keyframes bump{ 50%{ margin-top:-3px } }
+@keyframes bump{ 50%{ margin-top:-17px } }
 
 /* dialogue / message box - stardew-style wooden speech panel */
 #farm-msg{

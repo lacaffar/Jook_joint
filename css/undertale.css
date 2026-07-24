@@ -3,6 +3,17 @@
    orange menu letters, one very red heart.
    ===================================================================== */
 
+/* the Annoying Dog, hanging from the top-right of the screen.
+   mix-blend screen drops the image's black background on any surface. */
+.hang-dog{
+  position:fixed; top:0; right:26px; width:120px; height:auto; z-index:40;
+  pointer-events:none; image-rendering:pixelated; mix-blend-mode:screen;
+  transform-origin:50% 0; animation:dogSway 3.8s ease-in-out infinite;
+}
+@keyframes dogSway{ 0%,100%{ transform:rotate(-1.3deg); } 50%{ transform:rotate(1.3deg); } }
+@media (max-width:900px){ .hang-dog{ display:none; } }
+@media (prefers-reduced-motion:reduce){ .hang-dog{ animation:none; } }
+
 .ut-battle{ margin:26px 0; }
 .ut-battle [hidden]{ display:none !important; }
 
