@@ -40,6 +40,12 @@
 .bar-door .knob{ position:absolute; right:9px; top:52%; width:8px; height:8px; border-radius:50%;
   background:#d9b36a; box-shadow:0 0 5px #d9b36a; }
 .bar-door .ico{ font-size:34px; filter:drop-shadow(0 3px 3px rgba(0,0,0,.6)); }
+.bar-door .ico img{ height:44px; width:auto; max-width:52px; object-fit:contain; display:block; }
+/* pixel-art icons stay crisp; smooth (non-pixel) ones render normally */
+.door-stardew .ico img, .door-undertale .ico img{ image-rendering:pixelated; }
+.door-fnaf .ico img, .door-fencing .ico img{ image-rendering:auto; }
+/* Freddy's render sits on a dark plate; round it into the door */
+.door-fnaf .ico img{ border-radius:7px; }
 .bar-door .plq{
   font-family:var(--font-pixel); font-size:8.5px; letter-spacing:.4px; text-align:center;
   color:#f5e9cf; background:rgba(0,0,0,.42); border:1px solid rgba(255,255,255,.14);
