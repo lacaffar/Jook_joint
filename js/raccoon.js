@@ -128,43 +128,46 @@
 
   if (COARSE) return;   /* no follower on touch screens */
 
-  /* ---- the follower ---------------------------------------------------- */
+  /* =====================================================================
+     The cursor-following raccoon, animated from the uploaded sprite sheet
+     (raccoon-sprites.png). Sheet = 8 columns x 4 rows of 32x32 frames:
+       row 0 idle (8)   row 1 movement (8)   row 2 damage (4)   row 3 death (4)
+     The raccoon faces RIGHT in the sheet, so we flip it when it walks left.
+     Poke him (click on him) to make him yelp; a few quick hits and he
+     plays dead, then respawns. Falls back to the drawn SVG if the sheet
+     can't load.
+     ===================================================================== */
+  var SHEET = 'raccoon-sprites.png';
+  var FW = 32, COLS = 8, ROWS = 4, SCALE = 2;
+  var DISP = FW * SCALE;                 /* 64px on screen */
+  var HALF = DISP / 2;
+
+  var ANIM = {
+    idle:   { row: 0, frames: 8, fps: 7 },
+    move:   { row: 1, frames: 8, fps: 12 },
+    damage: { row: 2, frames: 4, fps: 14 },
+    death:  { row: 3, frames: 4, fps: 8 }
+  };
+
   var el = document.createElement('div');
   el.id = 'raccoon';
   el.setAttribute('aria-hidden', 'true');
+  el.style.width = DISP + 'px';
+  el.style.height = DISP + 'px';
+  el.style.backgroundImage = 'url("' + SHEET + '")';
+  el.style.backgroundRepeat = 'no-repeat';
+  el.style.backgroundSize = (COLS * DISP) + 'px ' + (ROWS * DISP) + 'px';
+  el.style.imageRendering = 'pixelated';
   document.body.appendChild(el);
 
-  /* stable structure: only the eye/feet groups get swapped per frame,
-     so the CSS tail-wag and run-bob never restart mid-animation */
-  var style = roomStyle();
-  var eyesG, feetG, tailG, bodyG;
-  function rebuild() {
-    var pal = STYLES[style];
-    el.innerHTML =
-      '<svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">' +
-        '<g class="tail"></g><g class="bob"><g class="px-body"></g><g class="px-eyes"></g><g class="px-feet"></g></g>' +
-      '</svg>';
-    tailG = el.querySelector('.tail');
-    bodyG = el.querySelector('.px-body');
-    eyesG = el.querySelector('.px-eyes');
-    feetG = el.querySelector('.px-feet');
-    tailG.innerHTML = tailRects(pal);
-    bodyG.innerHTML = bodyRects(pal);
-    drawFrame(true);
-  }
-  var blink = false, feet = 'idle', drawnBlink = null, drawnFeet = null;
-  function drawFrame(force) {
-    var pal = STYLES[style];
-    if (force || blink !== drawnBlink) {
-      eyesG.innerHTML = rowRects(blink ? EYES_CLOSED : EYES_OPEN, 6, pal, 2);
-      drawnBlink = blink;
-    }
-    if (force || feet !== drawnFeet) {
-      feetG.innerHTML = rowRects(FEET[feet], 14, pal, 2);
-      drawnFeet = feet;
-    }
-  }
-  rebuild();
+  /* graceful fallback to the drawn SVG raccoon if the sheet 404s */
+  var probe = new Image();
+  probe.onerror = function () {
+    el.style.backgroundImage = 'none';
+    el.style.width = '48px'; el.style.height = '48px';
+    el.innerHTML = window.RaccoonSVG;
+  };
+  probe.src = SHEET;
 
   var bubble = document.createElement('div');
   bubble.className = 'rac-speech';
@@ -205,89 +208,90 @@
     speak(L[(Math.random() * L.length) | 0]);
   }
 
-  /* ---- style morphing --------------------------------------------------
-     every so often the raccoon flickers through a few palettes and
-     settles on a new one. RaccoonArt.morph() is public - try it.       */
-  var morphTimer = null, flickerTimer = null;
-  function setStyle(name) {
-    if (!STYLES[name]) return;
-    style = name;
-    rebuild();
+  /* ---- sprite animation state ------------------------------------------ */
+  var state = 'idle', animStart = 0, drawnState = null, drawnCol = -1;
+  function setState(s, now) {
+    if (state === s) return;
+    state = s; animStart = now;
   }
-  function morph(targetName) {
-    var target = STYLES[targetName] ? targetName :
-      STYLE_NAMES.filter(function (n) { return n !== style; })[(Math.random() * (STYLE_NAMES.length - 1)) | 0];
-    clearInterval(flickerTimer);
-    if (REDUCED) { setStyle(target); return; }
-    el.classList.add('morphing');
-    var steps = 0;
-    flickerTimer = setInterval(function () {
-      steps++;
-      if (steps >= 5) {
-        clearInterval(flickerTimer);
-        el.classList.remove('morphing');
-        setStyle(target);
-        if (Math.random() < 0.4) speak(STYLE_LABEL[target] || target, 1800);
-        return;
-      }
-      setStyle(STYLE_NAMES[(Math.random() * STYLE_NAMES.length) | 0]);
-    }, 75);
+  function drawSprite(now) {
+    var a = ANIM[state];
+    var idx = Math.floor((now - animStart) / 1000 * a.fps);
+    var col;
+    if (state === 'damage' || state === 'death') col = Math.min(idx, a.frames - 1); /* play once, hold */
+    else col = idx % a.frames;                                                      /* loop */
+    if (state === drawnState && col === drawnCol) return;
+    drawnState = state; drawnCol = col;
+    el.style.backgroundPosition = '-' + (col * DISP) + 'px -' + (a.row * DISP) + 'px';
   }
-  window.RaccoonArt.morph = morph;
-  window.RaccoonArt.setStyle = setStyle;
 
-  function scheduleMorph(first) {
-    clearTimeout(morphTimer);
-    morphTimer = setTimeout(function () {
-      /* sometimes he snaps back to the room's own style */
-      morph(Math.random() < 0.3 ? roomStyle() : undefined);
-      scheduleMorph(false);
-    }, (first ? 9000 : 13000) + Math.random() * 11000);
+  /* ---- poke the raccoon: damage, and death after quick repeated hits --- */
+  var damageUntil = 0, dead = false, hits = 0, lastHit = 0;
+  function damageMs() { return ANIM.damage.frames / ANIM.damage.fps * 1000; }
+  function deathMs()  { return ANIM.death.frames  / ANIM.death.fps  * 1000; }
+
+  function poke(now) {
+    if (dead) return;
+    if (now - lastHit > 1600) hits = 0;
+    hits++; lastHit = now;
+    if (hits >= 3) {
+      dead = true;
+      setState('death', now);
+      speak('x_x', 1400);
+      setTimeout(function () {                 /* lie dead, then respawn */
+        el.style.transition = 'opacity .4s';
+        el.style.opacity = '0';
+        setTimeout(function () {
+          x = mx - 50; y = my - 50; hits = 0; dead = false;
+          state = 'idle'; animStart = performance.now();
+          el.style.opacity = '';
+          setTimeout(function () { el.style.transition = ''; }, 420);
+        }, 420);
+      }, deathMs() + 700);
+    } else {
+      damageUntil = now + damageMs();
+      setState('damage', now);
+      speak(['ow!', 'hey!', '*hiss*', 'rude'][hits % 4], 1200);
+      if (window.SFX && SFX.deny) SFX.deny();
+    }
   }
-  if (!REDUCED) scheduleMorph(true);
 
   window.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
-  window.addEventListener('mousedown', function (e) { mx = e.clientX; my = e.clientY; });
+  window.addEventListener('mousedown', function (e) {
+    mx = e.clientX; my = e.clientY;
+    if (Math.hypot(e.clientX - x, e.clientY - y) < HALF * 0.9) poke(performance.now());
+  });
 
-  /* ---- main loop: follow the cursor, animate the frames ---------------- */
+  /* ---- main loop: follow the cursor, drive the sprite ------------------ */
   var GAP = 36;
-  var lastStep = 0, walkFoot = false, nextBlink = 2500 + Math.random() * 2500, blinkUntil = 0;
-
   function frame(now) {
     var dx = mx - x, dy = my - y;
     var dist = Math.hypot(dx, dy);
-    var moving = dist > GAP;
+    var moving = dist > GAP && !dead && now >= damageUntil;
 
     if (moving) {
       var speed = Math.min(dist * 0.16, 13);
       x += dx / dist * speed;
       y += dy / dist * speed;
       if (Math.abs(dx) > 2) facing = dx < 0 ? -1 : 1;
-      el.classList.add('run');
       idleFrames = 0;
       bubble.classList.remove('show');
-    } else {
-      el.classList.remove('run');
+    } else if (!dead && now >= damageUntil) {
       idleFrames++;
       if (idleFrames > 90 && now - lastSpeak > 14000 && Math.random() < 0.012) {
         say(); lastSpeak = now;
       }
     }
 
-    if (!REDUCED) {
-      if (moving) {                       /* walk cycle: alternate the feet */
-        blink = false;
-        if (now - lastStep > 130) { lastStep = now; walkFoot = !walkFoot; }
-        feet = walkFoot ? 'walk1' : 'walk2';
-      } else {                            /* idle: plant the feet, blink now and then */
-        feet = 'idle';
-        if (blink && now > blinkUntil) { blink = false; nextBlink = now + 2200 + Math.random() * 3000; }
-        else if (!blink && now > nextBlink) { blink = true; blinkUntil = now + 150; }
-      }
-      drawFrame(false);
-    }
+    /* choose the animation: death > damage > move/idle */
+    if (dead) { /* state already 'death', holds on last frame */ }
+    else if (now < damageUntil) setState('damage', animStart || now);
+    else setState(moving ? 'move' : 'idle', now);
 
-    el.style.transform = 'translate(' + (x - 24) + 'px,' + (y - 24) + 'px) scaleX(' + facing + ')';
+    if (REDUCED) { drawnCol = -1; drawSprite(animStart); }  /* one still frame */
+    else drawSprite(now);
+
+    el.style.transform = 'translate(' + (x - HALF) + 'px,' + (y - HALF) + 'px) scaleX(' + facing + ')';
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
