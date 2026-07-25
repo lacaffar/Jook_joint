@@ -94,6 +94,11 @@ hr{ border:0; border-top:1px dashed var(--line); margin:30px 0; }
 }
 .jukebox-btn:hover{ border-color:var(--accent); background:var(--bg3); transform:translateY(-1px); }
 .jukebox-btn.playing{ border-color:var(--accent2); color:var(--accent2); animation:pulse 2s infinite; }
+/* the jukebox block icon sits inside the button, left of the label */
+.jukebox-btn{ display:inline-flex; align-items:center; gap:7px; }
+.juke-ico{ width:18px; height:18px; display:block; image-rendering:pixelated; }
+.jukebox-btn.playing .juke-ico{ animation:jukeBop .6s ease-in-out infinite; }
+@keyframes jukeBop{ 50%{ transform:translateY(-2px) rotate(-4deg); } }
 
 /* ---- Neon sign (home title) --------------------------------------- */
 .sign{
@@ -222,7 +227,13 @@ small,.small{ font-size:13px; }
   color:var(--muted); font-size:13.5px;
 }
 .site-foot .wrap{ display:flex; flex-wrap:wrap; gap:10px 22px; align-items:center; justify-content:space-between; }
-.btns88{ display:flex; gap:6px; flex-wrap:wrap; }
+/* the 88x31 buttons never fit on the same line as the two text spans
+   (they need ~731px inside a 716px wrap), so give them their own
+   centered row instead of letting the row stretch to the edges. */
+.btns88{ display:flex; gap:6px; flex-wrap:wrap; flex-basis:100%; justify-content:center; }
+@media (max-width:560px){
+  .site-foot .wrap{ justify-content:center; text-align:center; }
+}
 .btn88{
   font-family:var(--font-pixel); font-size:9px; line-height:1.1; letter-spacing:.3px;
   width:88px; height:31px; display:flex; align-items:center; justify-content:center;

@@ -141,16 +141,21 @@
   });
 
   if (jukeBtn) {
+    /* the button holds an <img> icon, so only swap the label text */
+    var jukeTxt = jukeBtn.querySelector('.juke-txt');
+    function setJukeLabel(t) {
+      if (jukeTxt) jukeTxt.textContent = t; else jukeBtn.textContent = t;
+    }
     jukeBtn.addEventListener('click', function () {
       if (!playing) {
         audio.src = TRACKS[trackIdx].src;
         audio.play().catch(function () {});
-        jukeBtn.textContent = '⏸ jukebox';
+        setJukeLabel('playing');
         jukeBtn.classList.add('playing');
         playing = true;
       } else {
         audio.pause();
-        jukeBtn.textContent = '🎵 jukebox';
+        setJukeLabel('jukebox');
         jukeBtn.classList.remove('playing');
         playing = false;
       }

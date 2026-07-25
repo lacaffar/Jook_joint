@@ -97,6 +97,9 @@
 .hotspot:focus-visible{ outline:2px solid var(--accent); }
 
 #scene-jukebox{ font-size:38px; }
+#scene-jukebox img{ width:42px; height:42px; display:block; image-rendering:pixelated;
+  filter:drop-shadow(0 3px 4px rgba(0,0,0,.6)); }
+#scene-jukebox.spinning img{ animation:jukeBop .6s ease-in-out infinite; }
 #scene-jukebox.spinning::after{
   content:"♪"; position:absolute; top:-12px; right:-4px; color:var(--accent2);
   animation:noteFloat 1.2s ease-in-out infinite;
