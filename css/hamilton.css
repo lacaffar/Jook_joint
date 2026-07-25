@@ -145,6 +145,20 @@ body.room-hamilton p, body.room-hamilton li{ font-family:Georgia, 'Times New Rom
 .grind-input.bad{ border-color:#8c1d1d; background:#f3dcdc; animation:shake .25s; }
 .grind-end-body{ font-family:Georgia, serif; font-size:16px; line-height:1.6; }
 
+/* framed portrait inside the playbill */
+.ham-portrait{
+  float:right; width:150px; margin:0 0 12px 18px; text-align:center;
+}
+.ham-portrait img{
+  width:100%; height:auto; display:block; border-radius:2px;
+  border:1px solid var(--accent); box-shadow:0 4px 14px rgba(0,0,0,.5);
+}
+.ham-portrait figcaption{
+  font-family:Georgia, serif; font-style:italic; font-size:12px;
+  color:var(--muted); margin-top:6px; line-height:1.35;
+}
+@media (max-width:560px){ .ham-portrait{ float:none; margin:0 auto 14px; } }
+
 /* ---- playbill restyle for the content below ------------------------ */
 .playbill{
   border:1px solid var(--accent); border-radius:4px; padding:4px;

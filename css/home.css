@@ -155,6 +155,29 @@ body.lights-off .bar-counter::after{
 @keyframes racRun{ to{ transform:translateX(calc(100vw + 140px)) } }
 @keyframes racRunBack{ to{ transform:translateX(calc(-100vw - 140px)) } }
 
+/* Ray Charles, offering his review of the site */
+.ray{
+  display:flex; align-items:center; gap:18px; margin:26px 0 6px;
+}
+.ray-img{
+  width:132px; height:auto; flex:none; border-radius:10px;
+  border:1px solid var(--line); box-shadow:var(--shadow); filter:grayscale(1) contrast(1.05);
+}
+.ray-bubble{
+  position:relative; font-family:var(--font-term); font-size:24px; line-height:1.25;
+  color:#111; background:#fff; border:2px solid #111; border-radius:12px;
+  padding:10px 16px; box-shadow:3px 3px 0 #111; max-width:16ch;
+}
+.ray-bubble::before{           /* tail pointing back at Ray */
+  content:""; position:absolute; left:-11px; top:50%; transform:translateY(-50%);
+  border:8px solid transparent; border-right-color:#111;
+}
+.ray-bubble::after{
+  content:""; position:absolute; left:-7px; top:50%; transform:translateY(-50%);
+  border:7px solid transparent; border-right-color:#fff;
+}
+@media (max-width:560px){ .ray{ flex-direction:column; text-align:center; } .ray-bubble::before,.ray-bubble::after{ display:none; } }
+
 /* accessible plain list of rooms below the scene */
 .room-list{ font-size:14px; color:var(--muted); text-align:center; margin:2px 0 0; }
 .room-list a{ white-space:nowrap; }

@@ -283,6 +283,13 @@ small,.small{ font-size:13px; }
 .gb-entry.host{ border-left-color:var(--accent); }
 .gb-empty{ color:var(--muted); }
 
+/* guestbook banner: the joint is open late */
+.gb-banner{
+  display:block; width:100%; height:170px; object-fit:cover; object-position:center 42%;
+  border:1px solid var(--line); border-radius:12px; margin:14px 0 18px;
+  image-rendering:auto; box-shadow:var(--shadow);
+}
+
 /* ---- pixel stamp doodles ------------------------------------------- */
 .gb-stamp-wrap{ margin:10px 0 0; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
 .gb-stamp-pad{

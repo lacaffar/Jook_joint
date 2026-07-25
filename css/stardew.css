@@ -94,6 +94,8 @@
   text-align:center;
 }
 .farm-card h3{ font-family:var(--font-pixel); color:#8a4b12; margin:0 0 10px; font-size:16px; }
+.farm-card-art{ display:block; width:132px; height:auto; margin:0 auto 10px; image-rendering:pixelated; }
+#farm-hud .hud-ico{ width:17px; height:17px; vertical-align:-3px; image-rendering:pixelated; }
 .farm-card ul{ list-style:none; margin:0 0 12px; padding:0; text-align:left; }
 .farm-card li{ padding:2px 0; }
 .farm-card button{

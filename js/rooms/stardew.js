@@ -135,7 +135,7 @@
   var hud = document.querySelector('#farm-hud');
   function renderHud() {
     hud.innerHTML = '<b>☀️ Day ' + st.day + '</b> · Spring · <b>💰 ' + st.gold + 'g</b> · ' +
-      '🥕 harvested <b>' + st.harvested + '</b>/9' +
+      '<img class="hud-ico" src="Gold_Carrot_stardew.webp" alt=""> harvested <b>' + st.harvested + '</b>/9' +
       (st.harvested >= 9 ? ' ✓' : '') +
       (st.fish ? ' · 🎣 <b>' + st.fish + '</b>' : '');
   }
