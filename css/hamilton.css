@@ -5,130 +5,177 @@
    ===================================================================== */
 
 body.room-hamilton{
-  --parch:#f0e2c0; --parch2:#e6d3a8; --inkk:#2b2013; --sepia:#6b573a;
+  /* museum gallery: rag-paper labels, exhibition navy, brass rules */
+  --parch:#f6f4ee; --parch2:#ebe7dd; --inkk:#1d1c1a; --sepia:#5f5a51;
+  --navy:#12233d; --brass:#9a7b3f; --crimson:#8c1d1d;
   background:
-    radial-gradient(900px 500px at 50% -10%, rgba(232,193,90,.14), transparent 60%),
-    repeating-linear-gradient(90deg, transparent 0 120px, rgba(232,193,90,.02) 120px 121px),
+    radial-gradient(900px 500px at 50% -10%, rgba(18,35,61,.35), transparent 60%),
     var(--bg);
 }
 
 /* serif voice for this room's prose */
 body.room-hamilton p, body.room-hamilton li{ font-family:Georgia, 'Times New Roman', serif; }
 
-/* ---- the duel stage ------------------------------------------------ */
+/* ---- the exhibit case ---------------------------------------------- */
 .duel{
-  border:3px double var(--accent); border-radius:6px; margin:22px 0;
-  background:linear-gradient(170deg, var(--parch), var(--parch2));
+  border:1px solid rgba(0,0,0,.35); border-radius:2px; margin:22px 0;
+  background:linear-gradient(178deg, var(--parch), var(--parch2));
   color:var(--inkk);
-  box-shadow:0 0 0 6px var(--bg2), var(--shadow);
-  padding:22px 24px 26px; position:relative; overflow:hidden;
-}
-.duel::before{ /* aged paper mottling */
-  content:""; position:absolute; inset:0; pointer-events:none; opacity:.5;
-  background:
-    radial-gradient(220px 120px at 15% 20%, rgba(107,87,58,.14), transparent 70%),
-    radial-gradient(260px 160px at 85% 80%, rgba(107,87,58,.16), transparent 70%),
-    radial-gradient(160px 90px at 70% 10%, rgba(107,87,58,.10), transparent 70%);
+  box-shadow:0 0 0 1px rgba(154,123,63,.35), 0 18px 40px rgba(0,0,0,.55);
+  padding:0 0 26px; position:relative; overflow:hidden;
 }
 .duel > *{ position:relative; }
-.duel h2{
-  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:2px;
-  color:var(--inkk); margin:0 0 4px; font-size:26px; text-align:center;
+/* the wall-mounted institution band across the top of the case */
+.exhibit-band{
+  display:flex; justify-content:space-between; align-items:center; gap:12px;
+  background:var(--navy); color:#e8e4da; padding:9px 20px;
+  border-bottom:3px solid var(--brass);
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
 }
-.duel h2::before, .duel h2::after{ content:" ✦ "; color:var(--sepia); }
-.duel .duel-sub{
-  text-align:center; color:var(--sepia); font-style:italic;
-  font-family:Georgia, serif; margin:0 0 14px; font-size:15px;
-}
+.exhibit-inst{ font-weight:600; }
+.exhibit-gallery{ color:#b9b1a1; letter-spacing:.16em; }
+@media (max-width:520px){ .exhibit-band{ font-size:9px; letter-spacing:.14em; } }
 
-/* pace track */
+.duel h2{
+  font-family:Georgia, serif; letter-spacing:0; font-variant:normal;
+  color:var(--inkk); margin:22px 24px 4px; font-size:31px; text-align:left;
+  line-height:1.1;
+}
+.duel h2::before, .duel h2::after{ content:none; }
+.duel .duel-sub{
+  text-align:left; color:var(--sepia); font-style:normal;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  margin:0 24px 14px; font-size:11.5px; letter-spacing:.18em; text-transform:uppercase;
+  padding-bottom:12px; border-bottom:1px solid rgba(0,0,0,.14);
+}
+/* didactic wall text: the paragraph a curator writes for the panel */
+.exhibit-wall{
+  margin:0 24px 6px; max-width:64ch; font-size:15.5px; line-height:1.62;
+  color:#33302c;
+}
+.exhibit-wall::first-line{ font-variant:small-caps; letter-spacing:.03em; }
+
+/* the ten paces, shown as a measured exhibit rule */
 .pace-track{
   display:flex; justify-content:space-between; align-items:center;
-  border-top:1px solid var(--sepia); border-bottom:1px solid var(--sepia);
-  padding:8px 6px; margin:14px 0; font-size:22px; line-height:1;
+  border-top:1px solid rgba(0,0,0,.16); border-bottom:1px solid rgba(0,0,0,.16);
+  padding:9px 6px; margin:14px 24px; font-size:13px; line-height:1;
   color:var(--sepia); user-select:none;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
 }
 .pace-track .pace{ flex:1; text-align:center; }
-.pace-track .burr{ font-size:26px; filter:drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
-.pace-track .you{ font-size:24px; }
+.pace-track .burr, .pace-track .you{
+  font-family:Georgia, serif; font-size:15px; font-weight:700;
+  width:24px; height:24px; line-height:24px; display:inline-block; border-radius:50%;
+}
+.pace-track .burr{ background:var(--crimson); color:#f6f4ee; }
+.pace-track .you{ background:var(--navy); color:#f6f4ee; }
 .duel.lost .pace-track .burr{ animation:burrLunge .5s ease forwards; }
 @keyframes burrLunge{ to{ transform:translateX(18px) scale(1.15); } }
 
 /* intro / end screens */
-.duel-intro, .duel-end{ text-align:center; }
+.duel-intro, .duel-end{ text-align:left; padding:0 24px; }
 .duel-intro p, .duel-end p{ margin:8px 0; }
-.duel-best{ color:var(--sepia); font-style:italic; font-size:14px; }
+.duel-best{
+  color:var(--sepia); font-style:normal; font-size:12px; letter-spacing:.12em;
+  text-transform:uppercase; font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+}
 .duel-start{
-  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:2px;
-  font-size:18px; color:var(--parch); background:var(--inkk);
-  border:1px solid var(--sepia); border-radius:4px; padding:10px 26px;
-  cursor:pointer; margin-top:10px;
-  transition:transform .12s, box-shadow .12s;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  font-variant:normal; letter-spacing:.16em; text-transform:uppercase; font-weight:600;
+  font-size:12px; color:#f6f4ee; background:var(--navy);
+  border:0; border-radius:2px; padding:13px 26px;
+  cursor:pointer; margin-top:12px;
+  transition:background .15s, transform .12s;
 }
-.duel-start:hover{ transform:translateY(-2px); box-shadow:0 4px 14px rgba(43,32,19,.5); }
+.duel-start:hover{ background:#1c3557; transform:translateY(-1px); }
 .duel-end-title{
-  font-family:Georgia, serif; font-size:30px; letter-spacing:3px;
-  font-variant:small-caps; margin:6px 0;
+  font-family:Georgia, serif; font-size:27px; letter-spacing:0;
+  font-variant:normal; margin:10px 0 4px; color:var(--navy);
 }
-.duel.lost .duel-end-title{ color:#8c1d1d; }
+.duel.lost .duel-end-title{ color:var(--crimson); }
 
-/* question card */
+/* ---- the object label ---------------------------------------------- */
+.duel-play{ padding:0 24px; }
 .duel-qnum{
-  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:1px;
-  color:var(--sepia); font-size:14px; text-align:center; margin:2px 0 10px;
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  margin:6px 0 12px; text-align:left;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+}
+.duel-cat{
+  background:var(--navy); color:#f6f4ee; font-size:10px; font-weight:600;
+  letter-spacing:.2em; text-transform:uppercase; padding:5px 10px; border-radius:2px;
+}
+.duel-meta{
+  font-size:10.5px; letter-spacing:.15em; text-transform:uppercase; color:#8a857a;
 }
 .duel-q{
-  font-family:Georgia, serif; font-size:21px; line-height:1.45; text-align:center;
-  margin:0 0 16px; color:var(--inkk);
+  font-family:Georgia, serif; font-size:21px; line-height:1.42; text-align:left;
+  margin:0 0 18px; color:var(--inkk); max-width:60ch;
+  padding-left:14px; border-left:3px solid var(--brass);
 }
-.duel-q::before{ content:"❝"; color:var(--sepia); margin-right:6px; }
+.duel-q::before{ content:none; }
 .duel-choices{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
 .duel-choice{
   font-family:Georgia, serif; font-size:16px; line-height:1.35; text-align:left;
-  color:var(--inkk); background:rgba(255,252,240,.55);
-  border:1px solid var(--sepia); border-radius:4px; padding:10px 14px; cursor:pointer;
-  transition:background .12s, transform .12s;
+  color:var(--inkk); background:#fffefb;
+  border:1px solid rgba(0,0,0,.18); border-radius:2px; padding:12px 15px; cursor:pointer;
+  transition:border-color .12s, background .12s, transform .12s;
 }
-.duel-choice:hover:not(:disabled){ background:#fffdf4; transform:translateY(-1px); }
-.duel-choice:disabled{ cursor:default; opacity:.75; }
-.duel-choice.right{ background:#d9e8c8; border-color:#4a6b2a; color:#233312; opacity:1; }
-.duel-choice.wrong{ background:#eccaca; border-color:#8c1d1d; color:#4d1010; opacity:1;
+.duel-choice:hover:not(:disabled){ background:#fff; border-color:var(--brass); transform:translateY(-1px); }
+.duel-choice:disabled{ cursor:default; opacity:.8; }
+.duel-choice.right{ background:#eef3e6; border-color:#4a6b2a; border-left:4px solid #4a6b2a; color:#233312; opacity:1; }
+.duel-choice.wrong{ background:#f6e9e9; border-color:var(--crimson); border-left:4px solid var(--crimson); color:#4d1010; opacity:1;
   animation:shake .3s; }
 @keyframes shake{ 25%{transform:translateX(-4px)} 75%{transform:translateX(4px)} }
 
+/* the source note under the object, as on a museum label */
 .duel-foot{
-  font-family:Georgia, serif; font-style:italic; font-size:15px; line-height:1.5;
-  margin:14px 0 0; padding:8px 12px; border-left:3px solid var(--sepia);
-  background:rgba(255,252,240,.4);
+  font-family:Georgia, serif; font-style:normal; font-size:14.5px; line-height:1.6;
+  margin:16px 0 0; padding:12px 16px; border-left:3px solid var(--brass);
+  background:rgba(18,35,61,.045); color:#33302c;
+}
+.duel-foot::before{
+  content:"Curator's note"; display:block;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  font-size:9.5px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--brass); margin-bottom:5px;
 }
 .duel-foot.good{ border-left-color:#4a6b2a; }
-.duel-foot.bad{ border-left-color:#8c1d1d; }
+.duel-foot.bad{ border-left-color:var(--crimson); }
 .duel-next{
-  display:block; margin:14px auto 0;
-  font-family:Georgia, serif; font-variant:small-caps; letter-spacing:1px; font-size:16px;
-  color:var(--parch); background:var(--inkk); border:1px solid var(--sepia);
-  border-radius:4px; padding:8px 20px; cursor:pointer;
+  display:block; margin:16px 0 0;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
+  font-variant:normal; letter-spacing:.16em; text-transform:uppercase; font-weight:600;
+  font-size:11.5px;
+  color:#f6f4ee; background:var(--navy); border:0;
+  border-radius:2px; padding:11px 22px; cursor:pointer;
 }
-.duel-next:hover{ box-shadow:0 3px 10px rgba(43,32,19,.5); }
+.duel-next:hover{ background:#1c3557; }
 
-/* ---- NON-STOP typing game (shares the parchment via .duel) --------- */
+/* ---- NON-STOP typing game (shares the exhibit case via .duel) ------ */
+/* the case has no side padding of its own now, so this panel adds it */
+.grind > h2, .grind > .duel-sub{ margin-top:22px; }
+.grind-intro, .grind-play, .grind-end{ padding:0 24px; }
 .ink-row{
-  display:flex; align-items:center; gap:10px; margin:12px 0 14px;
-  font-family:Georgia, serif;
+  display:flex; align-items:center; gap:10px; margin:12px 24px 14px;
+  font-family:'Hanken Grotesk', Helvetica, Arial, sans-serif;
 }
 .ink-label{
-  font-variant:small-caps; letter-spacing:2px; font-size:14px; color:var(--sepia);
+  font-variant:normal; letter-spacing:.2em; font-size:10px; color:var(--sepia);
+  text-transform:uppercase; font-weight:600;
 }
 .ink-bar{
-  flex:1; height:14px; border:1px solid var(--sepia); border-radius:3px;
-  background:rgba(255,252,240,.5); overflow:hidden;
+  flex:1; height:12px; border:1px solid rgba(0,0,0,.22); border-radius:1px;
+  background:#fffefb; overflow:hidden;
 }
 .ink-bar i{
   display:block; height:100%; width:100%;
-  background:linear-gradient(90deg, #1d2b52, #2b2013);
+  background:var(--navy);
   transition:width .18s linear;
 }
-.grind.dry .ink-bar i{ background:#8c1d1d; }
+.grind.dry .ink-bar i{ background:var(--crimson); }
 .ink-quill{ font-size:20px; }
 .grind-play .grind-target{
   font-family:Georgia, serif; font-size:19px; line-height:1.55; text-align:center;

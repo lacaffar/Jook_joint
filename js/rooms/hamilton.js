@@ -10,80 +10,119 @@
   if (!stage) return;
 
   /* ---- question bank: q, c[4] choices, a = right index, f = footnote */
+  /* Question bank, weighted heavily toward documented history. Each entry
+     carries a collection category (cat) printed on the object label, and a
+     footnote written like museum wall text. */
   var BANK = [
-    { q: 'Where was Alexander Hamilton born?',
+    /* ---- ORIGINS ---- */
+    { cat: 'ORIGINS', q: 'Where was Alexander Hamilton born?',
       c: ['New York City', 'The island of Nevis', 'Virginia', 'Boston'], a: 1,
-      f: 'Born on Nevis in the British West Indies (1755 or 1757 - even his birth year is a debate).' },
-    { q: 'What post did Hamilton hold in Washington’s first cabinet?',
-      c: ['Secretary of State', 'Attorney General', 'Secretary of the Treasury', 'Secretary of War'], a: 2,
-      f: 'First Secretary of the Treasury - he built the U.S. financial system essentially from scratch.' },
-    { q: 'Of the 85 Federalist Papers, how many did Hamilton write?',
-      c: ['About 20', 'exactly 42', 'All 85', '51'], a: 3,
-      f: '51 of 85 - Madison wrote 29, John Jay wrote 5. "The plan was to write a total of 25 essays…"' },
-    { q: 'Who was the third author of the Federalist Papers, with Hamilton and Madison?',
-      c: ['John Jay', 'Thomas Jefferson', 'John Adams', 'Gouverneur Morris'], a: 0,
-      f: 'John Jay - he got sick after writing five.' },
-    { q: 'What did Hamilton admit to in the Reynolds Pamphlet?',
-      c: ['Taking bribes', 'An affair with Maria Reynolds', 'Forging Washington’s signature', 'Duelling illegally'], a: 1,
-      f: 'He confessed the affair in print to prove he wasn’t corrupt. It worked. It also ruined him.' },
-    { q: 'In the deadlocked election of 1800, Hamilton threw his support to…',
-      c: ['Aaron Burr', 'John Adams', 'Thomas Jefferson', 'Charles Pinckney'], a: 2,
-      f: '"Jefferson has beliefs. Burr has none." That endorsement helped seal the duel.' },
-    { q: 'Where did the Hamilton–Burr duel take place?',
-      c: ['Weehawken, New Jersey', 'Harlem, New York', 'Trenton, New Jersey', 'Philadelphia'], a: 0,
-      f: 'The dueling grounds at Weehawken, NJ - dueling was illegal in New York.' },
-    { q: 'In what year did Burr shoot Hamilton?',
-      c: ['1799', '1801', '1804', '1812'], a: 2,
-      f: 'July 11, 1804. Hamilton died the next day in New York.' },
-    { q: 'Hamilton’s eldest son Philip died how?',
-      c: ['Yellow fever', 'In a duel, at the same Weehawken grounds', 'At sea', 'In the war of 1812'], a: 1,
-      f: 'Philip died in an 1801 duel defending his father’s honor - on the same Weehawken ledge.' },
-    { q: 'Which of these did Hamilton found in 1801 (it still runs today)?',
-      c: ['The New York Times', 'The Bank of America', 'The New York Post', 'West Point'], a: 2,
-      f: 'The New York Evening Post - today’s New York Post. He also founded the Coast Guard’s predecessor.' },
-    { q: 'Whom did Hamilton marry in 1780?',
+      f: 'Charlestown, on the island of Nevis in the British West Indies. The year is still disputed: Hamilton gave 1757, while a St. Croix probate record points to 1755.' },
+    { cat: 'ORIGINS', q: 'As a teenager on St. Croix, Hamilton clerked for what kind of business?',
+      c: ['A shipping and import trading house', 'A sugar plantation', 'A print shop', 'A law office'], a: 0,
+      f: 'He kept the books at Beekman and Cruger, an import-export firm. Running a Caribbean trading house taught him currency, credit and commerce years before he built a national financial system.' },
+    { cat: 'ORIGINS', q: 'What piece of writing helped raise the money that sent Hamilton to North America?',
+      c: ['A pamphlet on taxation', 'A letter describing a hurricane', 'A poem for a local paper', 'A petition to the governor'], a: 1,
+      f: 'His vivid 1772 account of a hurricane that devastated St. Croix circulated among local merchants, who sponsored his passage so he could be educated on the mainland.' },
+    { cat: 'ORIGINS', q: 'Which college did Hamilton attend in New York?',
+      c: ['Princeton', 'King’s College', 'Yale', 'Harvard'], a: 1,
+      f: 'King’s College, renamed Columbia after the Revolution. He first asked Princeton for an accelerated course of study and was turned down.' },
+
+    /* ---- REVOLUTION ---- */
+    { cat: 'REVOLUTION', q: 'What role did Hamilton hold on George Washington’s staff?',
+      c: ['Quartermaster', 'Aide-de-camp', 'Chief of artillery', 'Judge advocate'], a: 1,
+      f: 'Aide-de-camp from 1777 to 1781. He drafted a staggering volume of Washington’s orders and correspondence, and resented being kept from field command.' },
+    { cat: 'REVOLUTION', q: 'At the siege of Yorktown in 1781, Hamilton led the assault on which position?',
+      c: ['Redoubt No. 10', 'Redoubt No. 9', 'The British fleet', 'Cornwallis’ headquarters'], a: 0,
+      f: 'He commanded the night bayonet attack on Redoubt No. 10 while French troops stormed Redoubt No. 9. Cornwallis surrendered days later.' },
+    { cat: 'REVOLUTION', q: 'Whom did Hamilton marry in December 1780?',
       c: ['Angelica Schuyler', 'Elizabeth Schuyler', 'Maria Reynolds', 'Theodosia Prevost'], a: 1,
-      f: 'Eliza Schuyler. She outlived him by 50 years and spent them preserving his legacy.' },
-    { q: 'When the duel happened, Burr held what office?',
-      c: ['Senator from New York', 'Governor of New York', 'Vice President of the United States', 'None - he was retired'], a: 2,
-      f: 'Burr was the sitting Vice President under Jefferson. He was indicted for murder while in office.' },
-    { q: 'During the Revolution, Hamilton served as aide-de-camp to…',
-      c: ['Lafayette', 'George Washington', 'Nathanael Greene', 'Horatio Gates'], a: 1,
-      f: 'Washington’s right-hand man for four years - writing letters, not fighting, to his frustration.' },
-    { q: 'At Yorktown, Hamilton personally led a night assault on…',
-      c: ['Redoubt 10', 'The British fleet', 'Cornwallis’ headquarters', 'Redoubt 9'], a: 0,
-      f: 'He led the bayonet charge on Redoubt 10; the French took Redoubt 9 at the same time.' },
-    { q: 'After his death, Eliza Hamilton co-founded…',
-      c: ['The Red Cross', 'New York’s first private orphanage', 'The Treasury’s widows fund', 'A university'], a: 1,
-      f: 'The Orphan Asylum Society of New York, 1806. "The orphanage" - it still exists as Graham Windham.' },
-    { q: 'Hamilton’s face is on which U.S. bill?',
+      f: 'Elizabeth Schuyler, of the powerful Albany family. The match tied an immigrant officer to New York’s landed elite. She outlived him by fifty years.' },
+    { cat: 'REVOLUTION', q: 'In 1785 Hamilton helped found which organization in New York?',
+      c: ['The Manumission Society', 'The Society of the Cincinnati', 'Tammany Hall', 'The Bank of New York'], a: 0,
+      f: 'The New-York Manumission Society, which pressed for gradual abolition in the state and founded the African Free School. New York ended slavery in 1827.' },
+
+    /* ---- THE CONSTITUTION ---- */
+    { cat: 'THE CONSTITUTION', q: 'Under what shared pen name were The Federalist Papers published?',
+      c: ['Cato', 'Publius', 'Brutus', 'The Federal Farmer'], a: 1,
+      f: 'Publius, after a founder of the Roman republic. Hamilton, Madison and Jay wrote as one voice to argue for ratification in New York newspapers.' },
+    { cat: 'THE CONSTITUTION', q: 'Of the 85 Federalist essays, how many did Hamilton write?',
+      c: ['About 20', 'Exactly 42', 'All 85', '51'], a: 3,
+      f: 'Fifty-one. Madison wrote twenty-nine and John Jay five; authorship of a handful is still contested between Hamilton and Madison. Hamilton organized the project.' },
+    { cat: 'THE CONSTITUTION', q: 'Who was the third author of The Federalist, with Hamilton and Madison?',
+      c: ['John Jay', 'Thomas Jefferson', 'John Adams', 'Gouverneur Morris'], a: 0,
+      f: 'John Jay, later the first Chief Justice of the United States. Illness cut his contribution to five essays.' },
+    { cat: 'THE CONSTITUTION', q: 'At the 1787 Constitutional Convention, which state did Hamilton represent?',
+      c: ['New York', 'New Jersey', 'Virginia', 'Pennsylvania'], a: 0,
+      f: 'New York. His two fellow delegates opposed a strong national government and walked out, often leaving the state without a vote. He signed the finished Constitution alone for New York.' },
+
+    /* ---- THE TREASURY ---- */
+    { cat: 'THE TREASURY', q: 'What post did Hamilton hold in Washington’s first cabinet?',
+      c: ['Secretary of State', 'Attorney General', 'Secretary of the Treasury', 'Secretary of War'], a: 2,
+      f: 'First Secretary of the Treasury, 1789 to 1795. He inherited a bankrupt government and built its credit, customs service, mint and central bank.' },
+    { cat: 'THE TREASURY', q: 'Hamilton’s Report on Public Credit proposed that the federal government do what?',
+      c: ['Abolish all tariffs', 'Assume the states’ war debts', 'Sell the western territories', 'Pay creditors in land'], a: 1,
+      f: 'Assumption: Washington would take on debts the states ran up fighting the Revolution, binding creditors and states alike to the new federal government.' },
+    { cat: 'THE TREASURY', q: 'In the Compromise of 1790, what did Hamilton trade for support of assumption?',
+      c: ['A lower tariff', 'The permanent capital on the Potomac', 'An end to the slave trade', 'A second national bank'], a: 1,
+      f: 'At a dinner brokered by Jefferson, Hamilton got assumption and the South got the seat of government on the Potomac. The bargain produced Washington, D.C.' },
+    { cat: 'THE TREASURY', q: 'Jefferson called the national bank unconstitutional. What was Hamilton’s counter-argument?',
+      c: ['Implied powers under the necessary and proper clause', 'The commerce clause alone', 'That the states had already approved it', 'That British precedent governed'], a: 0,
+      f: 'His doctrine of implied powers: if the end is constitutional, Congress may choose the means. Washington sided with him, and the argument still shapes federal authority.' },
+    { cat: 'THE TREASURY', q: 'The 1794 Whiskey Rebellion was a revolt against what?',
+      c: ['A federal excise tax on distilled spirits', 'Conscription', 'A land tax', 'The national bank'], a: 0,
+      f: 'Hamilton’s excise fell hardest on frontier farmers who distilled surplus grain. He rode west with the militia Washington raised; the rising collapsed and the federal power to tax held.' },
+    { cat: 'THE TREASURY', q: 'Which service, ancestor of the Coast Guard, did Hamilton establish in 1790?',
+      c: ['The revenue cutters', 'The Continental Navy', 'The Lighthouse Board', 'The Customs Bureau'], a: 0,
+      f: 'A fleet of ten cutters to stop smuggling and collect the tariffs his whole system depended on. It is the direct ancestor of the United States Coast Guard.' },
+    { cat: 'THE TREASURY', q: 'The Report on Manufactures argued that the young republic should do what?',
+      c: ['Stay chiefly agricultural', 'Encourage domestic industry', 'Adopt free trade with Britain', 'Ban corporations'], a: 1,
+      f: 'Hamilton urged tariffs, bounties and public works to build American manufacturing. Congress largely declined at the time; the program shaped policy for a century after.' },
+
+    /* ---- SCANDAL AND POLITICS ---- */
+    { cat: 'SCANDAL', q: 'What did Hamilton admit to in the 1797 Reynolds Pamphlet?',
+      c: ['Taking bribes', 'An affair with Maria Reynolds', 'Forging Washington’s signature', 'Duelling illegally'], a: 1,
+      f: 'Accused of speculating with public money, he published a detailed confession of the affair and the blackmail he had paid, to prove the money was his own. It saved his honor and wrecked his reputation.' },
+    { cat: 'POLITICS', q: 'In the deadlocked election of 1800, Hamilton threw his support to whom?',
+      c: ['Aaron Burr', 'John Adams', 'Thomas Jefferson', 'Charles Pinckney'], a: 2,
+      f: 'Jefferson and Burr tied in the electoral college and the House decided it. Hamilton opposed Jefferson on nearly everything, but judged Burr the greater danger and lobbied for his rival.' },
+    { cat: 'POLITICS', q: 'Which newspaper did Hamilton help found in 1801?',
+      c: ['The New York Times', 'The New York Evening Post', 'The National Gazette', 'The Aurora'], a: 1,
+      f: 'The New-York Evening Post, still publishing today as the New York Post. It gave Federalists a voice in a city turning against them.' },
+    { cat: 'POLITICS', q: 'What office did Aaron Burr hold at the time of the duel?',
+      c: ['Senator from New York', 'Governor of New York', 'Vice President of the United States', 'None; he was retired'], a: 2,
+      f: 'A sitting Vice President shot a former Treasury Secretary. Burr was indicted in New York and New Jersey, was never tried, and served out his term.' },
+
+    /* ---- THE DUEL ---- */
+    { cat: 'THE DUEL', q: 'What immediately provoked Burr to demand satisfaction in 1804?',
+      c: ['A published report of remarks Hamilton made at a dinner', 'A speech in the Senate', 'A pamphlet Hamilton signed', 'A refusal to pay a debt'], a: 0,
+      f: 'A letter printed in the Albany Register relayed that Hamilton had voiced a despicable opinion of Burr. Burr demanded a disavowal; Hamilton would not disown words he had never seen quoted exactly.' },
+    { cat: 'THE DUEL', q: 'Where did the Hamilton-Burr duel take place?',
+      c: ['Weehawken, New Jersey', 'Harlem, New York', 'Trenton, New Jersey', 'Philadelphia'], a: 0,
+      f: 'A narrow ledge above the Hudson at Weehawken. New Yorkers crossed the river because New Jersey prosecuted duelling less aggressively.' },
+    { cat: 'THE DUEL', q: 'On what date was Hamilton mortally wounded?',
+      c: ['July 4, 1804', 'July 11, 1804', 'September 12, 1804', 'January 11, 1804'], a: 1,
+      f: 'The morning of July 11, 1804. He was carried back across the Hudson and died the next afternoon at the home of William Bayard Jr.' },
+    { cat: 'THE DUEL', q: 'How had Hamilton’s eldest son Philip died three years earlier?',
+      c: ['Yellow fever', 'In a duel, at the same Weehawken ground', 'At sea', 'In the War of 1812'], a: 1,
+      f: 'Philip, nineteen, was killed in an 1801 duel with George Eacker after confronting him over a speech attacking his father. He fell on the same ledge.' },
+    { cat: 'THE DUEL', q: 'Where is Hamilton buried?',
+      c: ['Trinity Church, Manhattan', 'Arlington National Cemetery', 'Mount Vernon', 'Green-Wood Cemetery'], a: 0,
+      f: 'The churchyard of Trinity Church at the head of Wall Street, steps from the financial system he built. Eliza was buried beside him in 1854.' },
+
+    /* ---- LEGACY ---- */
+    { cat: 'LEGACY', q: 'After his death, Eliza Hamilton co-founded which institution?',
+      c: ['The Red Cross', 'New York’s first private orphanage', 'A widows’ fund at the Treasury', 'A university'], a: 1,
+      f: 'The Orphan Asylum Society, founded 1806, which survives today as Graham Windham. She also spent fifty years gathering and defending her husband’s papers.' },
+    { cat: 'LEGACY', q: 'Hamilton appears on which United States banknote?',
       c: ['$5', '$10', '$20', '$50'], a: 1,
-      f: 'The $10 - one of only two non-presidents on U.S. paper money (Franklin’s the other).' },
-    /* ---- the show ---- */
-    { q: 'Who wrote the music, lyrics, AND book of Hamilton?',
-      c: ['Stephen Sondheim', 'Lin-Manuel Miranda', 'Alex Lacamoire', 'Thomas Kail'], a: 1,
-      f: 'Lin-Manuel Miranda - he also originated the title role.' },
-    { q: 'What sparked the idea for the musical?',
-      c: ['A dream', 'Ron Chernow’s Hamilton biography, read on vacation', 'A history podcast', 'A dare from Sondheim'], a: 1,
-      f: 'Miranda picked up Chernow’s 800-page biography at an airport and heard hip-hop in it.' },
-    { q: 'In 2009, Miranda performed the show’s opening number where?',
-      c: ['The Tonys', 'Saturday Night Live', 'The White House', 'The Public Theater'], a: 2,
-      f: 'At the White House Poetry Jam - the clip of Obama chuckling is canon now.' },
-    { q: 'Who originated Aaron Burr on Broadway?',
-      c: ['Leslie Odom Jr.', 'Christopher Jackson', 'Okieriete Onaodowan', 'Daveed Diggs'], a: 0,
-      f: 'Leslie Odom Jr., who won the Tony for it - beating Miranda himself.' },
-    { q: 'Which two roles does one actor play across the two acts?',
-      c: ['Laurens &amp; Philip only', 'Lafayette &amp; Jefferson (and Laurens &amp; Philip, and Mulligan &amp; Madison)', 'Washington &amp; King George', 'Eliza &amp; Maria'], a: 1,
-      f: 'The Act 1/Act 2 double-casting is the show’s best trick - Daveed Diggs’ Lafayette/Jefferson most famously.' },
-    { q: 'King George’s recurring breakup song is called…',
-      c: ['“You’ll Be Back”', '“What Comes Next?”', '“I Know Him”', 'all three - it’s the same tune'], a: 3,
-      f: 'Trick question - all three are one melody, and each got shorter as the show went on.' },
-    { q: 'How many Tony Awards did Hamilton win in 2016?',
-      c: ['7', '9', '11', '13'], a: 2,
-      f: '11 wins from a record 16 nominations - one short of The Producers’ record 12.' },
-    { q: 'The final song of the show asks…',
-      c: ['“What’d I miss?”', '“Who lives, who dies, who tells your story?”', '“Why do you write like you’re running out of time?”', '“Are you Aaron Burr, sir?”'], a: 1,
-      f: 'Eliza tells the story. Fifty years of it.' }
+      f: 'The ten-dollar note. He and Benjamin Franklin are the only men on circulating U.S. paper currency who were never president.' },
+    { cat: 'LEGACY', q: 'What was The Grange?',
+      c: ['Hamilton’s country house in upper Manhattan', 'His law office', 'A Federalist club', 'The first Treasury building'], a: 0,
+      f: 'The only home Hamilton ever owned, completed in 1802 in what is now Harlem. It has been moved twice and is preserved as a national memorial.' },
+    { cat: 'LEGACY', q: 'Which lasting instrument of statecraft did Hamilton build?',
+      c: ['A federal bankruptcy court', 'A funded national debt and a central bank', 'The gold standard', 'The federal income tax'], a: 1,
+      f: 'By funding the debt at par and chartering a national bank, he made United States credit trustworthy. The Bank’s charter lapsed in 1811, but the model endured.' }
   ];
 
   var QUIZ_LEN = 10; /* questions per duel */
@@ -152,7 +191,18 @@
   function ask() {
     var Q = quiz[idx];
     locked = false;
-    els.qnum.textContent = 'Question ' + (idx + 1) + ' of ' + QUIZ_LEN + ' · ' + (TRACK - pace) + ' paces between you';
+    /* museum object label: collection, catalogue number, distance */
+    els.qnum.textContent = '';
+    var cat = document.createElement('span');
+    cat.className = 'duel-cat';
+    cat.textContent = Q.cat || 'COLLECTION';
+    var meta = document.createElement('span');
+    meta.className = 'duel-meta';
+    meta.textContent = 'CAT. NO. AH-1804.' + String(idx + 1).padStart(2, '0') +
+      '  ·  ' + (idx + 1) + ' OF ' + QUIZ_LEN +
+      '  ·  ' + (TRACK - pace) + ' PACES';
+    els.qnum.appendChild(cat);
+    els.qnum.appendChild(meta);
     els.qtext.textContent = decode(Q.q);
     els.foot.hidden = true;
     els.next.hidden = true;
