@@ -40,7 +40,7 @@
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function confetti() {
     if (REDUCED) return;
-    var bits = ['🎉', '✦', '🦝', '◍', '✶', '♥'];
+    var bits = ['', '✦', '', '◍', '✶', '♥'];
     for (var i = 0; i < 26; i++) {
       var s = document.createElement('span');
       s.className = 'br-confetti';
@@ -59,13 +59,13 @@
   function lsJson(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
   var farm = lsJson('sjj_stardew') || {};
   var stats = [
-    ['🐻 highest FNAF night unlocked', Math.max(1, lsInt('sjj_fnaf_night'))],
-    ['🤺 fastest touch', lsInt('sjj_fencing_best') ? lsInt('sjj_fencing_best') + 'ms' : '—'],
-    ['🎩 best duel of wits', lsInt('sjj_hamilton_best') ? lsInt('sjj_hamilton_best') + '/10' : '—'],
-    ['🥕 parsnips harvested', farm.harvested || 0],
-    ['💰 farm gold', (farm.gold || 0) + 'g'],
-    ['🪙 tips in the jar', lsInt('sjj_tipjar')],
-    ['👣 your visits', lsInt('sjj_hits')]
+    [' highest FNAF night unlocked', Math.max(1, lsInt('sjj_fnaf_night'))],
+    [' fastest touch', lsInt('sjj_fencing_best') ? lsInt('sjj_fencing_best') + 'ms' : '—'],
+    [' best duel of wits', lsInt('sjj_hamilton_best') ? lsInt('sjj_hamilton_best') + '/10' : '—'],
+    [' parsnips harvested', farm.harvested || 0],
+    [' farm gold', (farm.gold || 0) + 'g'],
+    [' tips in the jar', lsInt('sjj_tipjar')],
+    [' your visits', lsInt('sjj_hits')]
   ];
   var statsEl = document.querySelector('#br-stats');
   stats.forEach(function (s) {
@@ -99,7 +99,7 @@
     g.fillStyle = '#ffb347'; g.font = 'bold 52px Georgia';
     g.fillText('HONORARY TRASH PANDA', W / 2, 170);
     g.font = '90px serif';
-    g.fillText('🦝', W / 2, 280);
+    g.fillText('', W / 2, 280);
     g.fillStyle = '#ece3d6'; g.font = '24px Georgia';
     g.fillText('this certifies that', W / 2, 340);
     g.fillStyle = '#ff5d8f'; g.font = 'bold 44px Georgia';

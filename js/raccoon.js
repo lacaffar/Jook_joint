@@ -11,20 +11,20 @@
 (function () {
   'use strict';
 
-  var COARSE  = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+  var COARSE = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var P = 3; /* scale: one pixel = 3 SVG units, same 48x48 viewBox as v1 */
 
   /* ---- the sprite, as rows of palette roles -------------------------- */
-  var BODY_ROWS = [           /* rows 0-13, tail baked into cols 0-1 */
+  var BODY_ROWS = [ /* rows 0-13, tail baked into cols 0-1 */
     '..DD......DD.',
     '.DMD......DMD',
     '.DKMD....DMKD',
     '...DMMMMMMD..',
     '..DMMMMMMMMD.',
     '..DKKKMMKKKD.',
-    null,                     /* row 6 = the eyes, swapped per frame  */
+    null, /* row 6 = the eyes, swapped per frame */
     '..DMLLLLLLMD.',
     'M..DLLNNLLD..',
     'D...DMLLMD...',
@@ -33,24 +33,24 @@
     'DMDMMLLLMMMD.',
     'MD.DMMMMMMD..'
   ];
-  var EYES_OPEN   = '..DKWPMMWPKD.';
+  var EYES_OPEN = '..DKWPMMWPKD.';
   var EYES_CLOSED = '..DKKKMMKKKD.';
-  var FEET = {                /* row 14 */
-    idle:  '...KK....KK..',
+  var FEET = { /* row 14 */
+    idle: '...KK....KK..',
     walk1: '..KK......KK.',
     walk2: '....KK..KK...'
   };
 
   /* ---- the art styles ------------------------------------------------ */
   var STYLES = {
-    classic:     { D:'#555555', K:'#333333', M:'#888888', L:'#cccccc', W:'#ffffff', P:'#111111', N:'#333333' },
-    gameboy:     { D:'#0f380f', K:'#0f380f', M:'#306230', L:'#8bac0f', W:'#9bbc0f', P:'#0f380f', N:'#0f380f' },
-    mono:        { D:'#ffffff', K:'#000000', M:'#111111', L:'#000000', W:'#ffffff', P:'#000000', N:'#ffffff' },
+    classic: { D:'#555555', K:'#333333', M:'#888888', L:'#cccccc', W:'#ffffff', P:'#111111', N:'#333333' },
+    gameboy: { D:'#0f380f', K:'#0f380f', M:'#306230', L:'#8bac0f', W:'#9bbc0f', P:'#0f380f', N:'#0f380f' },
+    mono: { D:'#ffffff', K:'#000000', M:'#111111', L:'#000000', W:'#ffffff', P:'#000000', N:'#ffffff' },
     animatronic: { D:'#0a0510', K:'#1a0f24', M:'#2d1a3d', L:'#4a2b63', W:'#050208', P:'#e23b3b', N:'#111111' },
-    farm:        { D:'#4a3018', K:'#2d1c0d', M:'#7a5230', L:'#d9b98a', W:'#ffffff', P:'#1c1208', N:'#2d1c0d' },
-    steel:       { D:'#2a3243', K:'#1d2330', M:'#5a6b85', L:'#d8dee9', W:'#ffffff', P:'#0c0e13', N:'#1d2330' },
-    sepia:       { D:'#3a2c14', K:'#2b2013', M:'#6b573a', L:'#d8c095', W:'#f0e2c0', P:'#2b2013', N:'#2b2013' },
-    neon:        { D:'#ff5d8f', K:'#b8195c', M:'#ff8fb3', L:'#ffd1e0', W:'#ffffff', P:'#14110f', N:'#b8195c' }
+    farm: { D:'#4a3018', K:'#2d1c0d', M:'#7a5230', L:'#d9b98a', W:'#ffffff', P:'#1c1208', N:'#2d1c0d' },
+    steel: { D:'#2a3243', K:'#1d2330', M:'#5a6b85', L:'#d8dee9', W:'#ffffff', P:'#0c0e13', N:'#1d2330' },
+    sepia: { D:'#3a2c14', K:'#2b2013', M:'#6b573a', L:'#d8c095', W:'#f0e2c0', P:'#2b2013', N:'#2b2013' },
+    neon: { D:'#ff5d8f', K:'#b8195c', M:'#ff8fb3', L:'#ffd1e0', W:'#ffffff', P:'#14110f', N:'#b8195c' }
   };
   var STYLE_NAMES = Object.keys(STYLES);
   var STYLE_LABEL = {
@@ -126,12 +126,12 @@
     }
   };
 
-  if (COARSE) return;   /* no follower on touch screens */
+  if (COARSE) return; /* no follower on touch screens */
 
   /* =====================================================================
      The cursor-following raccoon, animated from the uploaded sprite sheet
      (raccoon-sprites.png). Sheet = 8 columns x 4 rows of 32x32 frames:
-       row 0 idle (8)   row 1 movement (8)   row 2 damage (4)   row 3 death (4)
+       row 0 idle (8) row 1 movement (8) row 2 damage (4) row 3 death (4)
      The raccoon faces RIGHT in the sheet, so we flip it when it walks left.
      Poke him (click on him) to make him yelp; a few quick hits and he
      plays dead, then respawns. Falls back to the drawn SVG if the sheet
@@ -139,14 +139,14 @@
      ===================================================================== */
   var SHEET = 'raccoon-sprites.png';
   var FW = 32, COLS = 8, ROWS = 4, SCALE = 2;
-  var DISP = FW * SCALE;                 /* 64px on screen */
+  var DISP = FW * SCALE; /* 64px on screen */
   var HALF = DISP / 2;
 
   var ANIM = {
-    idle:   { row: 0, frames: 8, fps: 7 },
-    move:   { row: 1, frames: 8, fps: 12 },
+    idle: { row: 0, frames: 8, fps: 7 },
+    move: { row: 1, frames: 8, fps: 12 },
     damage: { row: 2, frames: 4, fps: 14 },
-    death:  { row: 3, frames: 4, fps: 8 }
+    death: { row: 3, frames: 4, fps: 8 }
   };
 
   var el = document.createElement('div');
@@ -181,10 +181,10 @@
   var generic = ['*chitters*', 'ooo, shiny', 'trash? \u{1F440}', '*washes hands*', 'follow me',
                  'snack break?', '*sniff sniff*'];
   var byRoom = {
-    'room-fnaf':     ['5 more nights…', "what's that noise?", '*checks the cameras*', 'power: low'],
-    'room-stardew':  ['did you water the crops?', 'it is a good day', '*holds a parsnip*', 'the Junimos like you'],
+    'room-fnaf': ['5 more nights…', "what's that noise?", '*checks the cameras*', 'power: low'],
+    'room-stardew': ['did you water the crops?', 'it is a good day', '*holds a parsnip*', 'the Junimos like you'],
     'room-undertale': ['* you feel determined', '* (raccoon)', 'stay determined', '* the trash rustles'],
-    'room-fencing':  ['en garde!', 'allez!', 'point! \u{1F534}', 'nice riposte'],
+    'room-fencing': ['en garde!', 'allez!', 'point! \u{1F534}', 'nice riposte'],
     'room-hamilton': ['not throwing away my shot', 'rise up', 'talk less, smile more', '*hums Non-Stop*'],
     'room-backroom': ['you found my den', 'welcome to the good room', '*shows you his caps*', 'you earned this']
   };
@@ -198,7 +198,7 @@
   function speak(text, ms) {
     bubble.textContent = text;
     bubble.style.left = (x) + 'px';
-    bubble.style.top  = (y - 6) + 'px';
+    bubble.style.top = (y - 6) + 'px';
     bubble.classList.add('show');
     clearTimeout(speak.t);
     speak.t = setTimeout(function () { bubble.classList.remove('show'); }, ms || 2600);
@@ -219,7 +219,7 @@
     var idx = Math.floor((now - animStart) / 1000 * a.fps);
     var col;
     if (state === 'damage' || state === 'death') col = Math.min(idx, a.frames - 1); /* play once, hold */
-    else col = idx % a.frames;                                                      /* loop */
+    else col = idx % a.frames; /* loop */
     if (state === drawnState && col === drawnCol) return;
     drawnState = state; drawnCol = col;
     el.style.backgroundPosition = '-' + (col * DISP) + 'px -' + (a.row * DISP) + 'px';
@@ -228,7 +228,7 @@
   /* ---- poke the raccoon: damage, and death after quick repeated hits --- */
   var damageUntil = 0, dead = false, hits = 0, lastHit = 0;
   function damageMs() { return ANIM.damage.frames / ANIM.damage.fps * 1000; }
-  function deathMs()  { return ANIM.death.frames  / ANIM.death.fps  * 1000; }
+  function deathMs() { return ANIM.death.frames / ANIM.death.fps * 1000; }
 
   function poke(now) {
     if (dead) return;
@@ -238,7 +238,7 @@
       dead = true;
       setState('death', now);
       speak('x_x', 1400);
-      setTimeout(function () {                 /* lie dead, then respawn */
+      setTimeout(function () { /* lie dead, then respawn */
         el.style.transition = 'opacity .4s';
         el.style.opacity = '0';
         setTimeout(function () {
@@ -288,7 +288,7 @@
     else if (now < damageUntil) setState('damage', animStart || now);
     else setState(moving ? 'move' : 'idle', now);
 
-    if (REDUCED) { drawnCol = -1; drawSprite(animStart); }  /* one still frame */
+    if (REDUCED) { drawnCol = -1; drawSprite(animStart); } /* one still frame */
     else drawSprite(now);
 
     el.style.transform = 'translate(' + (x - HALF) + 'px,' + (y - HALF) + 'px) scaleX(' + facing + ')';

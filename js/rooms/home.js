@@ -47,7 +47,7 @@
       if (window.SFX) SFX.coin();
       var f = document.createElement('span');
       f.className = 'coin-float';
-      f.textContent = '+1🪙';
+      f.textContent = '+1';
       jar.appendChild(f);
       setTimeout(function () { f.remove(); }, 900);
       jar.classList.remove('clink'); void jar.offsetWidth; jar.classList.add('clink');
@@ -138,7 +138,7 @@
   function party() {
     if (!window.RaccoonSVG) return;
     if (window.SFX) SFX.chime();
-    if (window.SJJQuest) SJJQuest.toast('🦝🦝🦝 THE RACCOONS HEARD THE CODE 🦝🦝🦝');
+    if (window.SJJQuest) SJJQuest.toast(' THE RACCOONS HEARD THE CODE ');
     for (var i = 0; i < 12; i++) {
       (function (i) {
         setTimeout(function () {

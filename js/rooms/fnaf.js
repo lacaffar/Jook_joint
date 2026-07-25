@@ -30,20 +30,20 @@
 
   /* ---- the map ------------------------------------------------------ */
   var ROOMS = {
-    stage:  { cam: '1A', name: 'THE STAGE',      next: ['dining'] },
-    dining: { cam: '1B', name: 'DINING AREA',    next: ['hallL', 'hallR', 'stage'] },
-    hallL:  { cam: '2A', name: 'WEST HALL',      next: ['doorL', 'dining'] },
-    hallR:  { cam: '2B', name: 'EAST HALL',      next: ['doorR', 'dining'] },
-    doorL:  { cam: null, name: 'AT YOUR LEFT DOOR',  next: [] },
-    doorR:  { cam: null, name: 'AT YOUR RIGHT DOOR', next: [] },
+    stage: { cam: '1A', name: 'THE STAGE', next: ['dining'] },
+    dining: { cam: '1B', name: 'DINING AREA', next: ['hallL', 'hallR', 'stage'] },
+    hallL: { cam: '2A', name: 'WEST HALL', next: ['doorL', 'dining'] },
+    hallR: { cam: '2B', name: 'EAST HALL', next: ['doorR', 'dining'] },
+    doorL: { cam: null, name: 'AT YOUR LEFT DOOR', next: [] },
+    doorR: { cam: null, name: 'AT YOUR RIGHT DOOR', next: [] },
     /* CAM 3C is the real-world feed of Swifty's desk. Not wired up yet:
        for now it renders a static "camera disabled / audio only" card.
        TODO: replace the placeholder with the live desk stream. */
-    desk:   { cam: '3C', name: 'THE DESK (OFFSITE)', next: [], offline: true }
+    desk: { cam: '3C', name: 'THE DESK (OFFSITE)', next: [], offline: true }
   };
   var CAM_ORDER = ['stage', 'dining', 'hallL', 'hallR'];
 
-  var NIGHT_LEN = 55000;         /* ms: 12AM → 6AM                      */
+  var NIGHT_LEN = 55000; /* ms: 12AM → 6AM */
   var HOURS = ['12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM'];
 
   var st = null, timers = [];
@@ -99,7 +99,7 @@
     var room = ROOMS[st.cam];
     camLabel.textContent = 'CAM ' + room.cam + ' - ' + room.name;
     camBody.textContent = '';
-    if (room.offline) {                    /* the real desk cam, not live yet */
+    if (room.offline) { /* the real desk cam, not live yet */
       var off = document.createElement('div');
       off.className = 'fg-deskcam';
       var l1 = document.createElement('p');
@@ -116,7 +116,7 @@
     } else if (st.pos === st.cam) {
       var s = document.createElement('div');
       s.className = 'fg-silhouette';
-      s.innerHTML = scareSVG || '🦝';
+      s.innerHTML = scareSVG || '';
       camBody.appendChild(s);
     } else {
       var e = document.createElement('p');
@@ -133,14 +133,14 @@
   /* ---- the animatronic ----------------------------------------------- */
   function aiTick() {
     if (st.over) return;
-    var chance = aggression() * (st.camsUp ? 0.55 : 1);   /* cams slow him */
+    var chance = aggression() * (st.camsUp ? 0.55 : 1); /* cams slow him */
 
     if (st.pos === 'doorL' || st.pos === 'doorR') {
       var closed = st.pos === 'doorL' ? st.doorL : st.doorR;
       st.doorTicks++;
       if (closed) {
-        if (window.SFX) SFX.deny();          /* thunk against the door */
-        if (st.doorTicks >= 2) {             /* gives up, retreats     */
+        if (window.SFX) SFX.deny(); /* thunk against the door */
+        if (st.doorTicks >= 2) { /* gives up, retreats */
           st.pos = 'dining'; st.doorTicks = 0;
           if (window.SFX) SFX.step();
         }
@@ -172,7 +172,7 @@
     if (elapsed >= NIGHT_LEN) return win();
 
     var extra = usage() - 1;
-    st.power -= (0.45 + 0.65 * extra) * 0.25;   /* tick = 250ms */
+    st.power -= (0.45 + 0.65 * extra) * 0.25; /* tick = 250ms */
     if (st.power <= 0) return blackout();
     renderHud();
   }
@@ -186,7 +186,7 @@
     if (window.SFX) SFX.hum();
     /* a few seconds of dark, then... */
     later(function () {
-      st.over = false;                 /* let jumpscare() run */
+      st.over = false; /* let jumpscare() run */
       jumpscare();
     }, 3500 + Math.random() * 4000);
   }
@@ -287,7 +287,7 @@
     phoneBox.className = 'fg-phone';
     var p = document.createElement('p');
     p.className = 'fg-phone-text';
-    p.textContent = '📞 *ring… ring…*';
+    p.textContent = ' *ring… ring…*';
     var skip = document.createElement('button');
     skip.type = 'button';
     skip.className = 'fg-phone-skip';
@@ -326,7 +326,7 @@
     renderHud(); renderOffice();
     phoneIntro(night, function () {
       if (st.over) return;
-      st.t0 = performance.now();          /* the clock starts when he hangs up */
+      st.t0 = performance.now(); /* the clock starts when he hangs up */
       every(aiTick, Math.max(1600, 3300 - night * 250));
       every(powerTick, 250);
       if (window.SFX) SFX.hum();

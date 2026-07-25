@@ -6,23 +6,23 @@
 
 /* ---- Theme tokens (home / juke-joint base) ------------------------- */
 :root{
-  --bg:        #14110f;   /* warm near-black                       */
-  --bg2:       #1d1916;   /* panel background                     */
-  --bg3:       #2a231e;   /* raised / hover                       */
-  --ink:       #ece3d6;   /* main text (warm off-white)           */
-  --muted:     #9c9082;   /* secondary text                       */
-  --line:      #3a322b;   /* borders / rules                      */
-  --accent:    #ffb347;   /* warm amber neon                      */
-  --accent2:   #ff5d8f;   /* hot pink neon                        */
-  --ok:        #6ee36e;   /* terminal green                       */
-  --warn:      #ffd23f;   /* amber                                */
-  --down:      #ff5b5b;   /* red                                  */
-  --link:      var(--accent);
-  --shadow:    0 10px 30px rgba(0,0,0,.45);
+  --bg: #14110f; /* warm near-black */
+  --bg2: #1d1916; /* panel background */
+  --bg3: #2a231e; /* raised / hover */
+  --ink: #ece3d6; /* main text (warm off-white) */
+  --muted: #9c9082; /* secondary text */
+  --line: #3a322b; /* borders / rules */
+  --accent: #ffb347; /* warm amber neon */
+  --accent2: #ff5d8f; /* hot pink neon */
+  --ok: #6ee36e; /* terminal green */
+  --warn: #ffd23f; /* amber */
+  --down: #ff5b5b; /* red */
+  --link: var(--accent);
+  --shadow: 0 10px 30px rgba(0,0,0,.45);
 
   --font-pixel: 'Silkscreen', 'Courier New', monospace;
-  --font-term:  'VT323', 'Courier New', monospace;
-  --font-body:  -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  --font-term: 'VT323', 'Courier New', monospace;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
                 Helvetica, Arial, sans-serif;
 
   --wrap: 760px;
@@ -160,9 +160,9 @@ small,.small{ font-size:13px; }
 }
 .status-row .tag::before{ content:"[ "; }
 .status-row .tag::after{ content:" ]"; }
-.status-row.ok      .tag{ color:var(--ok); }
-.status-row.down    .tag{ color:var(--down); }
-.status-row.check   .tag{ color:var(--warn); }
+.status-row.ok .tag{ color:var(--ok); }
+.status-row.down .tag{ color:var(--down); }
+.status-row.check .tag{ color:var(--warn); }
 .status-row .svc{ color:var(--ink); }
 .status-row a.svc:hover{ color:var(--accent); }
 .status-row .fill{ flex:1; border-bottom:2px dotted var(--line); transform:translateY(-4px); }
@@ -329,10 +329,12 @@ small,.small{ font-size:13px; }
    ROOM THEMES - override tokens per page via <body class="room-…">
    ===================================================================== */
 
-/* FNAF - purple/red security office, flickery & uneasy */
+/* FNAF - a colder, dirtier night shift. Grimy blue-grey dark, sodium-lamp
+   amber, and a sickly red that only shows up when something is wrong. */
 body.room-fnaf{
-  --bg:#0c0910; --bg2:#15101c; --bg3:#221731; --ink:#e9e2f2; --muted:#9a86b8;
-  --line:#352847; --accent:#e23b3b; --accent2:#8a3ffb; --link:#ff6a6a;
+  --bg:#04060a; --bg2:#080c13; --bg3:#0e141d; --ink:#c3ccd8; --muted:#5d6b7d;
+  --line:#18202c; --accent:#b3262a; --accent2:#3d5a73; --link:#c8474a;
+  --sodium:#c98a3c;
 }
 body.room-fnaf .sign{ animation:flickerHard 3.5s infinite; }
 @keyframes flickerHard{ 0%,12%,14%,40%,42%,100%{opacity:1} 13%,41%,70%{opacity:.25} 71%{opacity:1} }
@@ -379,7 +381,7 @@ body.room-fencing{
   height:74px; border-radius:8px; border:2px solid #000; background:#1a1a1a;
   box-shadow:inset 0 0 24px #000; transition:all .12s;
 }
-.lamp.red.on   .bulb{ background:#ff2b2b; box-shadow:0 0 26px 6px #ff2b2b, inset 0 0 10px #fff; }
+.lamp.red.on .bulb{ background:#ff2b2b; box-shadow:0 0 26px 6px #ff2b2b, inset 0 0 10px #fff; }
 .lamp.green.on .bulb{ background:#27e36a; box-shadow:0 0 26px 6px #27e36a, inset 0 0 10px #fff; }
 .lamp .lab{ font-family:var(--font-pixel); font-size:10px; color:var(--muted); margin-top:8px; }
 .enguarde{ text-align:center; font-family:var(--font-pixel); color:var(--muted); letter-spacing:2px; }
@@ -466,7 +468,12 @@ body.room-hamilton{
 }
 .cap-slot:hover{ transform:translateY(-3px); text-decoration:none; border-color:var(--accent); }
 .cap-slot .cap-ico{ font-size:22px; line-height:1.2; filter:grayscale(1) opacity(.35); }
-.cap-slot .cap-lab{ font-size:13px; }
+/* room initial, sitting under the cap mark */
+.cap-slot .cap-lab{
+  font-family:var(--font-pixel); font-size:11px; letter-spacing:1px;
+  color:var(--muted); line-height:1;
+}
+.cap-slot.got .cap-lab{ color:var(--accent); }
 .cap-slot.got{ border-style:solid; border-color:var(--accent);
   box-shadow:0 0 14px color-mix(in srgb, var(--accent) 35%, transparent); }
 .cap-slot.got .cap-ico{ filter:none; animation:capPop .5s cubic-bezier(.2,1.6,.4,1); }

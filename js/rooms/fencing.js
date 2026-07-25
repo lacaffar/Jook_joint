@@ -13,31 +13,31 @@
   if (!root) return;
 
   var refLine = root.querySelector('#ref-line');
-  var msgEl   = root.querySelector('.fence-msg');
-  var hudEl   = root.querySelector('.duel-hud');
+  var msgEl = root.querySelector('.fence-msg');
+  var hudEl = root.querySelector('.duel-hud');
   var startBtn = root.querySelector('#bout-start');
   var dirBtns = { high: root.querySelector('#dir-high'),
                   left: root.querySelector('#dir-left'),
                   right: root.querySelector('#dir-right') };
   var lampThem = document.querySelector('.lamp.red');
-  var lampYou  = document.querySelector('.lamp.green');
+  var lampYou = document.querySelector('.lamp.green');
   var scoreMid = document.querySelector('#score-mid');
-  var youEl    = root.querySelector('#fencer-you');
-  var themEl   = root.querySelector('#fencer-them');
-  var stripEl  = root.querySelector('.piste-strip');
+  var youEl = root.querySelector('#fencer-you');
+  var themEl = root.querySelector('#fencer-them');
+  var stripEl = root.querySelector('.piste-strip');
 
-  var SYM = { high: '⬆', left: '⬅', right: '➡' };
+  var SYM = { high: '↑', left: '←', right: '→' };
   var WORD = { high: 'HIGH', left: 'LEFT', right: 'RIGHT' };
   var DIRS = ['high', 'left', 'right'];
   var WINDOW_BY_WEAPON = { foil: 700, epee: 660, sabre: 600 };
 
-  var state = 'idle';          /* idle | wait | feint | prompt | between | over */
+  var state = 'idle'; /* idle | wait | feint | prompt | between | over */
   var me = 0, them = 0;
   var windowMs = 700;
   var target = null, role = '', t0 = 0;
   var yellow = false;
   var timers = [];
-  var times = [];              /* your reaction times this bout */
+  var times = []; /* your reaction times this bout */
 
   function later(fn, ms) { timers.push(setTimeout(fn, ms)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
@@ -54,8 +54,8 @@
 
   function hud(extra) {
     var b = best();
-    hudEl.textContent = 'you ' + me + ' · ' + them + ' them   |   window ' + windowMs + 'ms' +
-      (b ? '   |   best touch ' + b + 'ms' : '') + (extra ? '   |   ' + extra : '');
+    hudEl.textContent = 'you ' + me + ' · ' + them + ' them | window ' + windowMs + 'ms' +
+      (b ? ' | best touch ' + b + 'ms' : '') + (extra ? ' | ' + extra : '');
     if (scoreMid) scoreMid.textContent = them + ' · ' + me;
   }
 
@@ -134,8 +134,8 @@
       t0 = performance.now();
       var call =
         role === 'attack' ? 'ATTACK ' + WORD[target] + '! ' + SYM[target] :
-        role === 'parry'  ? 'PARRY '  + WORD[target] + '! ' + SYM[target] :
-                            'HIT '    + WORD[target] + '! ' + SYM[target];
+        role === 'parry' ? 'PARRY ' + WORD[target] + '! ' + SYM[target] :
+                            'HIT ' + WORD[target] + '! ' + SYM[target];
       say(call, 'allez');
       glow(target);
       pose(themEl, 'lunge', windowMs + 200);
@@ -206,7 +206,7 @@
   function win() {
     state = 'over';
     say('VICTORY ' + me + '–' + them, 'good');
-    note('salute! avg reaction ' + avgMs() + 'ms over ' + times.length + ' touches. the raccoon taps his glove against yours. 🦝🤺');
+    note('salute! avg reaction ' + avgMs() + 'ms over ' + times.length + ' touches. the raccoon taps his glove against yours. ');
     pose(youEl, 'salute', 1600);
     pose(themEl, 'salute', 1600);
     startBtn.hidden = false;

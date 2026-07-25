@@ -33,16 +33,16 @@
   if (!stage) return;
 
   var enemyEl = stage.querySelector('#ut-enemy');
-  var nameEl  = stage.querySelector('.ut-enemy-name');
-  var box     = stage.querySelector('#ut-box');
-  var textEl  = stage.querySelector('#ut-text');
-  var soul    = stage.querySelector('#ut-soul');
+  var nameEl = stage.querySelector('.ut-enemy-name');
+  var box = stage.querySelector('#ut-box');
+  var textEl = stage.querySelector('#ut-text');
+  var soul = stage.querySelector('#ut-soul');
   var barWrap = stage.querySelector('#ut-fightbar');
-  var sweep   = stage.querySelector('.ut-sweep');
-  var hpFill  = stage.querySelector('#ut-hpfill');
-  var hpText  = stage.querySelector('#ut-hp');
-  var menu    = stage.querySelector('#ut-menu');
-  var sub     = stage.querySelector('#ut-submenu');
+  var sweep = stage.querySelector('.ut-sweep');
+  var hpFill = stage.querySelector('#ut-hpfill');
+  var hpText = stage.querySelector('#ut-hp');
+  var menu = stage.querySelector('#ut-menu');
+  var sub = stage.querySelector('#ut-submenu');
 
   /* the encounter raccoon wears the monochrome Undertale style */
   if (window.RaccoonArt) enemyEl.innerHTML = RaccoonArt.svg('mono');
@@ -64,9 +64,9 @@
 
   function spareable() { return st.mercy >= 100; }
   function updateName() {
-    nameEl.textContent = '✱ RACCOON  LV ?';
+    nameEl.textContent = '✱ RACCOON LV ?';
     nameEl.classList.toggle('spareable', spareable());
-    if (spareable()) nameEl.textContent += '  ♥';
+    if (spareable()) nameEl.textContent += ' ♥';
   }
 
   /* ---- typewriter --------------------------------------------------- */
@@ -132,7 +132,7 @@
       barWrap.removeEventListener('pointerdown', strike);
       barWrap.hidden = true;
       var x = parseFloat(sweep.style.left) / 100;
-      var acc = 1 - Math.min(1, Math.abs(x - 0.5) * 2);   /* 1 = perfect  */
+      var acc = 1 - Math.min(1, Math.abs(x - 0.5) * 2); /* 1 = perfect */
       var dmg = Math.round(3 + acc * 9);
       st.enemyHp -= dmg;
       st.mercy = Math.max(0, st.mercy - 25);
@@ -261,18 +261,18 @@
       var b = document.createElement('span');
       b.className = 'ut-bullet';
       var o = { el: b, x: 0, y: 0, vx: 0, vy: 0, wob: Math.random() * 6.28 };
-      if (pattern === 0) {            /* falling bottle caps */
+      if (pattern === 0) { /* falling bottle caps */
         b.textContent = '◍';
         o.x = 10 + Math.random() * (w - 20); o.y = -10;
         o.vy = 1.9 + Math.random() * 1.4 + st.turn * 0.12;
-      } else if (pattern === 1) {     /* sweeping trash lids */
+      } else if (pattern === 1) { /* sweeping trash lids */
         b.textContent = '⬬';
         var fromLeft = Math.random() < 0.5;
         o.x = fromLeft ? -12 : w + 12;
         o.y = 14 + Math.random() * (h - 28);
         o.vx = (fromLeft ? 1 : -1) * (2.2 + Math.random() * 1.2 + st.turn * 0.1);
-      } else if (pattern === 3) {     /* pizza slices aimed at the SOUL */
-        b.textContent = '🍕';
+      } else if (pattern === 3) { /* pizza slices aimed at the SOUL */
+        b.textContent = '';
         var edge = (Math.random() * 4) | 0;
         if (edge === 0) { o.x = 10 + Math.random() * (w - 20); o.y = -10; }
         else if (edge === 1) { o.x = 10 + Math.random() * (w - 20); o.y = h + 10; }
@@ -282,7 +282,7 @@
         var alen = Math.hypot(adx, ady) || 1;
         var aspd = 1.9 + Math.random() * 0.9 + st.turn * 0.08;
         o.vx = adx / alen * aspd; o.vy = ady / alen * aspd;
-      } else {                        /* rising wobbly bones */
+      } else { /* rising wobbly bones */
         b.textContent = '𓄼';
         o.x = 10 + Math.random() * (w - 20); o.y = h + 10;
         o.vy = -(1.7 + Math.random() * 1.2 + st.turn * 0.1);

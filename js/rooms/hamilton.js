@@ -86,23 +86,23 @@
       f: 'Eliza tells the story. Fifty years of it.' }
   ];
 
-  var QUIZ_LEN = 10;   /* questions per duel                       */
-  var START_PACE = 3;  /* Burr starts 3 paces in on a 10-pace field */
-  var TRACK = 10;      /* pace where Burr reaches you = bang        */
+  var QUIZ_LEN = 10; /* questions per duel */
+  var START_PACE = 3; /* Burr starts 3 paces in on a 10-pace field */
+  var TRACK = 10; /* pace where Burr reaches you = bang */
 
   var els = {
-    intro:  stage.querySelector('.duel-intro'),
-    play:   stage.querySelector('.duel-play'),
-    end:    stage.querySelector('.duel-end'),
-    track:  stage.querySelector('.pace-track'),
-    qnum:   stage.querySelector('.duel-qnum'),
-    qtext:  stage.querySelector('.duel-q'),
+    intro: stage.querySelector('.duel-intro'),
+    play: stage.querySelector('.duel-play'),
+    end: stage.querySelector('.duel-end'),
+    track: stage.querySelector('.pace-track'),
+    qnum: stage.querySelector('.duel-qnum'),
+    qtext: stage.querySelector('.duel-q'),
     choices: stage.querySelector('.duel-choices'),
-    foot:   stage.querySelector('.duel-foot'),
-    next:   stage.querySelector('.duel-next'),
-    best:   stage.querySelector('.duel-best'),
+    foot: stage.querySelector('.duel-foot'),
+    next: stage.querySelector('.duel-next'),
+    best: stage.querySelector('.duel-best'),
     endTitle: stage.querySelector('.duel-end-title'),
-    endBody:  stage.querySelector('.duel-end-body')
+    endBody: stage.querySelector('.duel-end-body')
   };
 
   var quiz = [], idx = 0, correct = 0, pace = START_PACE, locked = false;
@@ -129,8 +129,8 @@
     for (var i = 0; i <= TRACK; i++) {
       var cell = document.createElement('span');
       cell.className = 'pace';
-      if (i === TRACK) { cell.classList.add('you'); cell.textContent = '🪶'; cell.title = 'you'; }
-      else if (i === pace) { cell.classList.add('burr'); cell.textContent = '🕴️'; cell.title = 'Burr - ' + (TRACK - pace) + ' paces away'; }
+      if (i === TRACK) { cell.classList.add('you'); cell.textContent = 'H'; cell.title = 'you'; }
+      else if (i === pace) { cell.classList.add('burr'); cell.textContent = 'B'; cell.title = 'Burr - ' + (TRACK - pace) + ' paces away'; }
       else { cell.textContent = '·'; }
       els.track.appendChild(cell);
     }
@@ -214,7 +214,7 @@
     stage.classList.remove('lost');
     var rank =
       correct === QUIZ_LEN ? 'NON-STOP ★ a perfect ten' :
-      correct >= 8         ? 'You wrote your way out!' :
+      correct >= 8 ? 'You wrote your way out!' :
                              'You knocked him back on his heels — barely.';
     els.endTitle.textContent = 'DAWN BREAKS. YOU LIVE.';
     els.endBody.innerHTML =
@@ -274,15 +274,15 @@
 
     var els = {
       intro: grind.querySelector('.grind-intro'),
-      play:  grind.querySelector('.grind-play'),
-      end:   grind.querySelector('.grind-end'),
-      ink:   grind.querySelector('#ink-fill'),
+      play: grind.querySelector('.grind-play'),
+      end: grind.querySelector('.grind-end'),
+      ink: grind.querySelector('#ink-fill'),
       count: grind.querySelector('.grind-count'),
       target: grind.querySelector('#grind-target'),
       input: grind.querySelector('#grind-input'),
-      best:  grind.querySelector('.grind-best'),
+      best: grind.querySelector('.grind-best'),
       endTitle: grind.querySelector('.grind-end-title'),
-      endBody:  grind.querySelector('.grind-end-body')
+      endBody: grind.querySelector('.grind-end-body')
     };
 
     var ink, essays, words, startAt, line, lastLine = -1, tick = null, running = false;
@@ -361,7 +361,7 @@
       clearInterval(tick);
       tick = setInterval(function () {
         if (!running) return;
-        ink -= (0.55 + essays * 0.045);   /* drains faster as you go */
+        ink -= (0.55 + essays * 0.045); /* drains faster as you go */
         renderInk();
         if (ink <= 0) end(false);
       }, 250);

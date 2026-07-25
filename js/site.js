@@ -23,7 +23,7 @@
     { svc: 'windpack', url: 'https://lacaffar.github.io/projects/club/windpack.html',
       ping: 'https://lacaffar.github.io/assets/img/avatar-icon.png', note: 'club site' },
     { svc: 'jook-joint', state: 'ok', note: 'this site' },
-    { svc: 'raccoon-daemon', state: 'ok', note: 'pid 1' },
+    { svc: 'camera', url: 'fnaf.html', state: 'down', note: 'CAM 3C - desk feed' },
     { svc: 'jukebox', state: 'ok', note: 'spinning' }
   ];
 
@@ -31,7 +31,7 @@
     return new Promise(function (resolve) {
       var img = new Image(), done = false;
       var t = setTimeout(function () { if (!done) { done = true; resolve(false); } }, timeout || 7000);
-      img.onload  = function () { if (!done) { done = true; clearTimeout(t); resolve(true); } };
+      img.onload = function () { if (!done) { done = true; clearTimeout(t); resolve(true); } };
       img.onerror = function () { if (!done) { done = true; clearTimeout(t); resolve(false); } };
       img.src = url + (url.indexOf('?') < 0 ? '?' : '&') + '_=' + Date.now();
     });
@@ -48,11 +48,15 @@
       var tag = document.createElement('span');
       tag.className = 'tag' + (live ? ' blink' : '');
       tag.textContent = live ? '··' : (s.state === 'down' ? 'DOWN' : 'OK');
+      if (!live && s.state === 'down') allOK = false;   /* keep the verdict honest */
 
       var svc = document.createElement(s.url ? 'a' : 'span');
       svc.className = 'svc';
       svc.textContent = s.svc;
-      if (s.url) { svc.href = s.url; svc.target = '_blank'; svc.rel = 'noopener'; }
+      if (s.url) {
+        svc.href = s.url;
+        if (/^https?:/i.test(s.url)) { svc.target = '_blank'; svc.rel = 'noopener'; }
+      }
 
       var fill = document.createElement('span');
       fill.className = 'fill';
@@ -90,16 +94,16 @@
      Drop .mp3 files into audio/ and add them to TRACKS below.
      ================================================================= */
   var TRACKS = [
-    { title: 'Once Upon a Time - Toby Fox',          src: 'audio/01-once-upon-a-time.mp3' },
-    { title: 'Start Menu - Toby Fox',                src: 'audio/02-start-menu.mp3' },
-    { title: 'Your Best Friend - Toby Fox',          src: 'audio/03-your-best-friend.mp3' },
-    { title: 'Fallen Down - Toby Fox',               src: 'audio/04-fallen-down.mp3' },
-    { title: 'Determination - Toby Fox',             src: 'audio/11-determination.mp3' },
-    { title: 'Snowy - Toby Fox',                     src: 'audio/17-snowy.mp3' },
-    { title: 'Snowdin Town - Toby Fox',              src: 'audio/22-snowdin-town.mp3' },
-    { title: 'Shop - Toby Fox',                      src: 'audio/23-shop.mp3' },
-    { title: 'Undertale - Toby Fox',                 src: 'audio/71-undertale.mp3' },
-    { title: 'Fallen Down (Reprise) - Toby Fox',     src: 'audio/85-fallen-down-reprise.mp3' },
+    { title: 'Once Upon a Time - Toby Fox', src: 'audio/01-once-upon-a-time.mp3' },
+    { title: 'Start Menu - Toby Fox', src: 'audio/02-start-menu.mp3' },
+    { title: 'Your Best Friend - Toby Fox', src: 'audio/03-your-best-friend.mp3' },
+    { title: 'Fallen Down - Toby Fox', src: 'audio/04-fallen-down.mp3' },
+    { title: 'Determination - Toby Fox', src: 'audio/11-determination.mp3' },
+    { title: 'Snowy - Toby Fox', src: 'audio/17-snowy.mp3' },
+    { title: 'Snowdin Town - Toby Fox', src: 'audio/22-snowdin-town.mp3' },
+    { title: 'Shop - Toby Fox', src: 'audio/23-shop.mp3' },
+    { title: 'Undertale - Toby Fox', src: 'audio/71-undertale.mp3' },
+    { title: 'Fallen Down (Reprise) - Toby Fox', src: 'audio/85-fallen-down-reprise.mp3' },
     { title: 'Battle Against a True Hero - Toby Fox', src: 'audio/98-battle-against-a-true-hero.mp3' }
   ];
 
@@ -197,8 +201,8 @@
     var list = document.querySelector('#gb-list');
     var nameI = document.querySelector('#gb-name');
     var moodI = document.querySelector('#gb-mood');
-    var msgI  = document.querySelector('#gb-msg');
-    var left  = document.querySelector('#gb-left');
+    var msgI = document.querySelector('#gb-msg');
+    var left = document.querySelector('#gb-left');
     var countEl = document.querySelector('#gb-count');
 
     // the raccoon's paw, as an 8x8 stamp
@@ -207,9 +211,9 @@
 
     // starter entries (only shown until the visitor saves their own)
     var seed = [
-      { name: 'Swifty', mood: '🎷', host: true, ts: Date.now() - 864e5 * 3,
+      { name: 'Swifty', mood: '', host: true, ts: Date.now() - 864e5 * 3,
         msg: 'welcome to the joint! pull up a stool and say hi.' },
-      { name: 'the raccoon', mood: '🦝', ts: Date.now() - 36e5 * 5, stamp: PAW,
+      { name: 'the raccoon', mood: '', ts: Date.now() - 36e5 * 5, stamp: PAW,
         msg: '*left a muddy pawprint and a single bottle cap*\n' +
              'gur onpx ebbz vf oruvaq gur svsgu pnc. (he writes in ROT13. nobody knows why.)' }
     ];
@@ -282,8 +286,8 @@
         var card = document.createElement('div');
         card.className = 'gb-entry' + (en.host ? ' host' : '');
         var meta = document.createElement('div'); meta.className = 'gb-meta';
-        var who  = document.createElement('span'); who.className = 'gb-who';  who.textContent = en.name;
-        var ico  = document.createElement('span'); ico.className = 'gb-mood-ico'; ico.textContent = en.mood || '';
+        var who = document.createElement('span'); who.className = 'gb-who'; who.textContent = en.name;
+        var ico = document.createElement('span'); ico.className = 'gb-mood-ico'; ico.textContent = en.mood || '';
         var date = document.createElement('span'); date.className = 'gb-date'; date.textContent = fmt(en.ts);
         meta.appendChild(who); meta.appendChild(ico);
         if (typeof en.stamp === 'string' && /^[01]{64}$/.test(en.stamp)) meta.appendChild(stampNode(en.stamp));
@@ -301,7 +305,7 @@
     gbForm.addEventListener('submit', function (ev) {
       ev.preventDefault();
       var name = nameI.value.trim().slice(0, 32);
-      var msg  = msgI.value.trim().slice(0, 280);
+      var msg = msgI.value.trim().slice(0, 280);
       if (!name || !msg) return;
       var arr = load();
       var entry = { name: name, mood: moodI.value, msg: msg, ts: Date.now() };

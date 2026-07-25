@@ -25,12 +25,25 @@
   position:absolute; left:50%; top:12%; bottom:12%; width:2px;
   background:repeating-linear-gradient(180deg, var(--line) 0 6px, transparent 6px 12px);
 }
+/* fencers drawn in CSS: a masked head, a lunging body, a blade */
 .fencer{
-  font-size:44px; line-height:1; display:inline-block;
+  position:relative; width:46px; height:52px; display:inline-block;
   transition:transform .14s ease;
   filter:drop-shadow(0 4px 4px rgba(0,0,0,.5));
+  --suit:#e8edf5; --blade:#cfd8e6;
 }
-.fencer.machine{ transform:scaleX(-1); filter:hue-rotate(140deg) saturate(1.6) drop-shadow(0 4px 4px rgba(0,0,0,.5)); }
+.fencer::before{               /* head + torso */
+  content:""; position:absolute; left:6px; top:4px;
+  width:19px; height:19px; border-radius:50% 46% 46% 50%;
+  background:var(--suit);
+  box-shadow:0 20px 0 -2px var(--suit), 2px 34px 0 -6px var(--suit);
+}
+.fencer::after{                /* extended arm + blade */
+  content:""; position:absolute; left:22px; top:22px;
+  width:24px; height:3px; border-radius:2px;
+  background:linear-gradient(90deg, var(--suit) 0 6px, var(--blade) 6px);
+}
+.fencer.machine{ transform:scaleX(-1); --suit:#7fb2d9; --blade:#9fd0ef; }
 .fencer.you.lunge{ animation:lungeL .5s ease; }
 .fencer.machine.lunge{ animation:lungeR .5s ease; }
 @keyframes lungeL{ 35%{ transform:translateX(-46px) rotate(-8deg) } }

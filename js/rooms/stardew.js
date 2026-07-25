@@ -12,8 +12,8 @@
   if (!wrap) return;
 
   /* ---- the map --------------------------------------------------------
-     T tree   ~ water   . grass   # path   F farmhouse   C crop soil
-     M mine   G gate/fence decoration                                   */
+     T tree ~ water . grass # path F farmhouse C crop soil
+     M mine G gate/fence decoration */
   var MAP = [
     'TTTTTTTTTTTTTTTTTTTT',
     'T.T..FF...T..~~~..TT',
@@ -32,12 +32,12 @@
   var SOLID = { T: 1, '~': 1, F: 1, M: 1 };
 
   var NPCS = [
-    { id: 'fern', name: 'Granny Fern', face: '🧓', x: 12, y: 7, home: { x: 12, y: 7 },
+    { id: 'fern', name: 'Granny Fern', face: '', cls: 'npc-fern', x: 12, y: 7, home: { x: 12, y: 7 },
       lines: ['Oh, hello dear! The parsnips look happy today.',
               'My knees say rain tomorrow. My knees are never wrong.',
               'You remind me of your grandpa. He also talked to raccoons.',
               'Bring me a parsnip sometime, I’ll make soup.'] },
-    { id: 'rob', name: 'Robbie', face: '👷', x: 5, y: 8, home: { x: 5, y: 8 },
+    { id: 'rob', name: 'Robbie', face: '', cls: 'npc-rob', x: 5, y: 8, home: { x: 5, y: 8 },
       lines: ['Need the farmhouse fixed? Gimme, uh... three thousand wood.',
               'That mine’s full of geodes. And spiders. Mostly spiders.',
               'I could build you a coop if you ever stop hoarding bottle caps.',
@@ -62,7 +62,7 @@
   function cropKey(x, y) { return x + ',' + y; }
   function cropState(x, y) { return st.crops[cropKey(x, y)] || 0; }
 
-  var px = 7, py = 6, facing = { x: 0, y: 1 };   /* start on the path */
+  var px = 7, py = 6, facing = { x: 0, y: 1 }; /* start on the path */
 
   /* ---- build the DOM ---------------------------------------------------- */
   var grid = document.createElement('div');
@@ -73,7 +73,7 @@
 
   var TILE_BG = { T: 'tile-grass', '.': 'tile-grass', '#': 'tile-path', '~': 'tile-water',
                   F: 'tile-grass', C: 'tile-soil', M: 'tile-rock', R: 'tile-grass' };
-  var TILE_ICO = { T: '🌲', '~': '', '.': '', '#': '', F: '🏡', C: '', M: '⛰️', R: '🌳' };
+  var TILE_ICO = { T: '', '~': '', '.': '', '#': '', F: '', C: '', M: '', R: '' };
 
   var cropEls = {};
   for (var y = 0; y < ROWS; y++) {
@@ -84,12 +84,14 @@
       t.style.left = (x * TILE) + 'px';
       t.style.top = (y * TILE) + 'px';
       var ico = TILE_ICO[ch];
+      if (ch === 'T') t.classList.add('tile-tree');
+      if (ch === 'M') t.classList.add('tile-mine');
       if (ch === 'F') {
         /* one big house over the 2x2 block, drawn from its top-left tile */
         var topLeft = !(y > 0 && MAP[y - 1][x] === 'F') && !(x > 0 && MAP[y][x - 1] === 'F');
-        if (topLeft) { t.textContent = '🏡'; t.classList.add('house-main'); }
+        if (topLeft) { t.textContent = ''; t.classList.add('house-main'); }
       } else if (ico) t.textContent = ico;
-      if (ch === 'R') { t.textContent = '🌳'; t.classList.add('bush'); t.id = 'rac-bush'; }
+      if (ch === 'R') { t.textContent = ''; t.classList.add('bush'); t.id = 'rac-bush'; }
       if (ch === 'C') { cropEls[cropKey(x, y)] = t; t.classList.add('crop'); }
       grid.appendChild(t);
     }
@@ -101,7 +103,8 @@
     var s = cropState(x, y);
     el.classList.toggle('tilled', s >= 1);
     el.classList.toggle('wet', s === 3);
-    el.textContent = s === 2 ? '🌱' : s === 3 ? '🌱' : s === 4 ? '🥕' : '';
+    el.classList.toggle('seeded', s === 2 || s === 3);
+    el.classList.toggle('grown', s === 4);
   }
   Object.keys(cropEls).forEach(function (k) {
     var p = k.split(','); renderCrop(+p[0], +p[1]);
@@ -115,7 +118,7 @@
     return el;
   }
   var playerEl = makeSprite('player', '');
-  NPCS.forEach(function (n) { n.el = makeSprite('npc', n.face); place(n.el, n.x, n.y); });
+  NPCS.forEach(function (n) { n.el = makeSprite('npc ' + n.cls, n.face); place(n.el, n.x, n.y); });
 
   /* Clint, the playable character (clint.png). Rows: 0 down, 1 side (right),
      2 up; cols: 0 idle, 1 step. Left is the side row, flipped. */
@@ -134,10 +137,10 @@
   /* ---- HUD -------------------------------------------------------------- */
   var hud = document.querySelector('#farm-hud');
   function renderHud() {
-    hud.innerHTML = '<b>☀️ Day ' + st.day + '</b> · Spring · <b>💰 ' + st.gold + 'g</b> · ' +
+    hud.innerHTML = '<b>Day ' + st.day + '</b> · Spring · <b>' + st.gold + 'g</b> · ' +
       '<img class="hud-ico" src="Gold_Carrot_stardew.webp" alt=""> harvested <b>' + st.harvested + '</b>/9' +
       (st.harvested >= 9 ? ' ✓' : '') +
-      (st.fish ? ' · 🎣 <b>' + st.fish + '</b>' : '');
+      (st.fish ? ' · caught <b>' + st.fish + '</b>' : '');
   }
   renderHud();
 
@@ -148,7 +151,7 @@
     msgBox.innerHTML = '';
     if (who) {
       var name = document.createElement('b');
-      name.textContent = who + '  ';
+      name.textContent = who + ' ';
       msgBox.appendChild(name);
     }
     msgBox.appendChild(document.createTextNode(text));
@@ -165,15 +168,15 @@
 
   /* ---- fishing ----------------------------------------------------------
      cast at the pond → wait for the ! → hook with E → then a tug-of-war:
-     reel (E) while the fish is CALM, hold still while it THRASHES.       */
+     reel (E) while the fish is CALM, hold still while it THRASHES. */
   var fishing = null;
   var FISH = [
-    { name: 'a carp', ico: '🐟', g: 30, w: 30 },
-    { name: 'a bass', ico: '🐟', g: 45, w: 24 },
-    { name: 'a catfish', ico: '🐡', g: 75, w: 14 },
-    { name: 'an old boot', ico: '👢', g: 5, w: 16 },
-    { name: 'a rusty can (he will want this)', ico: '🥫', g: 3, w: 10 },
-    { name: 'the LEGENDARY RACCOONFISH', ico: '🦝🐟', g: 150, w: 6 }
+    { name: 'a carp', ico: '', g: 30, w: 30 },
+    { name: 'a bass', ico: '', g: 45, w: 24 },
+    { name: 'a catfish', ico: '', g: 75, w: 14 },
+    { name: 'an old boot', ico: '', g: 5, w: 16 },
+    { name: 'a rusty can (he will want this)', ico: '', g: 3, w: 10 },
+    { name: 'the LEGENDARY RACCOONFISH', ico: '', g: 150, w: 6 }
   ];
   function pickFish() {
     var total = FISH.reduce(function (a, f) { return a + f.w; }, 0);
@@ -195,12 +198,12 @@
   function castLine() {
     if (fishing) return;
     fishing = { phase: 'wait' };
-    msg('* you cast a line into the pond… 🎣 (wait for the ! - then E, fast)', null, true);
+    msg('* you cast a line into the pond… (wait for the ! - then E, fast)', null, true);
     if (window.SFX) SFX.click();
     fishing.t = setTimeout(function () {
       if (!fishing) return;
       fishing.phase = 'bite';
-      msg('* ‼️ SOMETHING BITES ‼️  (E!)', null, true);
+      msg('* SOMETHING BITES! (E!)', null, true);
       if (window.SFX) SFX.ding();
       fishing.t = setTimeout(function () {
         cancelFish('* …it got away. the water judges you silently.');
@@ -224,8 +227,8 @@
       fishing.iv = setTimeout(flip, 650 + Math.random() * 500);
     };
     var renderReel = function () {
-      msg((fishing.calm ? '🐟 it\'s CALM - reel it in! (E)' : '🌊 it THRASHES - hold still!') +
-        '  ' + bar(fishing.prog), null, true);
+      msg((fishing.calm ? ' it\'s CALM - reel it in! (E)' : 'it THRASHES - hold still!') +
+        ' ' + bar(fishing.prog), null, true);
     };
     fishing.renderReel = renderReel;
     flip();
@@ -249,7 +252,7 @@
     st.gold += f.g;
     st.fish = (st.fish || 0) + 1;
     persist(); renderHud();
-    msg('* you caught ' + f.name + '! ' + f.ico + '  +' + f.g + 'g');
+    msg('* you caught ' + f.name + '! ' + f.ico + ' +' + f.g + 'g');
     if (window.SFX) SFX.coin();
   }
 
@@ -275,7 +278,7 @@
     if (ch === 'R') {
       var bush = document.querySelector('#rac-bush');
       bush.classList.remove('rustle'); void bush.offsetWidth; bush.classList.add('rustle');
-      msg('🦝 the raccoon skitters out, drops a bottle cap SHAPED leaf, and vanishes. typical.');
+      msg('the raccoon skitters out, drops a bottle cap SHAPED leaf, and vanishes. typical.');
       if (window.SFX) SFX.step();
       return;
     }
@@ -286,9 +289,9 @@
 
   function workCrop(x, y) {
     var s = cropState(x, y);
-    if (s === 0) { st.crops[cropKey(x, y)] = 1; msg('* you till the soil. 🪓'); if (window.SFX) SFX.step(); }
-    else if (s === 1) { st.crops[cropKey(x, y)] = 2; msg('* you plant parsnip seeds. 🌱'); if (window.SFX) SFX.blip(); }
-    else if (s === 2) { st.crops[cropKey(x, y)] = 3; msg('* you water the seeds. 💧 (sleep to grow them)'); if (window.SFX) SFX.click(); }
+    if (s === 0) { st.crops[cropKey(x, y)] = 1; msg('* you till the soil.'); if (window.SFX) SFX.step(); }
+    else if (s === 1) { st.crops[cropKey(x, y)] = 2; msg('* you plant parsnip seeds.'); if (window.SFX) SFX.blip(); }
+    else if (s === 2) { st.crops[cropKey(x, y)] = 3; msg('* you water the seeds. (sleep to grow them)'); if (window.SFX) SFX.click(); }
     else if (s === 3) { msg('* already watered. it needs a night’s sleep, same as you.'); }
     else if (s === 4) {
       st.crops[cropKey(x, y)] = 1;
@@ -297,7 +300,7 @@
       if (window.SFX) SFX.coin();
       if (st.harvested === 9 && window.SJJQuest) {
         setTimeout(function () {
-          msg('🧓 "Nine parsnips! Grandpa would be proud." ...the raccoon leaves something on the fence.', null, true);
+          msg(' "Nine parsnips! Grandpa would be proud." ...the raccoon leaves something on the fence.', null, true);
           SJJQuest.award('stardew');
         }, 700);
       }
@@ -326,7 +329,7 @@
       Object.keys(cropEls).forEach(function (k) { var p = k.split(','); renderCrop(+p[0], +p[1]); });
       renderHud();
       night.hidden = true;
-      msg('☀️ Day ' + st.day + '. ' + (grew ? grew + ' crop' + (grew > 1 ? 's' : '') + ' grew overnight!' :
+      msg(' Day ' + st.day + '. ' + (grew ? grew + ' crop' + (grew > 1 ? 's' : '') + ' grew overnight!' :
         'the radio says it’ll be clear today.'));
     }, 1400);
   });
@@ -341,7 +344,7 @@
   function mine() {
     mineOv.hidden = false;
     rockHp = 6 + ((Math.random() * 4) | 0);
-    rockBtn.textContent = '🪨';
+    rockBtn.textContent = '';
     rockBtn.disabled = false;
     document.querySelector('#farm-mine-note').textContent = 'whack the rock. (' + rockHp + ' swings)';
     if (window.SFX) SFX.click();
@@ -352,7 +355,7 @@
     rockBtn.classList.remove('crack'); void rockBtn.offsetWidth; rockBtn.classList.add('crack');
     if (window.SFX) SFX.slash();
     if (rockHp <= 0) {
-      rockBtn.textContent = '💎';
+      rockBtn.textContent = '';
       rockBtn.disabled = true;
       var g = 20 + ((Math.random() * 30) | 0);
       st.gold += g; persist(); renderHud();

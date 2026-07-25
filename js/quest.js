@@ -9,11 +9,11 @@ window.SJJQuest = (function () {
 
   var KEY = 'sjj_caps';
   var ROOMS = [
-    { id: 'fnaf',      ico: '🐻', name: 'FNAF',      cap: '🔩' },
-    { id: 'stardew',   ico: '🌱', name: 'Stardew',   cap: '🌟' },
-    { id: 'undertale', ico: '❤️', name: 'Undertale', cap: '💛' },
-    { id: 'fencing',   ico: '🤺', name: 'Fencing',   cap: '🥇' },
-    { id: 'hamilton',  ico: '🎩', name: 'Hamilton',  cap: '📜' }
+    { id: 'fnaf', ico: 'F', name: 'FNAF', cap: '◆' },
+    { id: 'stardew', ico: 'S', name: 'Stardew', cap: '★' },
+    { id: 'undertale', ico: 'U', name: 'Undertale', cap: '●' },
+    { id: 'fencing', ico: 'E', name: 'Fencing', cap: '▲' },
+    { id: 'hamilton', ico: 'H', name: 'Hamilton', cap: '■' }
   ];
 
   function load() {
@@ -56,7 +56,7 @@ window.SJJQuest = (function () {
     if (!room) return;
     var caps = load();
     if (caps[id]) {
-      toast('🦝 you already have the ' + room.name + ' cap. he keeps the rest.');
+      toast(' you already have the ' + room.name + ' cap. he keeps the rest.');
       return;
     }
     caps[id] = true;
@@ -64,9 +64,9 @@ window.SJJQuest = (function () {
     var n = count();
     if (window.SFX) SFX.cap();
     if (n === ROOMS.length) {
-      toast('🦝 the raccoon tosses you the LAST bottle cap (5/5)… somewhere in the joint, a door creaks open.', true);
+      toast(' the raccoon tosses you the LAST bottle cap (5/5)… somewhere in the joint, a door creaks open.', true);
     } else {
-      toast('🦝 the raccoon tosses you a bottle cap! (' + n + '/' + ROOMS.length + ')');
+      toast(' the raccoon tosses you a bottle cap! (' + n + '/' + ROOMS.length + ')');
     }
     renderAllShelves();
     try { window.dispatchEvent(new CustomEvent('sjj:caps', { detail: { count: n, all: n === ROOMS.length } })); } catch (e) {}

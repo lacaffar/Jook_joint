@@ -1,4 +1,4 @@
-# Swifty's Jook Joint 🦝
+# Swifty's Jook Joint
 
 A cozy, multi-page personal site in the small-web / [dimden.dev](https://dimden.dev/) style -
 except **every room is a playable game**. Hand-built with plain HTML, CSS, and vanilla JS.
@@ -8,15 +8,15 @@ all new sound is synthesized with the WebAudio API).
 ## Rooms & games
 | File | Room | The game |
 |------|------|----------|
-| `index.html`     | The bar | Interactive scene: themed doors, jukebox, tip jar, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
-| `fnaf.html`      | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
-| `stardew.html`   | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
+| `index.html` | The bar | Interactive scene: themed doors, jukebox, tip jar, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
+| `fnaf.html` | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
+| `stardew.html` | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
 | `undertale.html` | The encounter | **FIGHT / ACT / ITEM / MERCY** battle with bullet-hell dodging; ACT your way to the pacifist spare |
-| `fencing.html`   | The piste | **Allez!** - directional reaction duel; foil/sabre roll right-of-way (attack vs parry), épée is a speed race |
-| `hamilton.html`  | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
+| `fencing.html` | The piste | **Allez!** - directional reaction duel; foil/sabre roll right-of-way (attack vs parry), épée is a speed race |
+| `hamilton.html` | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
 | `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
-| `backroom.html`  | The back room | 🔒 **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
-| `404.html`       | Lost | Dig a door out of the raccoon's trash can |
+| `backroom.html` | The back room | **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
+| `404.html` | Lost | Dig a door out of the raccoon's trash can |
 
 ## The Bottle Cap Hunt (site-wide meta-puzzle)
 Win the game in each of the five main rooms and the raccoon tosses you a **bottle cap**
@@ -48,7 +48,7 @@ hides on touch screens; door hotspots have a plain-text fallback list.
 It's static - just open `index.html`, or:
 ```bash
 # from inside personal.page/
-python -m http.server 8080      # then visit http://localhost:8080
+python -m http.server 8080 # then visit http://localhost:8080
 ```
 
 ## Deploy

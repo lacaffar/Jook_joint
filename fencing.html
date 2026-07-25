@@ -8,7 +8,7 @@
   <title>The Piste - Fencing :: Swifty's Jook Joint</title>
   <meta name="description" content="Swifty's fencing room. Steel, footwork, and the little red and green lights." />
   <meta name="theme-color" content="#0c0e13" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🤺</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 13L13 2l1 1L3 14z M11 2h3v3' fill='%233da9fc'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
@@ -39,9 +39,9 @@
     <!-- ============ ALLEZ! the duel ============ -->
     <section class="panel piste-game" id="piste" aria-label="Allez - a reaction duel">
       <div class="piste-strip" aria-hidden="true">
-        <span class="fencer machine" id="fencer-them">🤺</span>
+        <span class="fencer machine" id="fencer-them"></span>
         <span class="strip-mid"></span>
-        <span class="fencer you" id="fencer-you">🤺</span>
+        <span class="fencer you" id="fencer-you"></span>
       </div>
       <p class="ref-line" id="ref-line">choose a weapon. salute. begin.</p>
       <p class="fence-msg">react in the called direction before the window closes.
@@ -49,14 +49,14 @@
         decides whether you're attacking or parrying - and watch for <b>feints</b>.
         don't jump the gun.</p>
       <div class="dir-row" aria-label="direction buttons">
-        <button class="dir-btn" id="dir-left" type="button" aria-label="left">⬅<small>A</small></button>
-        <button class="dir-btn" id="dir-high" type="button" aria-label="high">⬆<small>W</small></button>
-        <button class="dir-btn" id="dir-right" type="button" aria-label="right">➡<small>D</small></button>
+        <button class="dir-btn" id="dir-left" type="button" aria-label="left">←<small>A</small></button>
+        <button class="dir-btn" id="dir-high" type="button" aria-label="high">↑<small>W</small></button>
+        <button class="dir-btn" id="dir-right" type="button" aria-label="right">→<small>D</small></button>
       </div>
       <div class="weapon-row" role="radiogroup" aria-label="weapon">
-        <label><input type="radio" name="weapon" value="foil" checked /><span>🤺 foil</span></label>
-        <label><input type="radio" name="weapon" value="epee" /><span>⚔️ épée</span></label>
-        <label><input type="radio" name="weapon" value="sabre" /><span>🗡️ sabre</span></label>
+        <label><input type="radio" name="weapon" value="foil" checked /><span> foil</span></label>
+        <label><input type="radio" name="weapon" value="epee" /><span> épée</span></label>
+        <label><input type="radio" name="weapon" value="sabre" /><span> sabre</span></label>
       </div>
       <button id="bout-start" type="button">en garde - bout to 5</button>
       <p class="duel-hud"></p>
@@ -81,9 +81,9 @@
 
     <h2>The weapons, quickly</h2>
     <ul class="chips">
-      <li>🤺 Foil - torso, right-of-way</li>
-      <li>⚔️ Épée - whole body, no priority</li>
-      <li>🗡️ Sabre - cuts &amp; thrusts, fast</li>
+      <li> Foil - torso, right-of-way</li>
+      <li> Épée - whole body, no priority</li>
+      <li> Sabre - cuts &amp; thrusts, fast</li>
     </ul>
 
     <h2>Working on</h2>

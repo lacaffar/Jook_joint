@@ -39,6 +39,63 @@
   font-size:56px; z-index:2; overflow:visible;
   width:68px; height:68px; /* spans the 2x2 farmhouse block */
 }
+/* ---- tiles drawn in CSS (no emoji) --------------------------------- */
+.tile-tree{ position:relative; }
+.tile-tree::before{            /* canopy */
+  content:""; position:absolute; left:50%; top:3px; transform:translateX(-50%);
+  width:26px; height:22px; border-radius:50% 50% 44% 44%;
+  background:radial-gradient(circle at 35% 30%, #4e8c3a, #2f5a22 70%);
+  box-shadow:inset -3px -3px 0 rgba(0,0,0,.22);
+}
+.tile-tree::after{             /* trunk */
+  content:""; position:absolute; left:50%; bottom:3px; transform:translateX(-50%);
+  width:7px; height:11px; background:#5b3a1e; border-radius:2px;
+}
+.tile-mine{ position:relative; }
+.tile-mine::before{            /* rocky mouth */
+  content:""; position:absolute; inset:5px 4px 4px;
+  background:linear-gradient(180deg,#7b7b70,#4a4a44);
+  clip-path:polygon(50% 0,100% 62%,100% 100%,0 100%,0 62%);
+}
+.tile-mine::after{             /* the dark entrance */
+  content:""; position:absolute; left:50%; bottom:4px; transform:translateX(-50%);
+  width:14px; height:13px; background:#100e0c; border-radius:7px 7px 0 0;
+}
+.farm-tile.bush{ position:relative; }
+.farm-tile.bush::before{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:26px; height:24px; border-radius:48%;
+  background:radial-gradient(circle at 34% 30%, #59a03f, #2c5220 72%);
+}
+/* farmhouse: the real art, spanning the 2x2 block */
+.house-main{ background:url("../farmhousestardew.png") no-repeat center/contain; }
+
+/* crops: a sprout, then the gold parsnip */
+.tile-soil.seeded{ position:relative; }
+.tile-soil.seeded::after{
+  content:""; position:absolute; left:50%; bottom:7px; transform:translateX(-50%);
+  width:4px; height:12px; background:#7bc043; border-radius:2px;
+  box-shadow:-5px -3px 0 -1px #7bc043, 5px -3px 0 -1px #7bc043;
+}
+.tile-soil.grown{
+  background-image:url("../Gold_Carrot_stardew.webp");
+  background-repeat:no-repeat; background-position:center; background-size:24px 24px;
+}
+
+/* villagers, drawn instead of emoji faces */
+.farm-sprite.npc{ position:relative; }
+.farm-sprite.npc::before{      /* head */
+  content:""; position:absolute; left:50%; top:5px; transform:translateX(-50%);
+  width:12px; height:12px; border-radius:50%; background:#f0c9a0;
+  box-shadow:0 -3px 0 0 var(--npc-hair, #6b4a2b);
+}
+.farm-sprite.npc::after{       /* body */
+  content:""; position:absolute; left:50%; bottom:4px; transform:translateX(-50%);
+  width:18px; height:15px; border-radius:5px 5px 3px 3px; background:var(--npc-coat, #7b6bd6);
+}
+.npc-fern{ --npc-hair:#d8d8d8; --npc-coat:#b8558f; }
+.npc-rob{ --npc-hair:#3b2a17; --npc-coat:#d1922f; }
+
 .farm-tile.bush.rustle{ animation:rustle .5s ease; }
 @keyframes rustle{ 25%{ transform:rotate(-8deg) scale(1.08) } 65%{ transform:rotate(7deg) } }
 

@@ -7,8 +7,8 @@
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>One Night at Swifty's - FNAF :: Swifty's Jook Joint</title>
   <meta name="description" content="Swifty's Five Nights at Freddy's room. Take the night shift: doors, lights, cameras, and not nearly enough power." />
-  <meta name="theme-color" content="#0c0910" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14' font-size='14'>🐻</text></svg>" />
+  <meta name="theme-color" content="#04060a" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 4h10v9H3z M5 6h2v2H5z M9 6h2v2H9z' fill='%23e23b3b'/></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
@@ -34,13 +34,18 @@
     <section class="fnaf-game" id="fnaf-game" aria-label="One Night at Swifty's - a survival game">
 
       <div class="fg-menu" id="fg-menu">
-        <div class="fg-title">ONE NIGHT<br>AT SWIFTY'S</div>
-        <button id="fg-new" type="button">&gt; NEW NIGHT</button>
-        <button id="fg-continue" type="button" hidden>&gt; CONTINUE</button>
+        <div class="fg-title">One Night<br>at Swifty's</div>
+        <button id="fg-new" type="button">New Game</button>
+        <button id="fg-continue" type="button" hidden>Continue</button>
         <p class="fg-hint">a raccoon in a bear suit walks the halls.<br>
           doors stop him. lights find him. cameras slow him.<br>
           everything costs power. 6AM is a long way off.</p>
         <p class="fg-star">★ scroll down for the lore files ★</p>
+        <div class="fg-menu-bar">
+          <span>v 1.032</span>
+          <span class="mid">Press and hold DELETE to reset all data.</span>
+          <span>&copy; 2026 Swifty</span>
+        </div>
       </div>
 
       <div class="fg-office" id="fg-office" hidden>
@@ -57,7 +62,7 @@
             <button class="fg-btn light" id="fg-lightL" type="button">LIGHT</button>
           </div>
           <div class="fg-desk">
-            <div class="fan" aria-hidden="true">🌀</div>
+            <div class="fan" aria-hidden="true"></div>
             <p class="desk-note">the fan does nothing. it stays on out of principle.</p>
           </div>
           <div class="fg-side right">
@@ -76,16 +81,16 @@
           <div id="fg-cam-body"></div>
         </div>
         <div class="fg-cam-map" role="group" aria-label="camera selector">
-          <button class="fg-cam-btn" data-room="stage"  type="button">1A stage</button>
+          <button class="fg-cam-btn" data-room="stage" type="button">1A stage</button>
           <button class="fg-cam-btn" data-room="dining" type="button">1B dining</button>
-          <button class="fg-cam-btn" data-room="hallL"  type="button">2A west hall</button>
-          <button class="fg-cam-btn" data-room="hallR"  type="button">2B east hall</button>
-          <button class="fg-cam-btn" data-room="desk"   type="button">3C the desk</button>
+          <button class="fg-cam-btn" data-room="hallL" type="button">2A west hall</button>
+          <button class="fg-cam-btn" data-room="hallR" type="button">2B east hall</button>
+          <button class="fg-cam-btn" data-room="desk" type="button">3C the desk</button>
         </div>
         <button id="fg-cams-down" type="button">▼ ▼ OFFICE ▼ ▼</button>
       </div>
 
-      <div class="fg-jumpscare" id="fg-jumpscare" hidden aria-hidden="true">🦝</div>
+      <div class="fg-jumpscare" id="fg-jumpscare" hidden aria-hidden="true"></div>
 
       <div class="fg-end" id="fg-end" hidden>
         <p id="fg-end-title"></p>
@@ -93,6 +98,29 @@
         <button id="fg-retry" type="button">&gt; RETRY</button>
         <button id="fg-quit" type="button">&gt; BACK TO MENU</button>
       </div>
+    </section>
+
+    <!-- ============ CAM 3C :: the real desk feed ============ -->
+    <h2>CAM 3C - the desk</h2>
+    <section class="deskcam-setup" id="deskcam-setup" aria-label="desk camera feed">
+      <div class="deskcam-screen" id="deskcam-screen">
+        <span class="deskcam-rec">REC</span>
+        <div class="deskcam-placeholder" id="deskcam-placeholder">
+          <p class="deskcam-main">- camera disabled -</p>
+          <p class="deskcam-sub">audio only</p>
+        </div>
+        <img id="deskcam-img" alt="live feed of Swifty's desk" hidden />
+      </div>
+      <p class="deskcam-note">This is meant to be a <b>live camera pointed at my actual desk</b>.
+        It isn't wired up yet - drop a stream URL below and it'll show here.
+        An MJPEG / snapshot URL works best.</p>
+      <form class="deskcam-form" id="deskcam-form">
+        <input class="deskcam-input" id="deskcam-url" type="url" inputmode="url"
+               placeholder="https://.../stream.mjpg" aria-label="camera stream URL" />
+        <button class="deskcam-btn" type="submit">connect</button>
+        <button class="deskcam-btn ghost" type="button" id="deskcam-clear">disable</button>
+      </form>
+      <p class="deskcam-status" id="deskcam-status">no feed configured - showing the placeholder.</p>
     </section>
 
     <div class="panel incident">
@@ -147,5 +175,6 @@
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
   <script src="js/rooms/fnaf.js"></script>
+  <script src="js/rooms/deskcam.js"></script>
 </body>
 </html>

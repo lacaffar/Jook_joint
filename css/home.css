@@ -56,7 +56,7 @@
 .door-fnaf::after{ content:"◠"; position:absolute; top:-14px; color:#ffe9a8; font-size:14px;
   text-shadow:0 0 9px #ffe9a8; animation:flickerHard 3.5s infinite; }
 .door-stardew{ --glow:#8fcf4f; background:linear-gradient(180deg,#2c4420,#1d2f14); }
-.door-stardew::after{ content:"🌿"; position:absolute; top:-10px; left:6px; font-size:16px; }
+.door-stardew::after{ content:""; position:absolute; top:-10px; left:6px; font-size:16px; }
 .door-undertale{ --glow:#ff2a2a; background:#000; border-color:#3a3a3a; }
 .door-undertale .ico{ color:#ff2a2a; text-shadow:0 0 12px #ff2a2a; }
 .door-fencing{ --glow:#3da9fc; background:linear-gradient(180deg,#2c3546,#1d2430); }
@@ -81,7 +81,41 @@
   border-radius:6px 6px 0 0; min-height:74px;
 }
 .bar-counter .stools{ display:flex; gap:8px; opacity:.9; }
-.stool{ font-size:26px; }
+/* ---- counter props, drawn in CSS (no emoji) ------------------------ */
+.stool{ font-size:26px; width:26px; height:34px; position:relative; }
+.stool::before{                /* seat */
+  content:""; position:absolute; left:50%; top:6px; transform:translateX(-50%);
+  width:24px; height:7px; border-radius:4px;
+  background:linear-gradient(180deg,#8c4a2a,#5e2f1a);
+}
+.stool::after{                 /* legs */
+  content:""; position:absolute; left:50%; top:13px; transform:translateX(-50%);
+  width:16px; height:16px;
+  border-left:3px solid #4a2614; border-right:3px solid #4a2614;
+  border-bottom:3px solid #4a2614; border-radius:0 0 3px 3px;
+}
+#tip-jar{ width:30px; height:34px; position:relative; }
+#tip-jar::before{              /* glass jar */
+  content:""; position:absolute; left:50%; bottom:2px; transform:translateX(-50%);
+  width:22px; height:24px; border-radius:4px 4px 7px 7px;
+  background:linear-gradient(180deg, rgba(200,230,235,.30), rgba(150,190,200,.16));
+  border:2px solid rgba(220,240,245,.5);
+}
+#tip-jar::after{               /* coins inside */
+  content:""; position:absolute; left:50%; bottom:5px; transform:translateX(-50%);
+  width:14px; height:7px; border-radius:3px; background:var(--warn); opacity:.85;
+}
+#trash-can{ width:30px; height:36px; position:relative; }
+#trash-can::before{            /* lid */
+  content:""; position:absolute; left:50%; top:4px; transform:translateX(-50%);
+  width:26px; height:5px; border-radius:3px; background:#6b7280;
+}
+#trash-can::after{             /* bin */
+  content:""; position:absolute; left:50%; top:10px; transform:translateX(-50%);
+  width:21px; height:22px; background:#8b9199;
+  clip-path:polygon(0 0,100% 0,86% 100%,14% 100%);
+  box-shadow:inset -4px 0 0 rgba(0,0,0,.18);
+}
 .stool.wobble{ animation:stoolWobble .45s ease; }
 @keyframes stoolWobble{ 25%{ transform:rotate(-10deg) } 55%{ transform:rotate(8deg) } 80%{ transform:rotate(-4deg) } }
 .sign{ cursor:pointer; }
@@ -155,20 +189,24 @@ body.lights-off .bar-counter::after{
 @keyframes racRun{ to{ transform:translateX(calc(100vw + 140px)) } }
 @keyframes racRunBack{ to{ transform:translateX(calc(-100vw - 140px)) } }
 
-/* Ray Charles, offering his review of the site */
+/* Ray Charles, parked off to the side of the page, reviewing the joint */
 .ray{
-  display:flex; align-items:center; gap:18px; margin:26px 0 6px;
+  position:fixed; left:18px; bottom:18px; z-index:45;
+  display:flex; align-items:flex-end; gap:10px; margin:0;
+  pointer-events:none;
 }
 .ray-img{
-  width:132px; height:auto; flex:none; border-radius:10px;
+  width:124px; height:auto; flex:none; border-radius:10px;
   border:1px solid var(--line); box-shadow:var(--shadow); filter:grayscale(1) contrast(1.05);
 }
+/* out of the way on smaller screens, where the page needs the room */
+@media (max-width:1180px){ .ray{ display:none; } }
 .ray-bubble{
   position:relative; font-family:var(--font-term); font-size:24px; line-height:1.25;
   color:#111; background:#fff; border:2px solid #111; border-radius:12px;
   padding:10px 16px; box-shadow:3px 3px 0 #111; max-width:16ch;
 }
-.ray-bubble::before{           /* tail pointing back at Ray */
+.ray-bubble::before{ /* tail pointing back at Ray */
   content:""; position:absolute; left:-11px; top:50%; transform:translateY(-50%);
   border:8px solid transparent; border-right-color:#111;
 }

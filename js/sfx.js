@@ -57,33 +57,33 @@ window.SFX = (function () {
 
   var api = {
     /* dialogue / UI */
-    blip:   function () { tone(430, 0.045, 'square', 0.06); },
-    click:  function () { tone(1200, 0.03, 'square', 0.045); },
-    deny:   function () { tone(140, 0.18, 'square', 0.09); },
+    blip: function () { tone(430, 0.045, 'square', 0.06); },
+    click: function () { tone(1200, 0.03, 'square', 0.045); },
+    deny: function () { tone(140, 0.18, 'square', 0.09); },
     /* rewards */
-    coin:   function () { tone(988, 0.09, 'square', 0.08); setTimeout(function () { tone(1319, 0.22, 'square', 0.08); }, 80); },
-    cap:    function () { tone(660, 0.08, 'square', 0.08); setTimeout(function () { tone(880, 0.08, 'square', 0.08); }, 90); setTimeout(function () { tone(1175, 0.25, 'square', 0.09); }, 180); },
-    save:   function () { [523, 659, 784, 1047].forEach(function (f, i) { setTimeout(function () { tone(f, 0.12, 'square', 0.07); }, i * 90); }); },
+    coin: function () { tone(988, 0.09, 'square', 0.08); setTimeout(function () { tone(1319, 0.22, 'square', 0.08); }, 80); },
+    cap: function () { tone(660, 0.08, 'square', 0.08); setTimeout(function () { tone(880, 0.08, 'square', 0.08); }, 90); setTimeout(function () { tone(1175, 0.25, 'square', 0.09); }, 180); },
+    save: function () { [523, 659, 784, 1047].forEach(function (f, i) { setTimeout(function () { tone(f, 0.12, 'square', 0.07); }, i * 90); }); },
     /* combat-ish */
-    hurt:   function () { tone(300, 0.2, 'sawtooth', 0.1, 90); },
-    slash:  function () { noise(0.12, 0.1, 2500, 'highpass'); },
-    buzz:   function () { tone(110, 0.35, 'sawtooth', 0.12); },
-    parry:  function () { tone(1800, 0.06, 'triangle', 0.1); noise(0.08, 0.06, 4000, 'highpass'); },
+    hurt: function () { tone(300, 0.2, 'sawtooth', 0.1, 90); },
+    slash: function () { noise(0.12, 0.1, 2500, 'highpass'); },
+    buzz: function () { tone(110, 0.35, 'sawtooth', 0.12); },
+    parry: function () { tone(1800, 0.06, 'triangle', 0.1); noise(0.08, 0.06, 4000, 'highpass'); },
     /* fnaf */
     static: function () { noise(0.25, 0.05, 1800, 'bandpass'); },
-    hum:    function () { tone(60, 0.5, 'sine', 0.03); },
-    scare:  function () { noise(0.9, 0.35, 900); tone(180, 0.9, 'sawtooth', 0.22, 60); },
-    chime:  function () { [660, 880, 660, 1047].forEach(function (f, i) { setTimeout(function () { tone(f, 0.4, 'sine', 0.09); }, i * 350); }); },
+    hum: function () { tone(60, 0.5, 'sine', 0.03); },
+    scare: function () { noise(0.9, 0.35, 900); tone(180, 0.9, 'sawtooth', 0.22, 60); },
+    chime: function () { [660, 880, 660, 1047].forEach(function (f, i) { setTimeout(function () { tone(f, 0.4, 'sine', 0.09); }, i * 350); }); },
     /* misc */
-    ding:   function () { tone(1568, 0.3, 'triangle', 0.09); },
-    step:   function () { tone(220, 0.03, 'square', 0.025); },
+    ding: function () { tone(1568, 0.3, 'triangle', 0.09); },
+    step: function () { tone(220, 0.03, 'square', 0.025); },
 
-    muted:  function () { return muted; },
+    muted: function () { return muted; },
     setMuted: function (m) {
       muted = !!m;
       try { localStorage.setItem('sjj_mute', muted ? '1' : '0'); } catch (e) {}
       var b = document.querySelector('#mute-btn');
-      if (b) { b.textContent = muted ? '🔇' : '🔊'; b.setAttribute('aria-pressed', String(muted)); }
+      if (b) { b.textContent = muted ? 'SFX OFF' : 'SFX ON'; b.setAttribute('aria-pressed', String(muted)); }
     }
   };
 
@@ -98,7 +98,7 @@ window.SFX = (function () {
     b.title = 'sound effects on/off';
     b.setAttribute('aria-label', 'toggle sound effects');
     b.setAttribute('aria-pressed', String(muted));
-    b.textContent = muted ? '🔇' : '🔊';
+    b.textContent = muted ? 'SFX OFF' : 'SFX ON';
     b.addEventListener('click', function () { api.setMuted(!muted); if (!muted) api.click(); });
     bar.appendChild(b);
   }
