@@ -49,7 +49,9 @@ body.room-fnaf::after{
   display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
   gap:14px; padding:40px 8%;
   background:
+    linear-gradient(90deg, rgba(6,4,9,.94) 0%, rgba(6,4,9,.72) 42%, rgba(6,4,9,.35) 100%),
     radial-gradient(700px 300px at 80% 20%, rgba(138,63,251,.12), transparent 60%),
+    url("../fnaf-menu-bg.jpg") center/cover no-repeat,
     #060409;
 }
 .fg-title{
@@ -99,6 +101,11 @@ body.room-fnaf::after{
 .fg-doorway .fg-eyes{
   font-family:var(--font-term); color:#ffd7d7; font-size:22px; letter-spacing:10px;
   text-shadow:0 0 8px var(--accent); opacity:0; transition:opacity .12s;
+}
+/* something in the dark: screen-blend drops the shot's black background */
+.fg-doorway .fg-eyes img{
+  width:84px; height:auto; display:block; mix-blend-mode:screen;
+  image-rendering:auto; filter:drop-shadow(0 0 10px rgba(226,59,59,.55));
 }
 .lightL-on .fg-side.left  .fg-doorway{ background:#1c1428; }
 .lightR-on .fg-side.right .fg-doorway{ background:#1c1428; }
@@ -162,6 +169,20 @@ body.room-fnaf::after{
 .fg-silhouette svg{ width:100%; height:auto; }
 @keyframes fgFlicker{ 50%{ opacity:.55 } 75%{ transform:translateX(2px) } }
 .fg-empty{ font-family:var(--font-term); color:#5d8a6c; font-size:20px; }
+
+/* CAM 3C - the offsite desk feed (placeholder until it goes live) */
+.fg-deskcam{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:6px; height:100%; padding:18px; text-align:center;
+  font-family:var(--font-term);
+  background:repeating-linear-gradient(0deg, rgba(255,255,255,.035) 0 2px, transparent 2px 4px);
+}
+.fg-deskcam-main{
+  margin:0; font-size:26px; letter-spacing:2px; color:#e23b3b;
+  text-shadow:0 0 12px rgba(226,59,59,.6); animation:blink 2.4s steps(2) infinite;
+}
+.fg-deskcam-sub{ margin:0; font-size:20px; color:#9a86b8; letter-spacing:6px; text-transform:uppercase; }
+.fg-deskcam-note{ margin:8px 0 0; font-size:16px; line-height:1.4; color:#6f6280; max-width:34ch; }
 
 .fg-cam-map{
   display:flex; gap:8px; flex-wrap:wrap; justify-content:center; padding:0 12px 4px;

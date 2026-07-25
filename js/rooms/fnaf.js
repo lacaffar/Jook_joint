@@ -35,7 +35,11 @@
     hallL:  { cam: '2A', name: 'WEST HALL',      next: ['doorL', 'dining'] },
     hallR:  { cam: '2B', name: 'EAST HALL',      next: ['doorR', 'dining'] },
     doorL:  { cam: null, name: 'AT YOUR LEFT DOOR',  next: [] },
-    doorR:  { cam: null, name: 'AT YOUR RIGHT DOOR', next: [] }
+    doorR:  { cam: null, name: 'AT YOUR RIGHT DOOR', next: [] },
+    /* CAM 3C is the real-world feed of Swifty's desk. Not wired up yet:
+       for now it renders a static "camera disabled / audio only" card.
+       TODO: replace the placeholder with the live desk stream. */
+    desk:   { cam: '3C', name: 'THE DESK (OFFSITE)', next: [], offline: true }
   };
   var CAM_ORDER = ['stage', 'dining', 'hallL', 'hallR'];
 
@@ -95,7 +99,21 @@
     var room = ROOMS[st.cam];
     camLabel.textContent = 'CAM ' + room.cam + ' - ' + room.name;
     camBody.textContent = '';
-    if (st.pos === st.cam) {
+    if (room.offline) {                    /* the real desk cam, not live yet */
+      var off = document.createElement('div');
+      off.className = 'fg-deskcam';
+      var l1 = document.createElement('p');
+      l1.className = 'fg-deskcam-main';
+      l1.textContent = '- camera disabled -';
+      var l2 = document.createElement('p');
+      l2.className = 'fg-deskcam-sub';
+      l2.textContent = 'audio only';
+      var l3 = document.createElement('p');
+      l3.className = 'fg-deskcam-note';
+      l3.textContent = 'this feed points at Swifty’s actual desk. one day you will be able to watch him work. today: static and the hum of a fan.';
+      off.appendChild(l1); off.appendChild(l2); off.appendChild(l3);
+      camBody.appendChild(off);
+    } else if (st.pos === st.cam) {
       var s = document.createElement('div');
       s.className = 'fg-silhouette';
       s.innerHTML = scareSVG || '🦝';
