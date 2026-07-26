@@ -120,10 +120,11 @@
     });
   });
 
-  /* ---- smack the neon sign --------------------------------------------- */
-  var sign = document.querySelector('.sign');
-  if (sign) sign.addEventListener('click', function () {
-    sign.classList.remove('smacked'); void sign.offsetWidth; sign.classList.add('smacked');
+  /* ---- smack the neon sign (the whole board jolts) ---------------------- */
+  var signBoard = document.querySelector('#sign-board') || document.querySelector('.sign');
+  if (signBoard) signBoard.addEventListener('click', function () {
+    signBoard.classList.remove('smacked'); void signBoard.offsetWidth;
+    signBoard.classList.add('smacked');
     if (window.SFX) SFX.buzz();
   });
 
