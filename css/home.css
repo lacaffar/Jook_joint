@@ -347,7 +347,7 @@ body.lights-off .bar-counter::after{
 /* Ray Charles, parked off to the side of the page, reviewing the joint */
 .ray{
   position:fixed; left:18px; bottom:18px; z-index:45;
-  display:flex; align-items:flex-end; gap:10px; margin:0;
+  display:flex; align-items:flex-start; gap:12px; margin:0;
   pointer-events:none;
 }
 .ray-img{
@@ -356,20 +356,33 @@ body.lights-off .bar-counter::after{
 }
 /* out of the way on smaller screens, where the page needs the room */
 @media (max-width:1180px){ .ray{ display:none; } }
+/* his verdict, in the house style: a dark neon plate by his head.
+   green, because the man approves - same green as the OPEN sign. */
 .ray-bubble{
-  position:relative; font-family:var(--font-term); font-size:24px; line-height:1.25;
-  color:#111; background:#fff; border:2px solid #111; border-radius:12px;
-  padding:10px 16px; box-shadow:3px 3px 0 #111; max-width:16ch;
+  position:relative; margin-top:-24px;
+  font-family:var(--font-term); font-size:21px; line-height:1.3;
+  color:#dfffe6; background:#12100d;
+  border:2px solid color-mix(in srgb, var(--ok) 80%, transparent);
+  border-radius:14px 14px 14px 3px;
+  padding:8px 14px; max-width:14ch;
+  text-shadow:0 0 7px color-mix(in srgb, var(--ok) 55%, transparent);
+  box-shadow:
+    0 0 16px color-mix(in srgb, var(--ok) 28%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--ok) 12%, transparent),
+    0 6px 14px rgba(0,0,0,.55);
+  animation:rayBob 4.5s ease-in-out infinite;
 }
-.ray-bubble::before{ /* tail pointing back at Ray */
-  content:""; position:absolute; left:-11px; top:50%; transform:translateY(-50%);
-  border:8px solid transparent; border-right-color:#111;
+.ray-bubble::before{ /* tail pointing back down at Ray */
+  content:""; position:absolute; left:-11px; bottom:8px;
+  border:8px solid transparent;
+  border-right-color:color-mix(in srgb, var(--ok) 80%, transparent);
 }
 .ray-bubble::after{
-  content:""; position:absolute; left:-7px; top:50%; transform:translateY(-50%);
-  border:7px solid transparent; border-right-color:#fff;
+  content:""; position:absolute; left:-6px; bottom:10px;
+  border:6px solid transparent; border-right-color:#12100d;
 }
-@media (max-width:560px){ .ray{ flex-direction:column; text-align:center; } .ray-bubble::before,.ray-bubble::after{ display:none; } }
+@keyframes rayBob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-5px) } }
+@media (prefers-reduced-motion:reduce){ .ray-bubble{ animation:none; } }
 
 /* accessible plain list of rooms below the scene */
 .room-list{ font-size:14px; color:var(--muted); text-align:center; margin:2px 0 0; }
