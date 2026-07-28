@@ -103,7 +103,10 @@
           <button class="hotspot stool" type="button" aria-label="the raccoon's bar stool"></button>
         </span>
         <button class="hotspot" id="scene-jukebox" type="button" aria-label="the jukebox - play or pause the music" title="the jukebox. it only knows Toby Fox. it is at peace."><img src="Jukebox_ICON.png" alt="" /></button>
-        <button class="hotspot" id="tip-jar" type="button" aria-label="the tip jar"></button>
+        <button class="hotspot" id="tip-jar" type="button" aria-label="the coin pouch - drop a coin in">
+          <img id="pouch-img" src="EmptyPouch.png" alt="" draggable="false" />
+          <canvas id="pouch-canvas" width="96" height="188" aria-hidden="true"></canvas>
+        </button>
         <button class="hotspot" id="trash-can" type="button" aria-label="the trash can. probably leave it alone." title="property of: "></button>
       </div>
     </section>

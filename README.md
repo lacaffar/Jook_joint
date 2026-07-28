@@ -8,7 +8,7 @@ all new sound is synthesized with the WebAudio API).
 ## Rooms & games
 | File | Room | The game |
 |------|------|----------|
-| `index.html` | The bar | Interactive scene: themed doors, jukebox, tip jar, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
+| `index.html` | The bar | Interactive scene: themed doors, jukebox, a Kingdom coin pouch with real coin physics, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
 | `fnaf.html` | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
 | `stardew.html` | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
 | `undertale.html` | The encounter | **FIGHT / ACT / ITEM / MERCY** battle with bullet-hell dodging; ACT your way to the pacifist spare |
