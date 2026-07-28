@@ -41,7 +41,7 @@
   var pouchCanvas = document.querySelector('#pouch-canvas');
   if (jar && pouchImg && pouchCanvas && pouchCanvas.getContext) {
     var pctx = pouchCanvas.getContext('2d');
-    var PS = 5;                              // backing pixels per sim unit
+    var PS = 7;                              // backing pixels per sim unit
     var PW = 48, PH = 94;                    // canvas size, sim units
     var BAGW = 36, BAGH = 57;                // bag art size, sim units
     var BAGTOP = PH - 2 - BAGH;              // y of the bag's top edge
@@ -49,7 +49,7 @@
     var WALL = 2;                            // bag wall thickness
     var CR = 1.8;                            // coin radius
     var GRAV = 300;
-    var FLOORY = BAGTOP + BAGH * 0.92;       // resting line in the round bottom
+    var FLOORY = BAGTOP + BAGH * 0.90;       // resting line in the round bottom
     var SIM_CAP = 110;                       // ~full to the collar, like the art
 
     /* [t down the bag 0..1, outer half-width / bag width] from the png */
@@ -75,9 +75,9 @@
 
     /* gold, silver, bronze - the coin colours of the full-pouch art */
     var PALS = [
-      { b: '#ecc94f', d: '#a5771e', l: '#fdf6cf', w: .64 },
-      { b: '#dfe3e8', d: '#8d94a0', l: '#ffffff', w: .18 },
-      { b: '#b98045', d: '#7a4d1f', l: '#e6c193', w: .18 }
+      { b: '#ecc94f', d: '#a5771e', l: '#fdf6cf', w: .70 },
+      { b: '#dfe3e8', d: '#8d94a0', l: '#ffffff', w: .14 },
+      { b: '#b98045', d: '#7a4d1f', l: '#e6c193', w: .16 }
     ];
     function pickPal() {
       var r = Math.random(), acc = 0;
@@ -190,7 +190,7 @@
       var el = document.createElement('span');
       el.className = 'coin-spill';
       var size = CR * 2 * s;
-      el.style.width = size + 'px'; el.style.height = size + 'px';
+      el.style.width = size + 'px'; el.style.height = size * .66 + 'px';
       el.style.background = c.pal.b;
       el.style.borderColor = c.pal.d;
       el.style.boxShadow = 'inset ' + (size * .22) + 'px ' + (size * .22) + 'px 0 ' + c.pal.l;
@@ -212,15 +212,21 @@
       requestAnimationFrame(fall);
     }
 
+    /* coins are drawn as tilted ovals - discs lying in a pile, with the
+       edge showing under the face, like the coins in the full-pouch art */
     function drawCoins() {
       for (var i = 0; i < coins.length; i++) {
         var c = coins[i], p = c.pal;
-        pctx.fillStyle = p.d;
-        pctx.beginPath(); pctx.arc(c.x, c.y, CR + .35, 0, 6.2832); pctx.fill();
-        pctx.fillStyle = p.b;
-        pctx.beginPath(); pctx.arc(c.x, c.y, CR - .15, 0, 6.2832); pctx.fill();
-        pctx.fillStyle = p.l;
-        pctx.fillRect(c.x - CR * .55, c.y - CR * .55, 1, 1);
+        pctx.save();
+        pctx.translate(c.x, c.y);
+        pctx.rotate(c.tilt || 0);
+        pctx.fillStyle = p.d;                /* the edge underneath */
+        pctx.beginPath(); pctx.ellipse(0, .24, CR + .12, CR * .72, 0, 0, 6.2832); pctx.fill();
+        pctx.fillStyle = p.b;                /* the face */
+        pctx.beginPath(); pctx.ellipse(0, -.14, CR - .04, CR * .60, 0, 0, 6.2832); pctx.fill();
+        pctx.fillStyle = p.l;                /* a thin shine along the rim */
+        pctx.beginPath(); pctx.ellipse(-.3, -.62, CR * .46, CR * .15, -.3, 0, 6.2832); pctx.fill();
+        pctx.restore();
       }
     }
 
@@ -275,7 +281,8 @@
       var vx = (Math.random() * 24 - 12) * DT, vy = (10 + Math.random() * 20) * DT;
       coins.push({
         x: x, y: y, px: x - vx, py: y - vy,
-        pal: pickPal(), still: 0, asleep: false, landed: false,
+        pal: pickPal(), tilt: Math.random() * .9 - .45,
+        still: 0, asleep: false, landed: false,
         spill: spilling, dir: Math.random() < .5 ? -1 : 1, age: 0
       });
       if (REDUCED) {
@@ -296,7 +303,8 @@
             var jx = x + (Math.random() * .6 - .3);
             coins.push({
               x: jx, y: y, px: jx, py: y,
-              pal: pickPal(), still: 0, asleep: false, landed: true,
+              pal: pickPal(), tilt: Math.random() * .9 - .45,
+              still: 0, asleep: false, landed: true,
               spill: false, dir: 0, age: 0
             });
             placed++; x += CR * 2;
