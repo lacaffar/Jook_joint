@@ -262,12 +262,116 @@
     if (Math.hypot(e.clientX - x, e.clientY - y) < HALF * 0.9) poke(performance.now());
   });
 
+  /* ---- keep-out zones --------------------------------------------------
+     Some boxes are not his to walk into - the Undertale battle box is your
+     fight, not his. He walks around it rather than through it, and when the
+     cursor goes inside he climbs up and sits on the lid to watch.
+
+     The art sits at the bottom of its 64px cell, so the point we track is up
+     at his shoulders: his body reaches 24px to either side of it, 2px above
+     and 32px below. The no-go rect is padded to match, which is why it is
+     not symmetric.
+     ---------------------------------------------------------------------- */
+  var KEEP_OUT = '.ut-box';
+  var SIDE = 26;  /* clearance he keeps beside and below the border */
+  var PERCH = 6;  /* how far his feet settle onto the lid when he sits */
+
+  var koNode = null, koLooks = 0;
+  function keepOutZone() {
+    if (!koNode || !koNode.isConnected) { /* most rooms have no zone: don't hunt every frame */
+      if (koLooks++ % 30) return null;
+      koNode = document.querySelector(KEEP_OUT);
+      if (!koNode) return null;
+    }
+    var box = koNode.getBoundingClientRect();
+    if (!box.width || !box.height) return null;
+    return {
+      box: box,
+      l: box.left - SIDE, r: box.right + SIDE,
+      t: box.top - HALF + PERCH, b: box.bottom + 2
+    };
+  }
+  function cursorInside(z) {
+    return mx >= z.box.left && mx <= z.box.right && my >= z.box.top && my <= z.box.bottom;
+  }
+  function evict(z) { /* if he ever ends up inside, out the nearest wall he goes */
+    if (x <= z.l || x >= z.r || y <= z.t || y >= z.b) return;
+    var dl = x - z.l, dr = z.r - x, dt = y - z.t, db = z.b - y;
+    var m = Math.min(dl, dr, dt, db);
+    if (m === dt) y = z.t;
+    else if (m === db) y = z.b;
+    else if (m === dl) x = z.l;
+    else x = z.r;
+  }
+  /* does a walk from (x0,y0) to (x1,y1) cut through the zone? (Liang-Barsky -
+     brushing along an edge doesn't count. pad shrinks the zone, which is how
+     a corner stays reachable once he is already hugging that wall.) */
+  function crosses(z, x0, y0, x1, y1, pad) {
+    var dx = x1 - x0, dy = y1 - y0, t0 = 0, t1 = 1;
+    var p = [-dx, dx, -dy, dy];
+    var q = [x0 - z.l - pad, z.r - pad - x0, y0 - z.t - pad, z.b - pad - y0];
+    for (var i = 0; i < 4; i++) {
+      if (!p[i]) { if (q[i] <= 0) return false; continue; }
+      var u = q[i] / p[i];
+      if (p[i] < 0) { if (u > t1) return false; if (u > t0) t0 = u; }
+      else { if (u < t0) return false; if (u < t1) t1 = u; }
+    }
+    return t1 - t0 > 1e-6;
+  }
+  /* blocked? then he rounds a corner. Shortest walk that stays outside, over
+     a six node visibility graph - him, where he is headed, and the four
+     corners - re-solved each frame, and we only ever take the first hop.
+     (Greedy nearest-corner traps him in the middle of a wall.) */
+  function detour(z, tx, ty) {
+    if (!crosses(z, x, y, tx, ty, 0)) return null;
+    var n = [[x, y], [tx, ty], [z.l, z.t], [z.r, z.t], [z.r, z.b], [z.l, z.b]];
+    var N = n.length, INF = Infinity, d = [], seen = [], from = [], i, j;
+    for (i = 0; i < N; i++) { d[i] = INF; seen[i] = false; from[i] = -1; }
+    d[0] = 0;
+    for (var k = 0; k < N; k++) {
+      var u = -1;
+      for (i = 0; i < N; i++) if (!seen[i] && d[i] < (u < 0 ? INF : d[u])) u = i;
+      if (u < 0 || u === 1) break;
+      seen[u] = true;
+      for (j = 0; j < N; j++) {
+        if (seen[j] || j === u) continue;
+        /* the corners sit on the wall, so let a walk brush along it */
+        if (crosses(z, n[u][0], n[u][1], n[j][0], n[j][1], (u > 1 || j > 1) ? 8 : 0)) continue;
+        var w = d[u] + Math.hypot(n[j][0] - n[u][0], n[j][1] - n[u][1]);
+        if (w < d[j]) { d[j] = w; from[j] = u; }
+      }
+    }
+    if (d[1] === INF) return null;
+    var path = [], s = 1, guard = 0;
+    while (s !== 0 && guard++ < N) { path.unshift(s); s = from[s]; }
+    for (i = 0; i < path.length; i++) { /* skip a corner he is already standing on */
+      var p = n[path[i]];
+      if (Math.hypot(p[0] - x, p[1] - y) > 6) return path[i] === 1 ? null : p;
+    }
+    return null;
+  }
+
   /* ---- main loop: follow the cursor, drive the sprite ------------------ */
   var GAP = 36;
   function frame(now) {
-    var dx = mx - x, dy = my - y;
+    var zone = keepOutZone();
+    var tx = mx, ty = my, gap = GAP, perched = false;
+
+    if (zone) {
+      evict(zone); /* a scroll or a respawn can drop him in - walk him back out */
+      if (cursorInside(zone)) { /* cursor stepped in - he takes the high ground */
+        perched = true;
+        tx = Math.max(zone.box.left + 24, Math.min(zone.box.right - 24, mx));
+        ty = zone.t; /* sat on the lid, feet over the white border */
+        gap = 3;
+      }
+      var way = detour(zone, tx, ty);
+      if (way) { tx = way[0]; ty = way[1]; gap = 2; }
+    }
+
+    var dx = tx - x, dy = ty - y;
     var dist = Math.hypot(dx, dy);
-    var moving = dist > GAP && !dead && now >= damageUntil;
+    var moving = dist > gap && !dead && now >= damageUntil;
 
     if (moving) {
       var speed = Math.min(dist * 0.16, 13);
@@ -277,6 +381,7 @@
       idleFrames = 0;
       bubble.classList.remove('show');
     } else if (!dead && now >= damageUntil) {
+      if (perched && Math.abs(mx - x) > 2) facing = mx < x ? -1 : 1; /* he watches the fight */
       idleFrames++;
       if (idleFrames > 90 && now - lastSpeak > 14000 && Math.random() < 0.012) {
         say(); lastSpeak = now;
@@ -287,6 +392,8 @@
     if (dead) { /* state already 'death', holds on last frame */ }
     else if (now < damageUntil) setState('damage', animStart || now);
     else setState(moving ? 'move' : 'idle', now);
+
+    if (zone) evict(zone); /* the border holds, whatever else happened this frame */
 
     if (REDUCED) { drawnCol = -1; drawSprite(animStart); } /* one still frame */
     else drawSprite(now);
