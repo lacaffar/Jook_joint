@@ -41,7 +41,7 @@
   var pouchCanvas = document.querySelector('#pouch-canvas');
   if (jar && pouchImg && pouchCanvas && pouchCanvas.getContext) {
     var pctx = pouchCanvas.getContext('2d');
-    var PS = 2;                              // backing pixels per sim unit
+    var PS = 5;                              // backing pixels per sim unit
     var PW = 48, PH = 94;                    // canvas size, sim units
     var BAGW = 36, BAGH = 57;                // bag art size, sim units
     var BAGTOP = PH - 2 - BAGH;              // y of the bag's top edge
@@ -135,10 +135,10 @@
             }
           }
         }
-        /* walls, funnel and floor */
+        /* walls, funnel and floor (overflow coins are free to leave) */
         for (i = 0; i < coins.length; i++) {
           c = coins[i];
-          if (c.asleep) continue;
+          if (c.asleep || c.spill) continue;
           var vx = c.x - c.px, vy = c.y - c.py;
           if (c.y > MOUTHY) {
             var hw = bagHW(Math.min(c.y, BAGTOP + BAGH * 0.95));
@@ -157,14 +157,59 @@
           }
         }
       }
+      /* overflow coins: the first touch on the packed pile bounces them
+         out of the sim - they arc over the collar and fall down the page */
+      for (i = coins.length - 1; i >= 0; i--) {
+        c = coins[i];
+        if (!c.spill) continue;
+        c.age++;
+        if (c.y > MOUTHY + CR && !c.landed) {
+          c.spill = false;                 /* found room inside after all */
+          continue;
+        }
+        if (c.landed || Math.abs(c.x - PCX) > 13.5 || c.age > 420) {
+          coins.splice(i, 1);
+          ejectCoin(c);
+        }
+      }
       /* settle & sleep */
       for (i = 0; i < coins.length; i++) {
         c = coins[i];
-        if (c.asleep) continue;
+        if (c.asleep || c.spill) continue;
         if (Math.abs(c.x - c.px) + Math.abs(c.y - c.py) < .03) {
           if (++c.still > 20) { c.asleep = true; c.px = c.x; c.py = c.y; }
         } else c.still = 0;
       }
+    }
+
+    /* an overflowed coin becomes a real element and falls down the page */
+    function ejectCoin(c) {
+      if (REDUCED) return;
+      var rect = pouchCanvas.getBoundingClientRect();
+      var s = rect.width / PW;
+      var el = document.createElement('span');
+      el.className = 'coin-spill';
+      var size = CR * 2 * s;
+      el.style.width = size + 'px'; el.style.height = size + 'px';
+      el.style.background = c.pal.b;
+      el.style.borderColor = c.pal.d;
+      el.style.boxShadow = 'inset ' + (size * .22) + 'px ' + (size * .22) + 'px 0 ' + c.pal.l;
+      var x = rect.left + (c.x - CR) * s, y = rect.top + (c.y - CR) * s;
+      /* the bounce off the packed pile: an outward, slightly upward arc */
+      var vx = (c.dir || 1) * (60 + Math.random() * 90);
+      var vy = -(140 + Math.random() * 140);
+      var rot = 0, rv = (Math.random() < .5 ? -1 : 1) * (180 + Math.random() * 360);
+      el.style.transform = 'translate(' + x + 'px,' + y + 'px)';
+      document.body.appendChild(el);
+      var lt = performance.now();
+      function fall(t) {
+        var dt = Math.min((t - lt) / 1000, .05); lt = t;
+        vy += 1600 * dt; x += vx * dt; y += vy * dt; rot += rv * dt;
+        el.style.transform = 'translate(' + x + 'px,' + y + 'px) rotate(' + rot + 'deg)';
+        if (y < window.innerHeight + 60) requestAnimationFrame(fall);
+        else el.remove();
+      }
+      requestAnimationFrame(fall);
     }
 
     function drawCoins() {
@@ -223,23 +268,15 @@
     }
 
     function spawnCoin() {
-      if (coins.length >= SIM_CAP) {
-        /* bag is full: the deepest coin quietly "settles in" to make room,
-           waking its neighbours so the pile slumps into the gap */
-        var deep = 0, i;
-        for (i = 1; i < coins.length; i++) if (coins[i].y > coins[deep].y) deep = i;
-        var gone = coins.splice(deep, 1)[0];
-        for (i = 0; i < coins.length; i++) {
-          if (Math.abs(coins[i].x - gone.x) + Math.abs(coins[i].y - gone.y) < CR * 6) {
-            coins[i].asleep = false; coins[i].still = 0;
-          }
-        }
-      }
-      var x = PCX + (Math.random() * 10 - 5);
+      /* a full bag doesn't stop anyone: the extra coin just overflows */
+      var spilling = coins.length >= SIM_CAP;
+      var x = PCX + (Math.random() * 20 - 10);   /* anywhere over the mouth */
+      var y = 2 + Math.random() * 8;
       var vx = (Math.random() * 24 - 12) * DT, vy = (10 + Math.random() * 20) * DT;
       coins.push({
-        x: x, y: 4, px: x - vx, py: 4 - vy,
-        pal: pickPal(), still: 0, asleep: false, landed: false
+        x: x, y: y, px: x - vx, py: y - vy,
+        pal: pickPal(), still: 0, asleep: false, landed: false,
+        spill: spilling, dir: Math.random() < .5 ? -1 : 1, age: 0
       });
       if (REDUCED) {
         for (var k = 0; k < 400; k++) step();
@@ -259,7 +296,8 @@
             var jx = x + (Math.random() * .6 - .3);
             coins.push({
               x: jx, y: y, px: jx, py: y,
-              pal: pickPal(), still: 0, asleep: false, landed: true
+              pal: pickPal(), still: 0, asleep: false, landed: true,
+              spill: false, dir: 0, age: 0
             });
             placed++; x += CR * 2;
           }
