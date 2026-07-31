@@ -11,8 +11,46 @@
 #farm-hud{
   font-family:var(--font-term); font-size:19px; color:#f5edd0;
   background:linear-gradient(180deg, #6b4523, #57381c);
-  border-bottom:3px solid #2d1c0d; padding:7px 12px;
+  border-bottom:3px solid #2d1c0d; padding:6px 12px;
+  display:flex; flex-direction:column; line-height:1.25;
 }
+#farm-hud .hud-line.small{ font-size:16px; color:#e2cfa4; }
+#farm-hud .hud-bar{ letter-spacing:-1px; color:#8fd06a; }
+#farm-hud .hud-bar.low{ color:#e8734a; }
+#farm-hud .hud-rival{ color:#8fbdf0; }
+
+/* the bar under the map: what you're planting, and who you're racing */
+.farm-bar{
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px;
+  margin:10px 0 0; font-family:var(--font-term);
+}
+.farm-seedsel{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; }
+.seedsel-lab{ font-size:18px; color:var(--muted); }
+.farm-seedsel button, .farm-vs{
+  font-family:var(--font-term); font-size:17px; line-height:1; cursor:pointer;
+  color:var(--ink); background:var(--bg3); border:2px solid var(--line);
+  border-radius:8px; padding:6px 11px;
+}
+.farm-seedsel button small{ opacity:.5; font-size:12px; margin-left:3px; }
+.farm-seedsel button:hover, .farm-vs:hover{ border-color:var(--accent); }
+.farm-seedsel button.on{
+  background:var(--accent); color:#122106; border-color:var(--accent); font-weight:700;
+}
+.farm-vs{ margin-left:auto; }
+.farm-vs.on{ background:#4b6ea8; color:#f2f6ff; border-color:#7fa8de; }
+
+/* store rows */
+.shop-row{
+  display:flex; align-items:center; gap:10px; text-align:left;
+  padding:8px 0; border-top:1px solid rgba(66,40,14,.25); font-size:18px;
+}
+.shop-row:first-child{ border-top:0; }
+.shop-row span{ flex:1; }
+.shop-row i{ opacity:.7; font-size:16px; }
+.shop-row button{ flex:none; margin:0; }
+.shop-row button:disabled{ opacity:.45; cursor:default; }
+.shop-row.ring-row{ border-top:2px solid #8a4b12; margin-top:4px; }
+.shop-row.ring-row button:not(:disabled){ background:#e8c15a; }
 #farm{
   position:relative; overflow:auto; max-height:70vh;
   display:flex; justify-content:center; background:#20301a;
@@ -70,16 +108,51 @@
 /* farmhouse: the real art, spanning the 2x2 block */
 .house-main{ background:url("../farmhousestardew.png") no-repeat center/contain; }
 
-/* crops: a sprout, then the gold parsnip */
+/* crops: a sprout that grows each night, then the crop itself */
 .tile-soil.seeded{ position:relative; }
 .tile-soil.seeded::after{
   content:""; position:absolute; left:50%; bottom:7px; transform:translateX(-50%);
-  width:4px; height:12px; background:#7bc043; border-radius:2px;
+  width:4px; height:var(--sprout, 10px); background:#7bc043; border-radius:2px;
   box-shadow:-5px -3px 0 -1px #7bc043, 5px -3px 0 -1px #7bc043;
 }
-.tile-soil.grown{
+.tile-soil.grow1{ --sprout:8px; }
+.tile-soil.grow2{ --sprout:14px; }
+.tile-soil.grow3{ --sprout:19px; }
+/* the more valuable the seed, the greener the shoot */
+.tile-soil.seeded.crop-cauliflower::after{ background:#9fd67a;
+  box-shadow:-5px -3px 0 -1px #9fd67a, 5px -3px 0 -1px #9fd67a; }
+.tile-soil.seeded.crop-starfruit::after{ background:#f2c24b;
+  box-shadow:-5px -3px 0 -1px #f2c24b, 5px -3px 0 -1px #f2c24b; }
+
+.tile-soil.grown.crop-parsnip{
   background-image:url("../Gold_Carrot_stardew.webp");
   background-repeat:no-repeat; background-position:center; background-size:24px 24px;
+}
+/* cauliflower: a pale head in a collar of leaves */
+.tile-soil.grown.crop-cauliflower::after{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:19px; height:16px; border-radius:50% 50% 44% 44%;
+  background:radial-gradient(circle at 36% 30%, #fdfbea, #ddd8b4 70%);
+  box-shadow:0 5px 0 -3px #4e8c3a, -8px 3px 0 -4px #4e8c3a, 8px 3px 0 -4px #4e8c3a;
+}
+/* starfruit: the one worth 900g, and it knows it */
+.tile-soil.grown.crop-starfruit::after{
+  content:"★"; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  font-size:23px; line-height:1; color:#ffd43f;
+  text-shadow:0 0 8px #ffb524, 0 2px 0 #a5761c;
+}
+
+/* the general store */
+.tile-store{ position:relative; }
+.tile-store::before{           /* the shop itself */
+  content:""; position:absolute; inset:6px 3px 3px;
+  background:linear-gradient(180deg,#a8703c,#7d4f27);
+  border-radius:2px; box-shadow:inset 0 -3px 0 rgba(0,0,0,.25);
+}
+.tile-store::after{            /* striped awning over the door */
+  content:""; position:absolute; left:3px; right:3px; top:4px; height:8px;
+  background:repeating-linear-gradient(90deg,#e8e2d0 0 4px,#c0392b 4px 8px);
+  border-radius:2px 2px 0 0;
 }
 
 /* villagers, drawn instead of emoji faces */
@@ -95,6 +168,25 @@
 }
 .npc-fern{ --npc-hair:#d8d8d8; --npc-coat:#b8558f; }
 .npc-rob{ --npc-hair:#3b2a17; --npc-coat:#d1922f; }
+.npc-rival{ --npc-hair:#1f1f24; --npc-coat:#4b6ea8; }
+
+/* =====================================================================
+   THE PLACEHOLDER CHARACTER - the one the ring is for.
+   Deliberately a stand-in: greyed out, dashed outline, and stardew.js
+   drops a "?" on top, so it never reads as finished art.
+
+   TO RESKIN: delete this block and give .npc-sweetheart a sprite sheet
+   the way .farm-sprite.player does, then change `name` (and clear the
+   `placeholder` flag) on SWEETHEART in js/rooms/stardew.js.
+   ===================================================================== */
+.farm-sprite.npc-sweetheart{
+  --npc-hair:#8a7f96; --npc-coat:#6f6480;
+  outline:2px dashed rgba(255,255,255,.45); outline-offset:-4px; border-radius:7px;
+  font-family:var(--font-pixel); font-size:11px; color:#fff;
+  align-items:flex-start; padding-top:1px;
+}
+.farm-sprite.npc-sweetheart::before,
+.farm-sprite.npc-sweetheart::after{ opacity:.6; }
 
 .farm-tile.bush.rustle{ animation:rustle .5s ease; }
 @keyframes rustle{ 25%{ transform:rotate(-8deg) scale(1.08) } 65%{ transform:rotate(7deg) } }
@@ -105,7 +197,10 @@
   font-size:26px; line-height:1; transition:transform .13s linear;
   filter:drop-shadow(0 3px 2px rgba(0,0,0,.4)); pointer-events:none;
 }
-.farm-sprite.flip{ scale:-1 1; }
+/* Facing left is baked into the transform string that place() writes.
+   It must NOT be done with the standalone `scale` property: that one
+   composes BEFORE `transform`, so scale(-1,1) x translate(x,y) mirrors
+   the translation too and the sprite lands at -x, off the map. */
 /* Clint, the playable character (clint.png: 2 walk frames x 3 dir rows) */
 .farm-sprite.player{
   width:24px; height:48px; margin-left:5px; margin-top:-14px;

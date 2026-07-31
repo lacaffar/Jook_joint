@@ -117,4 +117,70 @@
   margin:18px 0; padding:14px 18px; border-left:3px solid var(--down);
   background:color-mix(in srgb, var(--down) 7%, transparent); border-radius:0 8px 8px 0;
 }
-.ruin p{ margin:0; font-size:15px; }
+.ruin p{ margin:0 0 10px; font-size:15px; }
+.ruin p:last-child{ margin-bottom:0; }
+
+/* nested list for town / castle / donjon */
+.nested{ margin:10px 0 14px; padding-left:20px; }
+.nested li{ padding:5px 0; }
+
+/* the numbers, as a wall of plaques */
+.statgrid{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+  gap:10px; margin:16px 0;
+}
+.stat{
+  background:var(--bg2); border:1px solid var(--line); border-radius:4px;
+  padding:12px 14px; text-align:center;
+}
+.stat b{
+  display:block; font-family:var(--font-pixel); font-size:20px; color:var(--accent);
+  line-height:1.2; margin-bottom:5px;
+}
+.stat span{ display:block; font-size:13px; color:var(--muted); line-height:1.35; }
+
+/* =====================================================================
+   HOLD THE DONJON
+   ===================================================================== */
+.siege{
+  margin:12px 0 8px; padding:18px;
+  background:linear-gradient(180deg,#141920,#0d1116);
+  border:1px solid var(--line); border-radius:6px; box-shadow:var(--shadow);
+}
+.siege-head{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding-bottom:9px; margin-bottom:12px; border-bottom:1px solid var(--line);
+  font-family:var(--font-pixel); font-size:10px; letter-spacing:.14em;
+  color:var(--muted); text-transform:uppercase;
+}
+.siege-life{ letter-spacing:.3em; color:var(--accent); font-size:13px; }
+.siege-life.low{ color:var(--down); }
+.siege-year{
+  margin:0 0 6px; font-family:var(--font-pixel); font-size:11px;
+  letter-spacing:.1em; color:var(--accent2);
+}
+.siege-attack{ margin:0 0 14px; font-size:15.5px; line-height:1.55; }
+
+.siege-opts{ display:grid; grid-template-columns:repeat(auto-fit, minmax(190px,1fr)); gap:9px; }
+.siege-opt{
+  font-family:var(--font-term); font-size:19px; line-height:1.2; cursor:pointer;
+  text-align:left; padding:11px 13px; border-radius:4px;
+  color:var(--ink); background:var(--bg3); border:1px solid var(--line);
+  transition:border-color .14s, background .14s;
+}
+.siege-opt:hover:not(:disabled){ border-color:var(--accent); background:#2a313b; }
+.siege-opt:disabled{ cursor:default; opacity:.55; }
+.siege-opt.right{ border-color:var(--ok); color:#dfffe6; opacity:1;
+  box-shadow:0 0 12px color-mix(in srgb, var(--ok) 30%, transparent); }
+.siege-opt.wrong{ border-color:var(--down); color:#ffdada; opacity:1; }
+.siege-opt.futile{ border-color:var(--muted); opacity:.8; }
+
+.siege-verdict{
+  margin:14px 0 0; font-size:15px; line-height:1.6;
+  padding-left:13px; border-left:3px solid var(--line);
+}
+.siege-verdict:empty{ display:none; }
+.siege-verdict.good{ border-left-color:var(--ok); }
+.siege-verdict.bad{ border-left-color:var(--down); }
+.siege-verdict.futile{ border-left-color:var(--muted); color:var(--muted); font-style:italic; }
+.siege .climb-btn{ margin-top:16px; }

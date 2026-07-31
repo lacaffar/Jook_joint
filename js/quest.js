@@ -15,13 +15,19 @@ window.SJJQuest = (function () {
     { id: 'fencing', ico: 'E', name: 'Fencing', cap: '▲' },
     { id: 'hamilton', ico: 'H', name: 'Hamilton', cap: '■' }
   ];
-  /* The raccoon's own cap, handed over when he makes off with the tip
-     pouch. It is a bonus: the back room still only wants the five. */
-  var BONUS = { id: 'tips', ico: 'R', name: "the raccoon's own", cap: '◍', bonus: true };
+  /* Caps that do NOT open the back room - that door still wants the five
+     above and nothing else. `secret` ones stay off the shelf until they
+     have been earned, so the shelf doesn't spoil them. */
+  var EXTRA = [
+    { id: 'coucy', ico: 'C', name: 'Coucy', cap: '⌂', bonus: true, href: 'coucy.html' },
+    { id: 'tips', ico: 'R', name: "the raccoon's own", cap: '◍', bonus: true, secret: true }
+  ];
 
   function find(id) {
-    for (var i = 0; i < ROOMS.length; i++) if (ROOMS[i].id === id) return ROOMS[i];
-    return BONUS.id === id ? BONUS : null;
+    var i;
+    for (i = 0; i < ROOMS.length; i++) if (ROOMS[i].id === id) return ROOMS[i];
+    for (i = 0; i < EXTRA.length; i++) if (EXTRA[i].id === id) return EXTRA[i];
+    return null;
   }
 
   function load() {
@@ -71,7 +77,9 @@ window.SJJQuest = (function () {
     var n = count();
     if (window.SFX) SFX.cap();
     if (room.bonus) {
-      toast(' the raccoon flicks you his OWN bottle cap. the door still wants the other five.');
+      toast(room.id === 'tips'
+        ? ' the raccoon flicks you his OWN bottle cap. the door still wants the other five.'
+        : ' a bottle cap for holding Coucy. it is not one of the five the back room wants.');
       renderAllShelves();
       try { window.dispatchEvent(new CustomEvent('sjj:caps', { detail: { count: n, all: n === ROOMS.length } })); } catch (e) {}
       return;
@@ -91,16 +99,18 @@ window.SJJQuest = (function () {
     var caps = load();
     el.classList.add('cap-shelf');
     el.textContent = '';
-    /* the five the back room wants, then his own if he has parted with it */
+    /* the five the back room wants, then the extras worth showing */
     var show = ROOMS.slice();
-    if (caps[BONUS.id]) show.push(BONUS);
+    EXTRA.forEach(function (b) { if (!b.secret || caps[b.id]) show.push(b); });
     show.forEach(function (r) {
       var got = !!caps[r.id];
-      var slot = document.createElement(r.bonus ? 'span' : 'a');
+      var href = r.bonus ? r.href : r.id + '.html';
+      var slot = document.createElement(href ? 'a' : 'span');
       slot.className = 'cap-slot' + (got ? ' got' : '') + (r.bonus ? ' bonus' : '');
-      if (!r.bonus) slot.href = r.id + '.html';
+      if (href) slot.href = href;
       slot.title = r.bonus
-        ? "the raccoon's own cap - he owed you one"
+        ? (r.id === 'tips' ? "the raccoon's own cap - he owed you one"
+                           : r.name + ' cap - a bonus, not one of the five')
         : (got ? r.name + ' cap - collected!'
                : r.name + ' cap - win the game in the ' + r.name + ' room');
       var ico = document.createElement('span');

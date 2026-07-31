@@ -6,15 +6,15 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Coucy - the great donjon :: Swifty's Jook Joint</title>
-  <meta name="description" content="Inside the donjon of Coucy: the largest keep in medieval Europe, and what happened to it in 1917." />
+  <meta name="description" content="The castle of Coucy: the largest keep ever built in medieval Europe, the family that owned it, and the two deliberate demolitions that brought it down." />
   <meta name="theme-color" content="#0f1216" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 6h2V4h2v2h2V4h2v2h2V4h2v10H2z' fill='%23c8a24a'/></svg>" />
   <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=4" />
-  <link rel="stylesheet" href="css/medieval.css?v=4" />
+  <link rel="stylesheet" href="css/style.css?v=5" />
+  <link rel="stylesheet" href="css/medieval.css?v=5" />
 </head>
 <body class="room-medieval">
 
@@ -35,16 +35,84 @@
   <main class="wrap">
 
     <h1 class="sign">COUCY</h1>
-    <p class="tagline">the gate was open. mind the stairs, there is no handrail.</p>
+    <p class="tagline">the biggest keep anyone ever built · and what people did to it</p>
 
     <div class="panel">
-      <p>Enguerrand III began the castle around 1225 and put a cylinder at the corner of
-        it that nobody has matched since: <b>55 metres tall, 31 across, walls seven and a
-        half metres thick</b>. Three vaulted halls stacked on top of each other, no
-        internal buttressing, no keystone bigger than it needed to be. It was not the
-        strongest castle in France. It was the loudest.</p>
+      <p class="lead">Nothing like it was built before, and nothing like it has been built since.</p>
+      <p>On a chalk spur above the Ailette valley in Picardy, a man who was not a king,
+        a prince, a duke or a count put up a round tower <b>55 metres tall and 31 across,
+        with walls seven and a half metres thick</b>. It was not the cleverest castle in
+        France and it was never the strongest position. It was simply the largest
+        statement in stone that a private person has ever made, and it stood for
+        <b>692 years</b> before anyone managed to bring it down — which took an army,
+        a railway, and twenty-eight tonnes of high explosive.</p>
     </div>
 
+    <!-- ============ THE GAME ============ -->
+    <h2>Hold the Donjon</h2>
+    <p class="muted small" style="margin:0 0 4px;">Every part of this building answers a
+      specific way of being attacked. Match the threat to the feature that was built to
+      stop it. Three mistakes and the keep falls.</p>
+
+    <section class="siege" id="siege" aria-label="Hold the Donjon - a siege game">
+      <div class="siege-head">
+        <span class="siege-round" id="siege-round">not yet under siege</span>
+        <span class="siege-life" id="siege-life" aria-label="stones remaining"></span>
+      </div>
+      <p class="siege-year" id="siege-year"></p>
+      <p class="siege-attack" id="siege-attack">The garrison is yours. Six ways of taking
+        a castle are coming up that hill, one after another.</p>
+      <div class="siege-opts" id="siege-opts"></div>
+      <p class="siege-verdict" id="siege-verdict" role="status"></p>
+      <button class="climb-btn" id="siege-start" type="button">take the walls</button>
+    </section>
+
+    <!-- ============ THE PLACE ============ -->
+    <h2>Three walls on one hill</h2>
+    <div class="panel">
+      <p>Coucy was not one fortification but three nested ones, and you had to beat each
+        in turn.</p>
+      <ol class="nested">
+        <li><b>The town.</b> Coucy-le-Château is a walled <i>ville</i> in its own right,
+          ringed with towers and entered by three gates — the Porte de Laon, the Porte de
+          Soissons and the Porte de Chauny. Taking the castle meant first taking a town.</li>
+        <li><b>The castle.</b> A roughly quadrangular enceinte closing off the tip of the
+          spur, with four cylindrical corner towers, each around 20 m across and 35 m
+          high. Any one of them would have been the proudest tower in a lesser castle.</li>
+        <li><b>The donjon.</b> Set at the most exposed angle, where an attacker would
+          come, and cut off from the rest of the castle by <b>its own ditch and its own
+          ring wall</b> — the <i>chemise</i>. If the castle fell, the keep did not. It was
+          a fortress inside a fortress, provisioned and defensible on its own.</li>
+      </ol>
+      <p>There had been something on this rock long before that. An early fortress here is
+        credited to Hervé, Archbishop of Reims, around <b>920</b>, thrown up against
+        Norse raiding. The site kept being fortified because the geology invited it: a
+        narrow promontory with steep falls on three sides, so an attacker had exactly one
+        approach and the defenders knew precisely where to point everything.</p>
+    </div>
+
+    <h2>The donjon, by the numbers</h2>
+    <div class="statgrid">
+      <div class="stat"><b>55 m</b><span>tall — roughly an 18-storey building</span></div>
+      <div class="stat"><b>31 m</b><span>external diameter</span></div>
+      <div class="stat"><b>7.5 m</b><span>wall thickness at the base</span></div>
+      <div class="stat"><b>3</b><span>vaulted halls, stacked, plus a cellar</span></div>
+      <div class="stat"><b>~20 m</b><span>clear span of each hall — no central pier</span></div>
+      <div class="stat"><b>1</b><span>door, and it was not at ground level</span></div>
+    </div>
+    <div class="panel">
+      <p>The engineering headline is that middle number against the fifth one. Each floor
+        is a circular room twenty metres across with <b>nothing holding up the middle</b>.
+        The ribbed vaults spring from shafts set around the wall and meet overhead, and
+        the load is carried outward into a wall thick enough to have rooms, stairs and
+        passages tunnelled inside it. A spiral stair runs up through the masonry; the
+        garrison moved between floors without ever crossing open ground.</p>
+      <p>Each vault was pierced by a central <b>oculus</b>, an eye open to the floor
+        above. It let light down and let loads be hauled up the full height of the tower
+        without a crane outside — useful in peace, essential in a siege.</p>
+    </div>
+
+    <h2>Climb it</h2>
     <section class="donjon" aria-label="climb the donjon">
       <div class="tower" id="tower" aria-hidden="true">
         <div class="storey" data-floor="0">CELLAR</div>
@@ -53,27 +121,132 @@
         <div class="storey" data-floor="3">HALL III</div>
         <div class="storey roof" data-floor="4"></div>
       </div>
-      <p class="climb-note" id="climb-note">Ground level. The door is nine metres up the
-        outside — you came in the way a guest would, which is to say by a bridge someone
-        could pull away.</p>
+      <p class="climb-note" id="climb-note">Ground level. The door is up the outside, and
+        you came in the way a guest would — across a bridge that somebody could pull
+        away.</p>
       <button class="climb-btn" id="climb" type="button">climb</button>
     </section>
 
+    <!-- ============ THE FAMILY ============ -->
+    <h2>The family that was not a duke</h2>
+    <div class="panel">
+      <p>The sires de Coucy were barons. Not counts, not dukes — barons, holding one
+        exceptionally good lordship on the road between Paris and the north. They behaved
+        like a great deal more than that, and the tower is the argument.</p>
+      <p>The house is remembered for a boast that survives as its device: after listing
+        every title they did <i>not</i> hold, it finishes
+        <b>"I am the lord of Coucy."</b> It is almost certainly a later invention — the
+        wording is not attested in Enguerrand III's own century — but it stuck because it
+        is exactly right about the building.</p>
+      <p><b>Enguerrand III</b> (c. 1182–1242), called the Great, is the one who built what
+        you see. He fought in the Albigensian Crusade, quarrelled with the crown, and
+        during the regency of Blanche of Castile was talked about — by his enemies, at
+        least — as a man with designs on the throne itself. He died in 1242 after falling
+        on his own sword when his horse threw him.</p>
+    </div>
+
+    <h2>Enguerrand VII, and a century that went wrong</h2>
+    <div class="panel">
+      <p>The last lord of Coucy is the one historians keep coming back to, because his
+        life happens to touch nearly everything that made the 14th century terrible.</p>
+      <p><b>Enguerrand VII</b> (1340–1397) was sent to England as a <b>hostage</b> for the
+        French king's ransom after Poitiers. He spent his captivity so agreeably that
+        Edward III married him to his daughter <b>Isabella</b>, released him, and made him
+        <b>Earl of Bedford</b>. When the war restarted he renounced the English title
+        rather than fight his own king — and then spent decades campaigning across Europe
+        anyway. He died in <b>1397</b>, a prisoner in Bursa, after the crusading army he
+        had joined was destroyed by the Ottomans at <b>Nicopolis</b> in 1396.</p>
+      <p>Because his life is so unusually well documented and so unusually well travelled,
+        Barbara Tuchman used him as the thread through <i>A Distant Mirror</i> (1978) —
+        her history of the calamitous 14th century. If you want the plague, the schism,
+        the free companies and the chivalric disaster of Nicopolis in one narrative, that
+        is the book, and Coucy is its home base.</p>
+    </div>
+
+    <h2>The Hall of the Nine Worthy Women</h2>
+    <div class="panel">
+      <p>Not everything here was military. The castle's great hall held the
+        <b>Salle des Preuses</b> — nine over-life-size figures of heroines set around the
+        room, the female answer to the Nine Worthies who were the standard medieval set of
+        exemplary heroes. Commissioning nine <i>preuses</i> rather than nine
+        <i>preux</i> was a deliberate and rather pointed piece of decoration, associated
+        with Enguerrand VII's household.</p>
+      <p>They are gone. Fragments were recovered and a few heads survive in museum
+        collections, which is the usual arithmetic at Coucy: a description, a drawing, and
+        a piece of the original.</p>
+    </div>
+
+    <!-- ============ THE UNMAKING ============ -->
+    <h2>1652: the first demolition</h2>
+    <div class="panel">
+      <p>Coucy passed out of the family in <b>1400</b>, bought by <b>Louis, Duke of
+        Orléans</b>, and from there into the hands of the crown. A castle that strong in
+        private hands was a standing problem for a centralising monarchy, and during the
+        <b>Fronde</b> the problem was solved the usual way: in <b>1652</b>
+        <b>Cardinal Mazarin</b> ordered it slighted.</p>
+      <p>They mined it. The charges cracked the donjon and opened fissures that ran the
+        height of the tower — and the tower stayed up. For the next two centuries it stood
+        cracked, roofless and enormous, which is the state in which it became famous.</p>
+    </div>
+
+    <h2>Viollet-le-Duc, and being famous for being big</h2>
+    <div class="panel">
+      <p>The 19th century fell hard for Coucy. <b>Eugène Viollet-le-Duc</b> — the
+        restorer of Carcassonne and Notre-Dame — surveyed and consolidated it from the
+        <b>1850s</b>, and used it repeatedly in his <i>Dictionnaire raisonné</i> as the
+        worked example of what a great donjon was and how it functioned. The castle was
+        classified a <i>monument historique</i> in <b>1862</b>. Iron ties were put in, the
+        cracks were watched, and the tower was made safe enough to visit.</p>
+      <p>That work is why we know as much as we do. When the tower came down, it came down
+        having been measured, drawn and photographed more thoroughly than almost any other
+        medieval building in France.</p>
+    </div>
+
     <div class="ruin">
-      <p><b>March 1917.</b> Falling back to the Hindenburg Line, German sappers packed
-        the donjon with explosive and brought it down. There had been no fighting at
-        Coucy. The tower had stood for nearly seven hundred years, and what is on the
-        hill now is a ring of rubble with the shape still legible in it.</p>
+      <p><b>27 March 1917.</b> Falling back to the Hindenburg Line in
+        <b>Operation Alberich</b>, the German army systematically destroyed what it was
+        leaving behind. At Coucy that meant packing the donjon with roughly
+        <b>28 tonnes</b> of explosive and detonating it, along with the four great corner
+        towers. There was no fighting at Coucy. The line was already moving away from it.
+        The stated justification — that the tower could serve as an observation post —
+        convinced almost nobody at the time, and the demolition became one of the
+        most-cited cultural atrocities of the war.</p>
+      <p>Mazarin's engineers had cracked it. It took the twentieth century, and industrial
+        quantities of chemistry, to finish the job.</p>
+    </div>
+
+    <h2>What is there now</h2>
+    <div class="panel">
+      <p>A ring. The donjon survives as a circular stump of that colossal wall, standing a
+        few metres high, with the interior full of its own collapsed mass — and because
+        the wall was 7.5 m thick, the stump alone is wider than most complete castle
+        towers. The corner towers are the same: bases, and heaps. The town gates and long
+        runs of the town wall came through, being of no interest to demolition parties.</p>
+      <p>It is open to visitors, in the care of the <i>Centre des monuments nationaux</i>.
+        You walk around the inside of a circle you cannot quite believe was a room.</p>
+    </div>
+
+    <h2>Where to read more</h2>
+    <div class="panel">
+      <ul class="plain">
+        <li>Barbara Tuchman, <i>A Distant Mirror: The Calamitous 14th Century</i> (1978) —
+          the life of Enguerrand VII as a way into the whole century.</li>
+        <li>Viollet-le-Duc, <i>Dictionnaire raisonné de l'architecture française</i> —
+          the 19th-century survey drawings, and the reason the building is so well
+          understood. Long out of copyright and freely readable.</li>
+        <li>The <i>Centre des monuments nationaux</i> site for the castle as it stands,
+          and for visiting.</li>
+      </ul>
     </div>
 
     <h2>What I'd add here next</h2>
     <div class="panel">
       <ul class="plain">
-        <li>A cutaway of the three halls at true scale, with a person drawn in for
-          comparison — the numbers don't land until you see them.</li>
-        <li>The 1652 partial demolition alongside 1917, so the ruin reads as two
-          deliberate acts and not one accident.</li>
-        <li>A short before/after slider from the 1900s photographs.</li>
+        <li>A cutaway of the three halls at true scale with a figure drawn in — the
+          numbers do not land until you can see a person against them.</li>
+        <li>A before/after slider from the pre-1917 photographs, which exist in quantity.</li>
+        <li>The whole spur in plan: town, castle and donjon, so the three-walls idea is
+          something you look at rather than read.</li>
       </ul>
     </div>
 
@@ -89,6 +262,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
-  <script src="js/rooms/coucy.js"></script>
+  <script src="js/rooms/coucy.js?v=5"></script>
 </body>
 </html>

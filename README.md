@@ -10,12 +10,12 @@ all new sound is synthesized with the WebAudio API).
 |------|------|----------|
 | `index.html` | The bar | Interactive scene: themed doors that swing on their hinges, jukebox, a Kingdom coin pouch with real coin physics, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
 | `fnaf.html` | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
-| `stardew.html` | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
+| `stardew.html` | Raccoon Hollow | **Walkable farm** - WASD around a tile map; three crops with seed costs and multi-night growth, stamina, rain, a store, fishing, a mine. Two goals: grandpa's 9 parsnips, and 2,500g for **the ring**. Optional **rival mode** races you for it |
 | `undertale.html` | The encounter | **FIGHT / ACT / ITEM / MERCY** battle with bullet-hell dodging; ACT your way to the pacifist spare |
 | `fencing.html` | The piste | **Allez!** - directional reaction duel; foil/sabre roll right-of-way (attack vs parry), épée is a speed race |
 | `hamilton.html` | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
 | `medieval.html` | The keep | Six favourite castles on a curtain wall. Five gates are struck off the list; one still opens |
-| `coucy.html` | The great donjon | Behind the one open gate: climb the tallest keep in medieval Europe, storey by storey |
+| `coucy.html` | The great donjon | Behind the one open gate: an in-depth history of the largest keep ever built, plus **Hold the Donjon** - match each way of taking a castle to the feature built to stop it. Earns a bonus cap |
 | `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
 | `backroom.html` | The back room | **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
 | `404.html` | Lost | Dig a door out of the raccoon's trash can |
@@ -33,9 +33,18 @@ Win the game in each of the five main rooms and the raccoon tosses you a **bottl
 (`js/quest.js`, stored in `localStorage.sjj_caps`). Collect all five and a **sixth door**
 fades into the bar on the home page → the Back Room.
 
-There is also a **bonus cap** (`tips`) that never counts toward that door: overflow five
-coins out of the tip pouch and the raccoon walks over, carries the whole bag off screen,
-and leaves his own cap behind.
+**Bonus caps** never count toward that door — `js/quest.js` keeps them in `EXTRA`, apart
+from the five in `ROOMS`:
+- `coucy` — survive all six assaults in Hold the Donjon.
+- `tips` — overflow five coins out of the tip pouch and the raccoon carries the whole bag
+  off screen, leaving his own cap behind. Marked `secret`, so it stays off the shelf until
+  it is earned.
+
+## Reskinning the Stardew sweetheart
+The character the ring is for is a deliberate placeholder. Two edits swap them in:
+`SWEETHEART` at the top of `js/rooms/stardew.js` (name, and drop the `placeholder` flag),
+and the `.npc-sweetheart` block in `css/stardew.css` (give it a sprite sheet the way
+`.farm-sprite.player` does). Both are commented in place.
 
 ## Shared machinery
 - **`js/gate.js`** - bar hours + the password door. Loads first, from `<head>`.

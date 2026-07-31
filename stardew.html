@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=4" />
-  <link rel="stylesheet" href="css/stardew.css?v=4" />
+  <link rel="stylesheet" href="css/stardew.css?v=5" />
 </head>
 <body class="room-stardew">
 
@@ -43,6 +43,17 @@
         <div id="farm-hud"></div>
         <div id="farm"></div>
         <p id="farm-msg"></p>
+      </div>
+
+      <div class="farm-bar">
+        <span class="farm-seedsel" role="group" aria-label="which seed to plant">
+          <span class="seedsel-lab">plant:</span>
+          <button type="button" data-seed="parsnip" class="on" aria-pressed="true">parsnip <small>1</small></button>
+          <button type="button" data-seed="cauliflower" aria-pressed="false">cauliflower <small>2</small></button>
+          <button type="button" data-seed="starfruit" aria-pressed="false">starfruit <small>3</small></button>
+        </span>
+        <button type="button" id="farm-versus" class="farm-vs" aria-pressed="false"
+                title="a rival farmer races you to the ring">rival: off</button>
       </div>
 
       <div class="farm-pad" aria-label="touch controls">
@@ -81,6 +92,24 @@
       </div>
     </div>
 
+    <!-- the general store -->
+    <div class="farm-overlay" id="farm-shop" hidden>
+      <div class="farm-card">
+        <h3>the general store</h3>
+        <div id="shop-rows"></div>
+        <button id="farm-shop-close" type="button">leave</button>
+      </div>
+    </div>
+
+    <!-- the proposal / the loss -->
+    <div class="farm-overlay" id="farm-ending" hidden>
+      <div class="farm-card">
+        <h3 id="ending-title"></h3>
+        <p id="ending-body"></p>
+        <button id="farm-ending-close" type="button">…</button>
+      </div>
+    </div>
+
     <div id="farm-night" hidden>… …</div>
 
     <div class="panel journal">
@@ -92,11 +121,14 @@
     <h2>How to farm (the journal)</h2>
     <div class="panel journal tight">
       <ul class="tick">
-        <li><b>E / SPACE</b> on soil: till → plant → water</li>
-        <li><b>sleep</b> in the farmhouse to grow watered crops</li>
-        <li>harvest <b>9 parsnips</b> and something good happens </li>
-        <li>face the pond and <b>cast a line</b> - reel when it's calm, hold when it thrashes</li>
-        <li>the mine pays in geodes. Granny Fern pays in gossip. the pond pays in boots.</li>
+        <li><b>E / SPACE</b> on soil: till → plant → water. <b>1/2/3</b> picks which seed.</li>
+        <li>Seeds cost gold. Parsnip is cheap and quick; <b>starfruit</b> costs 400g a seed,
+          takes three waterings, and sells for 900g.</li>
+        <li>Every swing costs <b>energy</b>. Run out and you wake up poorer.</li>
+        <li><b>Sleep</b> to advance the night. Rain waters the whole farm for free.</li>
+        <li>The <b>store</b> is down the east path. It sells seeds, and one ring.</li>
+        <li>Harvest <b>9 parsnips</b> for grandpa. Buy the <b>ring</b> for someone else.</li>
+        <li>Turn on <b>rival</b> and a farmer called Ash saves for that same ring. Only one of you gets it.</li>
       </ul>
     </div>
 
@@ -130,6 +162,6 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
-  <script src="js/rooms/stardew.js"></script>
+  <script src="js/rooms/stardew.js?v=5"></script>
 </body>
 </html>
