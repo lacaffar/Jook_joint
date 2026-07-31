@@ -6,24 +6,32 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Swifty's Jook Joint</title>
-  <meta name="description" content="Swifty's Jook Joint - a cozy corner of the web where every room is a game. FNAF, Stardew, Undertale, fencing, Hamilton. Mind the raccoon." />
+  <meta name="description" content="Swifty's Jook Joint - every door is a room and every room is a game. FNAF, Stardew, Undertale, fencing, Hamilton, castles." />
   <meta name="theme-color" content="#14110f" />
   <meta property="og:title" content="Swifty's Jook Joint" />
-  <meta property="og:description" content="A cozy corner of the web where every room is a game. Pull up a stool." />
+  <meta property="og:description" content="Every door is a room. Every room is a game." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 11h12v3H2z M4 5h8v6H4z' fill='%23ffb347'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/home.css?v=3" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/home.css?v=4" />
 </head>
 <body class="room-home">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
@@ -41,9 +49,63 @@
         <span class="sign-bolt bl" aria-hidden="true"></span>
         <span class="sign-bolt br" aria-hidden="true"></span>
 
-        <h1 class="sign neon-sign">
-          <span class="ln1">SWIFTY'S</span>
-          <span class="ln2 pink">JOOK JOINT</span>
+        <h1 class="sign-art">
+          <span class="sr-only">Swifty's Jook Joint</span>
+          <svg class="joint-art" viewBox="0 0 340 190" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <filter id="ja-amber" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.4" result="b1" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6.5" result="b2" />
+                <feMerge>
+                  <feMergeNode in="b2" /><feMergeNode in="b1" /><feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="ja-pink" x="-50%" y="-50%" width="200%" height="200%">
+                <feGaussianBlur stdDeviation="2.4" result="p1" />
+                <feGaussianBlur in="SourceGraphic" stdDeviation="6.5" result="p2" />
+                <feMerge>
+                  <feMergeNode in="p2" /><feMergeNode in="p1" /><feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            <!-- the raccoon, a martini and the top line: all one amber tube -->
+            <g class="glow-a">
+              <g class="tube amber">
+                <!-- ears -->
+                <path d="M142,31 L131,9 L157,20" />
+                <path d="M198,31 L209,9 L183,20" />
+                <!-- head -->
+                <path d="M136,45 C136,26 152,16 170,16 C188,16 204,26 204,45
+                         C204,65 192,83 170,93 C148,83 136,65 136,45 Z" />
+                <!-- whiskers -->
+                <path d="M133,66 L117,61 M133,73 L118,74" />
+                <path d="M207,66 L223,61 M207,73 L222,74" />
+                <!-- the muzzle -->
+                <path d="M170,78 C170,83 165,85 160,83 M170,78 C170,83 175,85 180,83" />
+                <!-- martini -->
+                <path d="M21,35 L65,35 L43,61 Z M43,61 L43,80 M30,80 L56,80" />
+              </g>
+              <!-- the bandit mask, dark glass with a pink tube round it -->
+              <path class="mask-band" d="M137,45 C148,36 192,36 203,45
+                                         C198,59 186,65 170,65 C154,65 142,59 137,45 Z" />
+              <circle class="lit-a" cx="155" cy="49" r="3.6" />
+              <circle class="lit-a" cx="185" cy="49" r="3.6" />
+              <path class="lit-a" d="M163,71 C166,67 174,67 177,71 C174,77 166,77 163,71 Z" />
+              <circle class="lit-a" cx="43" cy="45" r="3.6" />
+              <text class="ln1" x="170" y="130">SWIFTY'S</text>
+            </g>
+
+            <!-- and the pink tube: the note, the name, the swash under it -->
+            <g class="glow-p">
+              <g class="tube pink">
+                <path d="M289,85 L289,34 C303,38 309,50 301,63" />
+              </g>
+              <ellipse class="lit-p" cx="281" cy="85" rx="8.5" ry="6" transform="rotate(-20 281 85)" />
+              <text class="ln2" x="170" y="168">JOOK JOINT</text>
+              <path class="tube pink" d="M72,182 C132,174 208,174 268,182" />
+            </g>
+          </svg>
         </h1>
 
         <div class="sign-plate" aria-hidden="true">
@@ -54,85 +116,127 @@
       <div class="sign-spill" aria-hidden="true"></div>
     </div>
 
-    <p class="tagline">a cozy corner of the web · every room is a game · mind the raccoon</p>
-
-    <div class="nowplaying" id="nowplaying" aria-label="now playing">
-      <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span>♪ now playing:&nbsp;</span><span class="track">...</span>
-    </div>
-
     <!-- ============ THE BAR ============ -->
     <section class="bar-scene" id="bar-scene" aria-label="the bar - pick a door">
       <button class="hotspot" id="light-switch" type="button" aria-label="toggle the lights" title="the light switch. best viewed at night, they said.">⏻</button>
 
       <div class="bar-wall">
         <a class="bar-door door-fnaf" href="fnaf.html">
-          <span class="ico" aria-hidden="true"><img src="fnaficon.png" alt="" /></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">FNAF<br>night shift</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><img src="fnaficon.png" alt="" /></span>
+            <span class="plq">FNAF<br>night shift</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-stardew" href="stardew.html">
-          <span class="ico" aria-hidden="true"><img src="stardewicon.png" alt="" /></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">STARDEW<br>the farm</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><img src="stardewicon.png" alt="" /></span>
+            <span class="plq">STARDEW<br>the farm</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-undertale" href="undertale.html">
-          <span class="ico" aria-hidden="true"><img src="undertaleicon.png" alt="" /></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">UNDERTALE<br>a battle</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><img src="undertaleicon.png" alt="" /></span>
+            <span class="plq">UNDERTALE<br>a battle</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-fencing" href="fencing.html">
-          <span class="ico" aria-hidden="true"><img src="RTFfencingLOGO.png" alt="" /></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">FENCING<br>allez!</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><img src="RTFfencingLOGO.png" alt="" /></span>
+            <span class="plq">FENCING<br>allez!</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-hamilton" href="hamilton.html">
-          <span class="ico" aria-hidden="true"></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">HAMILTON<br>the duel</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><path d="M38 8C24 10 14 20 12 34l4 4C30 36 40 24 38 8z" fill="#e8c15a"/><path d="M12 40l10-10" stroke="#7a5c1d" stroke-width="3" stroke-linecap="round" fill="none"/><path d="M14 44h22v-3H14z" fill="#8a6a24"/></svg></span>
+            <span class="plq">HAMILTON<br>the duel</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
+        </a>
+        <a class="bar-door door-medieval" href="medieval.html">
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><g fill="#b9c6d4"><path d="M6 18h5v-5h5v5h5v-5h5v5h5v-5h5v5h5v25H6z"/><path d="M20 30h8v13h-8z" fill="#2a3038"/></g><g fill="#8c9aa8"><path d="M6 43h36v3H6z"/></g></svg></span>
+            <span class="plq">CASTLES<br>the keep</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-guestbook" href="guestbook.html">
-          <span class="ico" aria-hidden="true"></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">GUESTBOOK<br>sign it</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"><svg viewBox="0 0 48 48" width="52" height="52" aria-hidden="true"><path d="M6 10h16c1 0 2 1 2 2v26c0-1-1-2-2-2H6z" fill="#ff8fb3"/><path d="M42 10H26c-1 0-2 1-2 2v26c0-1 1-2 2-2h16z" fill="#ff5d8f"/><path d="M24 12v26" stroke="#7c2440" stroke-width="2"/><path d="M10 18h9M10 23h9M29 18h9M29 23h9" stroke="#7c2440" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+            <span class="plq">GUESTBOOK<br>sign it</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
         <a class="bar-door door-backroom" href="backroom.html" aria-hidden="true" tabindex="-1">
-          <span class="ico" aria-hidden="true"></span><span class="knob" aria-hidden="true"></span>
-          <span class="plq">???<br>staff only</span>
+          <span class="slab" aria-hidden="true">
+            <span class="pnl top"></span><span class="pnl bot"></span>
+            <span class="ico"></span>
+            <span class="plq">???<br>staff only</span>
+            <span class="knob"></span>
+          </span>
+          <span class="hinge a" aria-hidden="true"></span><span class="hinge b" aria-hidden="true"></span>
         </a>
       </div>
 
       <div class="bar-counter">
         <span class="stools">
-          <button class="hotspot stool" type="button" aria-label="a bar stool"></button>
-          <button class="hotspot stool" type="button" aria-label="another bar stool"></button>
-          <button class="hotspot stool" type="button" aria-label="the raccoon's bar stool"></button>
+          <button class="hotspot stool" type="button" aria-label="a bar stool">
+            <span class="leg bl"></span><span class="leg br"></span>
+            <span class="leg fl"></span><span class="leg fr"></span>
+            <span class="ring"></span><span class="seat"></span>
+          </button>
+          <button class="hotspot stool" type="button" aria-label="another bar stool">
+            <span class="leg bl"></span><span class="leg br"></span>
+            <span class="leg fl"></span><span class="leg fr"></span>
+            <span class="ring"></span><span class="seat"></span>
+          </button>
+          <button class="hotspot stool" type="button" aria-label="the raccoon's bar stool">
+            <span class="leg bl"></span><span class="leg br"></span>
+            <span class="leg fl"></span><span class="leg fr"></span>
+            <span class="ring"></span><span class="seat"></span>
+          </button>
         </span>
         <button class="hotspot" id="scene-jukebox" type="button" aria-label="the jukebox - play or pause the music" title="the jukebox. it only knows Toby Fox. it is at peace."><img src="Jukebox_ICON.png" alt="" /></button>
         <button class="hotspot" id="trash-can" type="button" aria-label="the trash can. probably leave it alone." title="property of: "></button>
       </div>
     </section>
 
-    <p class="room-list">doors:
-      <a href="fnaf.html">fnaf</a> ·
-      <a href="stardew.html">stardew</a> ·
-      <a href="undertale.html">undertale</a> ·
-      <a href="fencing.html">fencing</a> ·
-      <a href="hamilton.html">hamilton</a> ·
-      <a href="guestbook.html">guestbook</a>
-    </p>
-
     <div class="panel">
       <p class="lead">hey, welcome in.</p>
-      <p>This is my personal little hangout - separate from the <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work stuff</a>.
-        No corporate voice in here, just the things I think are neat. <b>Every door leads to a room,
-        and every room has a game in it.</b> Win the game, and the raccoon pays you in bottle caps.</p>
-      <p class="muted">There's a raccoon following your cursor. He's friendly. Mostly. Leave the trash where it is and you'll be fine.
-        <span class="muted">(old-timers say the joint reacts to a certain up-up-down-down code.)</span></p>
+      <p>My hangout, away from the <a href="https://lacaffar.github.io/" target="_blank" rel="noopener">work stuff</a>.
+        Every door is a room, every room is a game, and the raccoon pays winners in bottle caps.
+        Leave the trash where it is.</p>
     </div>
 
     <h2>The tip jar</h2>
     <div class="panel tight tip-section">
       <button class="hotspot" id="tip-jar" type="button" aria-label="the coin pouch - drop a coin in">
-        <img id="pouch-img" src="EmptyPouch.png" alt="" draggable="false" />
+        <img id="pouch-img" src="PouchClosed.png" alt="" draggable="false" />
         <canvas id="pouch-canvas" width="336" height="658" aria-hidden="true"></canvas>
       </button>
-      <p class="muted small">the tip jar is a pouch now. click it - every coin is imaginary,
-        every coin is appreciated. when it fills up, well. physics.</p>
+      <p class="muted small" id="tip-note">click it. every coin is imaginary. it empties out between visits,
+        and it does not hold as much as it thinks it does.</p>
+      <div class="tip-gone" id="tip-gone" hidden>
+        <span class="bcap" aria-hidden="true"></span>
+        <p class="muted small">he took the pouch and left you this. seems fair to him.</p>
+      </div>
     </div>
 
     <h2>The raccoon's collection</h2>
@@ -157,12 +261,8 @@
 
     <h2>About this place</h2>
     <div class="panel">
-      <ul class="tick">
-        <li>handmade, no frameworks - just HTML, CSS &amp; a little JS</li>
-        <li>built to be poked at; <b>every room is playable</b></li>
-        <li>looks best with the lights off (there's a switch in the bar)</li>
-        <li>a <a href="guestbook.html">guestbook</a> - sign it on your way out</li>
-      </ul>
+      <p class="lead">There is a room you can unlock.</p>
+      <p class="muted">Good luck.</p>
     </div>
 
   </main>
@@ -172,9 +272,9 @@
       <span>© <span class="js-year">2026</span> Swifty · made with late nights</span>
       <span>you are visitor №&nbsp;<b id="hits">000000</b></span>
       <span class="btns88">
+        <a class="btn88" href="https://github.com/lacaffar" target="_blank" rel="noopener">GITHUB</a>
         <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY WORK</a>
-        <a class="btn88" href="undertale.html">STAY DETERMINED</a>
-        <a class="btn88" href="index.html">BEST VIEWED @ NIGHT</a>
+        <span class="btn88">BEST VIEWED @ NIGHT</span>
       </span>
     </div>
   </footer>
@@ -183,7 +283,7 @@
   <script src="js/quest.js"></script>
   <script src="js/site.js"></script>
   <script src="js/raccoon.js"></script>
-  <script src="js/rooms/home.js?v=3"></script>
+  <script src="js/rooms/home.js?v=4"></script>
   <script src="js/weather.js"></script>
 </body>
 </html>

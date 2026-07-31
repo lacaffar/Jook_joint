@@ -20,52 +20,127 @@
   text-shadow:0 0 8px var(--warn); opacity:.8;
 }
 
-/* ---- the doors ------------------------------------------------------ */
+/* ---- the doors ------------------------------------------------------
+   Each one is built like a real door: a timber casing, a hung leaf with
+   two recessed panels, brass hinges down the left edge, a knob on an
+   escutcheon at hand height, and light leaking under the bottom rail.
+   Point at one and the leaf swings on its hinges - the frame behind it
+   is the dark of the room you are about to walk into.
+   --------------------------------------------------------------------- */
 .bar-wall{
-  display:flex; gap:12px; justify-content:center; align-items:flex-end;
-  flex-wrap:wrap; padding:18px 0 22px;
+  display:flex; gap:14px; justify-content:center; align-items:flex-end;
+  flex-wrap:wrap; padding:18px 0 26px; perspective:1100px;
 }
 .bar-door{
-  width:104px; height:158px; border-radius:10px 10px 3px 3px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-  text-decoration:none; position:relative;
-  border:3px solid #0a0705; box-shadow:0 6px 16px rgba(0,0,0,.5), inset 0 0 18px rgba(0,0,0,.45);
-  transition:transform .16s ease, box-shadow .16s ease;
+  position:relative; display:block; text-decoration:none;
+  width:140px; height:196px;
+  /* the casing: mitred timber, lit from the left */
+  border-style:solid; border-width:7px 7px 0;
+  border-color:#6f5031 #4a3520 transparent #7a5936;
+  border-radius:9px 9px 2px 2px;
+  /* and behind the leaf, the doorway itself */
+  background:
+    radial-gradient(90% 60% at 50% 100%, color-mix(in srgb, var(--glow, var(--accent)) 40%, transparent), transparent 70%),
+    linear-gradient(180deg,#0b0806,#070504);
+  box-shadow:0 10px 20px rgba(0,0,0,.55), inset 0 0 22px rgba(0,0,0,.7);
+  transition:transform .18s ease, box-shadow .18s ease;
 }
 .bar-door:hover, .bar-door:focus-visible{
-  transform:translateY(-6px) rotate(-1deg); text-decoration:none;
-  box-shadow:0 14px 26px rgba(0,0,0,.6), 0 0 22px var(--glow, var(--accent)), inset 0 0 18px rgba(0,0,0,.4);
-  outline:none;
+  outline:none; text-decoration:none; transform:translateY(-3px);
+  box-shadow:0 16px 28px rgba(0,0,0,.62), 0 0 24px var(--glow, var(--accent)), inset 0 0 22px rgba(0,0,0,.6);
 }
-.bar-door .knob{ position:absolute; right:9px; top:52%; width:8px; height:8px; border-radius:50%;
-  background:#d9b36a; box-shadow:0 0 5px #d9b36a; }
-.bar-door .ico{ font-size:34px; filter:drop-shadow(0 3px 3px rgba(0,0,0,.6)); }
-.bar-door .ico img{ height:44px; width:auto; max-width:52px; object-fit:contain; display:block; }
+/* light under the door - there is somebody in there */
+.bar-door::after{
+  content:""; position:absolute; left:8px; right:8px; bottom:0; height:4px;
+  border-radius:2px; background:var(--glow, var(--accent));
+  opacity:.32; filter:blur(1.5px); transition:opacity .18s;
+}
+.bar-door:hover::after, .bar-door:focus-visible::after{ opacity:.85; }
+
+/* the leaf, hung on the left stile */
+.bar-door .slab{
+  position:absolute; inset:0; border-radius:5px 5px 0 0;
+  background:var(--leaf, linear-gradient(180deg,#3a2a1c,#241811));
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.55), inset 0 7px 16px rgba(0,0,0,.4),
+             2px 0 10px rgba(0,0,0,.5);
+  transform-origin:left center; transform:rotateY(0deg);
+  transition:transform .32s cubic-bezier(.3,.7,.3,1);
+  backface-visibility:hidden;
+}
+.bar-door:hover .slab, .bar-door:focus-visible .slab{ transform:rotateY(-26deg); }
+
+/* two recessed panels, stile-and-rail style */
+.bar-door .pnl{
+  position:absolute; left:13px; right:13px; border-radius:3px;
+  background:rgba(0,0,0,.17);
+  box-shadow:inset 0 2px 3px rgba(0,0,0,.55), inset 0 -2px 2px rgba(255,255,255,.07),
+             0 1px 0 rgba(255,255,255,.05);
+}
+.bar-door .pnl.top{ top:13px; height:88px; }
+.bar-door .pnl.bot{ top:112px; bottom:15px; }
+
+/* brass hinges on the casing, not the leaf */
+.bar-door .hinge{
+  position:absolute; left:-5px; width:8px; height:17px; border-radius:2px; z-index:3;
+  background:linear-gradient(90deg,#e0c07a,#9a7734 60%,#5e4518);
+  box-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+.bar-door .hinge.a{ top:28px; } .bar-door .hinge.b{ bottom:34px; }
+
+/* knob on its backplate, at hand height */
+.bar-door .knob{
+  position:absolute; right:11px; top:53%; width:21px; height:21px; border-radius:50%;
+  transform:translateY(-50%); background:rgba(0,0,0,.42);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.13);
+}
+.bar-door .knob::after{
+  content:""; position:absolute; left:50%; top:50%; width:11px; height:11px;
+  transform:translate(-50%,-50%); border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #ffe9b0, #c39236 62%, #6f4e14);
+  box-shadow:0 0 7px rgba(255,196,96,.55), 0 1px 2px rgba(0,0,0,.8);
+}
+
+.bar-door .ico{
+  position:absolute; left:0; right:0; top:26px; text-align:center; line-height:1;
+  filter:drop-shadow(0 3px 3px rgba(0,0,0,.6));
+}
+.bar-door .ico img{ height:58px; width:auto; max-width:74px; object-fit:contain;
+  display:block; margin:0 auto; }
 /* pixel-art icons stay crisp; smooth (non-pixel) ones render normally */
 .door-stardew .ico img, .door-undertale .ico img{ image-rendering:pixelated; }
 .door-fnaf .ico img, .door-fencing .ico img{ image-rendering:auto; }
 /* Freddy's render sits on a dark plate; round it into the door */
 .door-fnaf .ico img{ border-radius:7px; }
-.bar-door .plq{
-  font-family:var(--font-pixel); font-size:8.5px; letter-spacing:.4px; text-align:center;
-  color:#f5e9cf; background:rgba(0,0,0,.42); border:1px solid rgba(255,255,255,.14);
-  border-radius:4px; padding:3px 6px; max-width:92px;
-}
 
-.door-fnaf{ --glow:#e23b3b; background:linear-gradient(180deg,#241531,#170e20); }
-.door-fnaf::after{ content:"◠"; position:absolute; top:-14px; color:#ffe9a8; font-size:14px;
-  text-shadow:0 0 9px #ffe9a8; animation:flickerHard 3.5s infinite; }
-.door-stardew{ --glow:#8fcf4f; background:linear-gradient(180deg,#2c4420,#1d2f14); }
-.door-stardew::after{ content:""; position:absolute; top:-10px; left:6px; font-size:16px; }
-.door-undertale{ --glow:#ff2a2a; background:#000; border-color:#3a3a3a; }
-.door-undertale .ico{ color:#ff2a2a; text-shadow:0 0 12px #ff2a2a; }
-.door-fencing{ --glow:#3da9fc; background:linear-gradient(180deg,#2c3546,#1d2430); }
-.door-hamilton{ --glow:#e8c15a; background:linear-gradient(180deg,#3a2c12,#241a0a); }
-.door-guestbook{ --glow:#ff5d8f; background:linear-gradient(180deg,#38222c,#22151c); }
+/* the plaque, screwed to the lower panel */
+.bar-door .plq{
+  position:absolute; left:20px; right:20px; bottom:30px;
+  font-family:var(--font-pixel); font-size:8.5px; line-height:1.5; letter-spacing:.4px;
+  text-align:center; color:#f5e9cf;
+  background:linear-gradient(180deg, rgba(255,255,255,.09), rgba(0,0,0,.42));
+  border:1px solid rgba(255,255,255,.16); border-radius:3px; padding:4px 3px;
+  box-shadow:0 1px 2px rgba(0,0,0,.6);
+}
+.bar-door .plq::before, .bar-door .plq::after{  /* two little screws */
+  content:""; position:absolute; top:50%; width:3px; height:3px; margin-top:-1.5px;
+  border-radius:50%; background:rgba(255,255,255,.28);
+}
+.bar-door .plq::before{ left:3px; } .bar-door .plq::after{ right:3px; }
+
+/* per-room leaf timber and the light behind it */
+.door-fnaf{ --glow:#e23b3b; --leaf:linear-gradient(180deg,#241531,#170e20); }
+.door-fnaf .slab::after{ content:"◠"; position:absolute; left:50%; top:-1px; margin-left:-7px;
+  color:#ffe9a8; font-size:14px; text-shadow:0 0 9px #ffe9a8; animation:flickerHard 3.5s infinite; }
+.door-stardew{ --glow:#8fcf4f; --leaf:linear-gradient(180deg,#2c4420,#1d2f14); }
+.door-undertale{ --glow:#ff2a2a; --leaf:linear-gradient(180deg,#151515,#050505); }
+.door-fencing{ --glow:#3da9fc; --leaf:linear-gradient(180deg,#2c3546,#1d2430); }
+.door-hamilton{ --glow:#e8c15a; --leaf:linear-gradient(180deg,#3a2c12,#241a0a); }
+.door-medieval{ --glow:#9fb6cc; --leaf:linear-gradient(180deg,#3c3b39,#211f1e); }
+.door-guestbook{ --glow:#ff5d8f; --leaf:linear-gradient(180deg,#38222c,#22151c); }
 
 .door-backroom{
   --glow:#ffb347;
-  background:repeating-linear-gradient(0deg,#2a1c12 0 12px,#241811 12px 24px); /* brick */
+  --leaf:repeating-linear-gradient(0deg,#2a1c12 0 12px,#241811 12px 24px); /* brick */
   opacity:0; pointer-events:none; transform:scale(.96);
   transition:opacity .8s ease, transform .8s ease;
 }
@@ -80,19 +155,30 @@
   background:linear-gradient(180deg,#3a2817,#241811);
   border-radius:6px 6px 0 0; min-height:74px;
 }
-.bar-counter .stools{ display:flex; gap:8px; opacity:.9; }
+.bar-counter .stools{ display:flex; gap:12px; opacity:.95; align-items:flex-end; }
 /* ---- counter props, drawn in CSS (no emoji) ------------------------ */
-.stool{ font-size:26px; width:26px; height:34px; position:relative; }
-.stool::before{                /* seat */
-  content:""; position:absolute; left:50%; top:6px; transform:translateX(-50%);
-  width:24px; height:7px; border-radius:4px;
-  background:linear-gradient(180deg,#8c4a2a,#5e2f1a);
+/* A bar stool: round leather seat seen slightly from above, four splayed
+   legs with the back pair sitting behind, and a footrest ring. */
+.stool{ width:38px; height:52px; position:relative; padding:0; }
+.stool .seat{
+  position:absolute; left:50%; top:1px; transform:translateX(-50%);
+  width:34px; height:14px; border-radius:50%; z-index:3;
+  background:radial-gradient(62% 130% at 40% 20%, #b8663a, #8c4a2a 55%, #562a16 100%);
+  box-shadow:0 3px 0 #46220f, 0 5px 5px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.24);
 }
-.stool::after{                 /* legs */
-  content:""; position:absolute; left:50%; top:13px; transform:translateX(-50%);
-  width:16px; height:16px;
-  border-left:3px solid #4a2614; border-right:3px solid #4a2614;
-  border-bottom:3px solid #4a2614; border-radius:0 0 3px 3px;
+.stool .leg{
+  position:absolute; bottom:2px; width:3.5px; border-radius:2px;
+  background:linear-gradient(90deg,#7a441f,#3f2010);
+  transform-origin:bottom center;
+}
+.stool .leg.fl{ left:6px;  height:40px; transform:rotate(10deg); z-index:2; }
+.stool .leg.fr{ right:6px; height:40px; transform:rotate(-10deg); z-index:2; }
+.stool .leg.bl{ left:13px; height:37px; transform:rotate(4deg); opacity:.62; z-index:1; }
+.stool .leg.br{ right:13px; height:37px; transform:rotate(-4deg); opacity:.62; z-index:1; }
+.stool .ring{                  /* the footrest */
+  position:absolute; left:50%; bottom:14px; transform:translateX(-50%);
+  width:27px; height:9px; border:2.5px solid #6d3d1c; border-top-color:#96602d;
+  border-radius:50%; z-index:2;
 }
 /* the coin pouch (straight out of Kingdom), in its own section */
 .tip-section{ text-align:center; padding:48px 12px 16px; }
@@ -114,6 +200,24 @@
   position:fixed; left:0; top:0; border-radius:50%; border:2px solid;
   z-index:9500; pointer-events:none; will-change:transform;
 }
+
+/* ---- after the heist: what he leaves you ----------------------------- */
+.tip-gone{ padding:26px 0 6px; animation:gbIn .4s ease; }
+.bcap{                          /* one crimped bottle cap, in CSS */
+  display:block; width:74px; height:74px; margin:0 auto 12px; border-radius:50%;
+  background:
+    radial-gradient(circle at 38% 32%, #ffe9b0 0 12%, transparent 13%),
+    radial-gradient(circle at 50% 50%, #d9a441 0 52%, #a4761f 53%, #7c560f 100%);
+  box-shadow:0 6px 14px rgba(0,0,0,.6), inset 0 0 0 5px rgba(0,0,0,.16);
+  position:relative; animation:capSpin 5s linear infinite;
+}
+.bcap::after{                   /* the crimped skirt, as 20 little teeth */
+  content:""; position:absolute; inset:-4px; border-radius:50%;
+  background:repeating-conic-gradient(#c08d2c 0 9deg, #8a6316 9deg 18deg);
+  z-index:-1;
+}
+@keyframes capSpin{ to{ transform:rotate(360deg) } }
+@media (prefers-reduced-motion:reduce){ .bcap{ animation:none; } }
 #trash-can{ width:30px; height:36px; position:relative; }
 #trash-can::before{            /* lid */
   content:""; position:absolute; left:50%; top:4px; transform:translateX(-50%);
@@ -199,34 +303,39 @@
 .sign-bolt.tl{ left:7px;  top:7px; }   .sign-bolt.tr{ right:7px; top:7px; }
 .sign-bolt.bl{ left:7px;  bottom:7px; } .sign-bolt.br{ right:7px; bottom:7px; }
 
-/* the lettering, as bent neon tubing */
-.sign-rig .neon-sign{
-  margin:0; text-align:center; line-height:1; cursor:pointer;
-  display:flex; flex-direction:column; gap:6px; animation:none;
+/* =====================================================================
+   THE SIGN ART :: the name of the joint, bent out of neon tubing.
+   One inline SVG - a raccoon's face in amber tube between a martini and
+   an eighth note, the name underneath, the whole thing glowing. The
+   heading text itself is left for screen readers only.
+   ===================================================================== */
+.sign-art{ margin:0; line-height:0; cursor:pointer; }
+.joint-art{
+  display:block; width:min(320px, 64vw); height:auto; overflow:visible;
+  filter:drop-shadow(0 0 3px rgba(255,255,255,.25));
 }
-.sign-rig .neon-sign .ln1,
-.sign-rig .neon-sign .ln2{
-  font-family:var(--font-pixel); font-weight:700; display:block;
-  -webkit-text-stroke:.6px rgba(255,255,255,.45);
+.joint-art .tube{ fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.joint-art .amber{ stroke:var(--accent); stroke-width:3.2; }
+.joint-art .pink{ stroke:var(--accent2); stroke-width:2.8; }
+.joint-art .mask-band{ fill:#0a0806; stroke:var(--accent2); stroke-width:2.6; }
+.joint-art .lit-a{ fill:var(--accent); stroke:none; }
+.joint-art .lit-p{ fill:var(--accent2); stroke:none; }
+.joint-art text{
+  font-family:var(--font-pixel); font-weight:700; text-anchor:middle;
+  paint-order:stroke fill;
 }
-.sign-rig .neon-sign .ln1{
-  font-size:clamp(19px, 4.4vw, 34px); letter-spacing:.14em; color:#fff3dc;
-  text-shadow:
-    0 0 4px #fff, 0 0 11px var(--accent),
-    0 0 26px var(--accent), 0 0 52px color-mix(in srgb, var(--accent) 65%, transparent);
-}
-.sign-rig .neon-sign .ln2{
-  font-size:clamp(26px, 7vw, 58px); letter-spacing:.05em; color:#ffeaf3;
-  text-shadow:
-    0 0 4px #fff, 0 0 12px var(--accent2),
-    0 0 30px var(--accent2), 0 0 62px color-mix(in srgb, var(--accent2) 70%, transparent);
-  animation:neonStutter 8s infinite;
-}
+.joint-art .ln1{ font-size:21px; letter-spacing:6px; fill:#fff5e2; stroke:var(--accent); stroke-width:.7; }
+.joint-art .ln2{ font-size:34px; letter-spacing:1.5px; fill:#ffeaf3; stroke:var(--accent2); stroke-width:.7; }
+
+/* the glow, done with SVG filters so the tubes bloom like glass */
+.joint-art .glow-a{ filter:url(#ja-amber); }
+.joint-art .glow-p{ filter:url(#ja-pink); animation:neonStutter 8s infinite; }
 /* one tube that never quite settles */
 @keyframes neonStutter{
   0%,88%,100%{ opacity:1 }
   89%{ opacity:.35 } 90%{ opacity:1 } 92%{ opacity:.5 } 93%{ opacity:1 }
 }
+body.lights-off .joint-art{ filter:drop-shadow(0 0 6px rgba(255,255,255,.4)); }
 
 /* the little plate under the name */
 .sign-plate{
@@ -280,7 +389,7 @@ body.lights-off .sign-spill{ opacity:.95; }
 }
 @media (prefers-reduced-motion:reduce){
   .sign-board, .sign-board::before,
-  .sign-rig .neon-sign .ln2, .sign-open{ animation:none; }
+  .joint-art .glow-p, .sign-open{ animation:none; }
   .sign-board{ transform:none; }
 }
 
@@ -385,14 +494,15 @@ body.lights-off .bar-counter::after{
 @keyframes rayBob{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-5px) } }
 @media (prefers-reduced-motion:reduce){ .ray-bubble{ animation:none; } }
 
-/* accessible plain list of rooms below the scene */
-.room-list{ font-size:14px; color:var(--muted); text-align:center; margin:2px 0 0; }
-.room-list a{ white-space:nowrap; }
-
 @media (max-width:560px){
-  .bar-door{ width:46%; max-width:150px; }
+  .bar-door{ width:46%; max-width:150px; height:178px; }
+  .bar-door .ico img{ height:48px; }
   .bar-counter{ flex-wrap:wrap; }
   .bar-counter .stools{ display:none; }
+}
+/* a door that cannot swing is still a door - just a shut one */
+@media (prefers-reduced-motion:reduce){
+  .bar-door:hover .slab, .bar-door:focus-visible .slab{ transform:none; }
 }
 
 @media (prefers-reduced-motion:reduce){

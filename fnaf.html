@@ -9,23 +9,30 @@
   <meta name="description" content="Swifty's Five Nights at Freddy's room. Take the night shift: doors, lights, cameras, and not nearly enough power." />
   <meta name="theme-color" content="#04060a" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 4h10v9H3z M5 6h2v2H5z M9 6h2v2H9z' fill='%23e23b3b'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/fnaf.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/fnaf.css?v=4" />
 </head>
 <body class="room-fnaf">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">THE OFFICE</h1>
     <p class="tagline">night shift, 12AM-6AM · pay: $120/wk · <b style="color:var(--accent)">survivors wanted</b></p>
@@ -111,9 +118,8 @@
         </div>
         <img id="deskcam-img" alt="live feed of Swifty's desk" hidden />
       </div>
-      <p class="deskcam-note">This is meant to be a <b>live camera pointed at my actual desk</b>.
-        It isn't wired up yet - drop a stream URL below and it'll show here.
-        An MJPEG / snapshot URL works best.</p>
+      <p class="deskcam-note">Meant to be a <b>live camera pointed at my actual desk</b>.
+        Not wired up yet - drop an MJPEG or snapshot URL below and it'll show here.</p>
       <form class="deskcam-form" id="deskcam-form">
         <input class="deskcam-input" id="deskcam-url" type="url" inputmode="url"
                placeholder="https://.../stream.mjpg" aria-label="camera stream URL" />
@@ -124,10 +130,9 @@
     </section>
 
     <div class="panel incident">
-      <p class="lead">Five Nights at Freddy's broke my brain in the best way.</p>
-      <p>It's the rare horror series where the <i>scariest</i> part isn't the jumpscare - it's the lore.
-        A kids' pizzeria with a body count, told through minigames, newspaper clippings, and a community
-        that has been arguing about timelines since 2014. I'm in it for the rabbit-holes.</p>
+      <p class="lead">The scariest part was never the jumpscare - it's the lore.</p>
+      <p>A kids' pizzeria with a body count, told through minigames and newspaper
+        clippings, argued over since 2014. I'm in it for the rabbit-holes.</p>
     </div>
 
     <h2>Ranking (fight me)</h2>
@@ -136,7 +141,6 @@
         <li><b>FNAF 1</b> - nothing beats the original power-management dread.</li>
         <li><b>Sister Location</b> - voice acting + Circus Baby = elite.</li>
         <li><b>FNAF 2</b> - the Puppet. the music box. the panic.</li>
-        <li>… (re-order to taste)</li>
       </ol>
     </div>
 
@@ -145,28 +149,23 @@
       <li>Freddy</li><li>Foxy</li><li>The Puppet</li><li>Circus Baby</li><li>Springtrap</li><li>Mangle</li>
     </ul>
 
-    <h2>Lore corner</h2>
+    <h2>What I'd add to this room next</h2>
     <div class="panel incident">
-      <h3>Hot takes</h3>
-      <ul class="tick">
-        <li>the books are semi-canon and that's fine, actually</li>
-        <li>the bite of '83 &gt; the bite of '87 as a mystery</li>
-        <li class="todo">finish the Pizzaria Simulator ending writeup</li>
+      <ul class="plain">
+        <li>Give the cameras real footage instead of text - even four looping frames of
+          a corridor would beat a label saying CAM 2A.</li>
+        <li>Make power drain per-device rather than a flat rate, so leaving one door shut
+          all night is a decision with a cost.</li>
+        <li>Let night 5 change the office itself: a fan that dies, a poster that moves.</li>
       </ul>
     </div>
 
-    <p class="muted"><small>* the night guard before you only left a sticky note: "he likes the cameras. use that."</small></p>
-
-    <nav class="room-nav">
-      <a href="index.html">← home</a>
-      <a href="stardew.html">stardew →</a>
-    </nav>
+    <p class="muted"><small>* the night guard before you left one sticky note: "he likes the cameras. use that."</small></p>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span><a href="index.html">back to the joint</a></span>
     </div>
   </footer>
 

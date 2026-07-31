@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Coucy - the great donjon :: Swifty's Jook Joint</title>
+  <meta name="description" content="Inside the donjon of Coucy: the largest keep in medieval Europe, and what happened to it in 1917." />
+  <meta name="theme-color" content="#0f1216" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 6h2V4h2v2h2V4h2v2h2V4h2v10H2z' fill='%23c8a24a'/></svg>" />
+  <script src="js/gate.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/medieval.css?v=4" />
+</head>
+<body class="room-medieval">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <h1 class="sign">COUCY</h1>
+    <p class="tagline">the gate was open. mind the stairs, there is no handrail.</p>
+
+    <div class="panel">
+      <p>Enguerrand III began the castle around 1225 and put a cylinder at the corner of
+        it that nobody has matched since: <b>55 metres tall, 31 across, walls seven and a
+        half metres thick</b>. Three vaulted halls stacked on top of each other, no
+        internal buttressing, no keystone bigger than it needed to be. It was not the
+        strongest castle in France. It was the loudest.</p>
+    </div>
+
+    <section class="donjon" aria-label="climb the donjon">
+      <div class="tower" id="tower" aria-hidden="true">
+        <div class="storey" data-floor="0">CELLAR</div>
+        <div class="storey" data-floor="1">HALL I</div>
+        <div class="storey" data-floor="2">HALL II</div>
+        <div class="storey" data-floor="3">HALL III</div>
+        <div class="storey roof" data-floor="4"></div>
+      </div>
+      <p class="climb-note" id="climb-note">Ground level. The door is nine metres up the
+        outside — you came in the way a guest would, which is to say by a bridge someone
+        could pull away.</p>
+      <button class="climb-btn" id="climb" type="button">climb</button>
+    </section>
+
+    <div class="ruin">
+      <p><b>March 1917.</b> Falling back to the Hindenburg Line, German sappers packed
+        the donjon with explosive and brought it down. There had been no fighting at
+        Coucy. The tower had stood for nearly seven hundred years, and what is on the
+        hill now is a ring of rubble with the shape still legible in it.</p>
+    </div>
+
+    <h2>What I'd add here next</h2>
+    <div class="panel">
+      <ul class="plain">
+        <li>A cutaway of the three halls at true scale, with a person drawn in for
+          comparison — the numbers don't land until you see them.</li>
+        <li>The 1652 partial demolition alongside 1917, so the ruin reads as two
+          deliberate acts and not one accident.</li>
+        <li>A short before/after slider from the 1900s photographs.</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty</span>
+    </div>
+  </footer>
+
+  <script src="js/sfx.js"></script>
+  <script src="js/quest.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/raccoon.js"></script>
+  <script src="js/rooms/coucy.js"></script>
+</body>
+</html>

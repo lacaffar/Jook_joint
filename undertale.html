@@ -9,11 +9,12 @@
   <meta name="description" content="Swifty's Undertale room. A dark room, a dialogue box, a save point. Stay determined." />
   <meta name="theme-color" content="#000000" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M8 1l2 5 5 .5-3.7 3.4 1.1 5.1L8 12.4 3.6 15l1.1-5.1L1 6.5 6 6z' fill='%23ffd400'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/undertale.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/undertale.css?v=4" />
 </head>
 <body class="room-undertale">
 
@@ -22,12 +23,18 @@
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign" style="text-shadow:0 0 6px #fff,0 0 18px var(--accent);">UNDERTALE</h1>
     <p class="tagline">* a dark room. somewhere, a raccoon rustles. <span class="soul">♥</span></p>
@@ -82,30 +89,25 @@
     <div class="dialogue">
       <p>* Undertale is a game about <span class="soul">mercy</span>.</p>
       <p>* It noticed how I was playing and made it personal.</p>
-      <p>* No other game has gotten me the way the Pacifist ending did.</p>
-      <p>* (edit this with your own first-playthrough story.)</p>
+      <p>* Route: True Pacifist, always.</p>
     </div>
 
-    <h2 style="font-family:var(--font-term); color:var(--accent); font-size:26px;">The file</h2>
-    <ul class="tick" style="font-family:var(--font-term); font-size:21px;">
-      <li>Route: <b>True Pacifist</b>, always</li>
-      <li>Best character: a tie between a skeleton and a goat mom</li>
-      <li>Megalovania goes hard and I will not apologize</li>
-      <li class="todo">do a genocide run (… maybe. someday. probably not.)</li>
-    </ul>
+    <h2 style="font-family:var(--font-term); color:var(--accent); font-size:26px;">What I'd add to this room next</h2>
+    <div class="panel">
+      <ul class="plain">
+        <li>Attack patterns that answer what you did last turn - sparing should visibly
+          change what comes at you, not just unlock an ending.</li>
+        <li>A proper typewriter voice per speaker, blips and all.</li>
+        <li>A save point that actually remembers the fight, so reloading means something.</li>
+      </ul>
+    </div>
 
     <p class="muted" style="font-family:var(--font-term); font-size:20px;">* The raccoon spares you. You feel determined.</p>
-
-    <nav class="room-nav">
-      <a href="stardew.html">← stardew</a>
-      <a href="fencing.html">fencing →</a>
-    </nav>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span><a href="index.html">back to the joint</a></span>
     </div>
   </footer>
 

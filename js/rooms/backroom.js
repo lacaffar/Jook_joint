@@ -64,7 +64,7 @@
     [' best duel of wits', lsInt('sjj_hamilton_best') ? lsInt('sjj_hamilton_best') + '/10' : '—'],
     [' parsnips harvested', farm.harvested || 0],
     [' farm gold', (farm.gold || 0) + 'g'],
-    [' tips in the jar', lsInt('sjj_tipjar')],
+    [' coins dropped in, all time', lsInt('sjj_tipjar')],
     [' your visits', lsInt('sjj_hits')]
   ];
   var statsEl = document.querySelector('#br-stats');

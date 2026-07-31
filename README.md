@@ -8,36 +8,57 @@ all new sound is synthesized with the WebAudio API).
 ## Rooms & games
 | File | Room | The game |
 |------|------|----------|
-| `index.html` | The bar | Interactive scene: themed doors, jukebox, a Kingdom coin pouch with real coin physics, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
+| `index.html` | The bar | Interactive scene: themed doors that swing on their hinges, jukebox, a Kingdom coin pouch with real coin physics, light switch, a territorial trash can, and a certain ↑↑↓↓←→←→BA code |
 | `fnaf.html` | The office | **One Night at Swifty's** - doors, lights, cameras, draining power, 12AM→6AM, escalating nights |
 | `stardew.html` | Raccoon Hollow | **Walkable farm** - WASD around a tile map; till → plant → water → sleep → harvest 9 parsnips; villagers, mine |
 | `undertale.html` | The encounter | **FIGHT / ACT / ITEM / MERCY** battle with bullet-hell dodging; ACT your way to the pacifist spare |
 | `fencing.html` | The piste | **Allez!** - directional reaction duel; foil/sabre roll right-of-way (attack vs parry), épée is a speed race |
 | `hamilton.html` | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
+| `medieval.html` | The keep | Six favourite castles on a curtain wall. Five gates are struck off the list; one still opens |
+| `coucy.html` | The great donjon | Behind the one open gate: climb the tallest keep in medieval Europe, storey by storey |
 | `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
 | `backroom.html` | The back room | **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
 | `404.html` | Lost | Dig a door out of the raccoon's trash can |
+
+## Bar hours (`js/gate.js`)
+The joint is **shut from 8am to 5pm** local time. During the day every page shows a
+CLOSED sign with a password box; get it right once and the device is remembered
+(`localStorage.sjj_pass`). It is a doorman, not a lock - the password is a constant at
+the top of `js/gate.js`, along with the two hours, and those three lines are the only
+ones meant to be edited. The script loads from `<head>` so nothing flashes up behind
+the sign.
 
 ## The Bottle Cap Hunt (site-wide meta-puzzle)
 Win the game in each of the five main rooms and the raccoon tosses you a **bottle cap**
 (`js/quest.js`, stored in `localStorage.sjj_caps`). Collect all five and a **sixth door**
 fades into the bar on the home page → the Back Room.
 
+There is also a **bonus cap** (`tips`) that never counts toward that door: overflow five
+coins out of the tip pouch and the raccoon walks over, carries the whole bag off screen,
+and leaves his own cap behind.
+
 ## Shared machinery
+- **`js/gate.js`** - bar hours + the password door. Loads first, from `<head>`.
 - **`js/quest.js`** - the cap system: `SJJQuest.award/has/count/all/renderShelf`, toasts, the
   `sjj:caps` event. Any element with `data-cap-shelf` renders the collection.
 - **`js/sfx.js`** - `SFX.*` synth sounds (blips, coins, static, jumpscare…). Mute toggle in the
   topbar, persisted.
-- **`js/site.js`** - jukebox (real MP3s in `audio/`), systems status pings, hit counter, guestbook.
-- **`js/raccoon.js`** - the pixel raccoon cursor-follower; exports `window.RaccoonSVG` for the
-  battle sprite, jumpscare, konami party and back room.
+- **`js/site.js`** - jukebox (real MP3s in `audio/`), the now-playing readout in the top right,
+  systems status pings, hit counter, guestbook.
+- **`js/raccoon.js`** - the pixel raccoon cursor-follower. He trails half a second behind the
+  cursor and keeps his distance. Exports `window.RaccoonSVG` for the battle sprite, jumpscare,
+  konami party and back room, plus `window.SJJRaccoon.steal(node, done)` - walk over, pick a
+  thing up, and leave with it.
 - **Per-room code** - each page loads its own `css/<room>.css` + `js/rooms/<room>.js`, so every
   room can look and behave like a different game.
 
 ## Progress kept in localStorage (`sjj_*`)
 `sjj_caps`, `sjj_fnaf_night`, `sjj_fencing_best`, `sjj_hamilton_best`, `sjj_stardew`,
-`sjj_tipjar`, `sjj_lights`, `sjj_mute`, `sjj_save`, `sjj_guestbook`, `sjj_hits`.
-The Back Room has a reset button.
+`sjj_tipjar`, `sjj_lights`, `sjj_mute`, `sjj_save`, `sjj_guestbook`, `sjj_hits`,
+`sjj_pass`, `sjj_music_hint`. The Back Room has a reset button.
+
+The tip pouch is deliberately **not** in that list as a savings account: `sjj_tipjar` is a
+running lifetime total for the stats shelf, but the pile itself starts empty every visit.
 
 ## Accessibility & phones
 Every game is touch-playable (D-pad on the farm, drag-the-heart in the battle, tap zones on the

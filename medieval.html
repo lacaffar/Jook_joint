@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>The Keep - castles :: Swifty's Jook Joint</title>
+  <meta name="description" content="Swifty's medieval history room. Six favourite castles, and one gate that still opens." />
+  <meta name="theme-color" content="#0f1216" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 6h2V4h2v2h2V4h2v2h2V4h2v10H2z' fill='%23c8a24a'/></svg>" />
+  <script src="js/gate.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/medieval.css?v=4" />
+</head>
+<body class="room-medieval">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <h1 class="sign">THE KEEP</h1>
+    <p class="tagline">six castles I would live in · five of them won't have me</p>
+
+    <div class="panel">
+      <p>Medieval castles are architecture with a threat model. Every wall answers a
+        specific way of being attacked, and you can read the century off the shape of a
+        tower. These six are my favourites.</p>
+    </div>
+
+    <section class="curtain" id="curtain" aria-label="the castles">
+
+      <article class="castle open">
+        <h3>Château de Coucy</h3>
+        <span class="where">Coucy-le-Château, Picardy · <span class="dates">c. 1225</span></span>
+        <p>Built for Enguerrand III, whose donjon — 55 m tall and 31 m across — was the
+          largest in medieval Europe. The Coucy family motto skipped the titles they
+          didn't have and ended, simply, <i>"I am the lord of Coucy."</i></p>
+        <a class="enter open" href="coucy.html">ENTER</a>
+      </article>
+
+      <article class="castle">
+        <h3>Krak des Chevaliers</h3>
+        <span class="where">Homs Gap, Syria · <span class="dates">Hospitaller from 1142</span></span>
+        <p>The concentric castle at its most complete: a ring inside a ring, a sloped
+          talus you cannot mine, and a covered ramp that turns back on itself. It fell to
+          Baibars in 1271, and by surrender rather than by breach.</p>
+        <span class="enter shut" role="button" tabindex="0">ENTER</span>
+      </article>
+
+      <article class="castle">
+        <h3>Château Gaillard</h3>
+        <span class="where">Les Andelys, Normandy · <span class="dates">1196–1198</span></span>
+        <p>Richard I put it up in about two years on a chalk spur over the Seine, and was
+          pleased enough to call it his saucy castle. Philip II took it in 1204 anyway,
+          after a siege that lasted through the winter.</p>
+        <span class="enter shut" role="button" tabindex="0">ENTER</span>
+      </article>
+
+      <article class="castle">
+        <h3>Caernarfon</h3>
+        <span class="where">Gwynedd, Wales · <span class="dates">begun 1283</span></span>
+        <p>Edward I's statement piece, laid out by Master James of St George. The
+          polygonal towers and banded stone are quoting the walls of Constantinople —
+          a conquest castle that wanted to be read as imperial.</p>
+        <span class="enter shut" role="button" tabindex="0">ENTER</span>
+      </article>
+
+      <article class="castle">
+        <h3>Carcassonne</h3>
+        <span class="where">Aude, France · <span class="dates">Roman core, 13th c. walls</span></span>
+        <p>Two full rings of wall with a killing ground between them, on foundations the
+          Romans laid. Viollet-le-Duc restored it from 1853 and gave the towers their
+          pointed roofs, which is either vandalism or a gift depending on the century.</p>
+        <span class="enter shut" role="button" tabindex="0">ENTER</span>
+      </article>
+
+      <article class="castle">
+        <h3>Malbork</h3>
+        <span class="where">Pomerania, Poland · <span class="dates">begun 1274</span></span>
+        <p>The Teutonic Order's headquarters from 1309 and the largest castle on earth by
+          land area — three castles in one, and all of it brick, because northern Poland
+          had clay where everyone else had quarries.</p>
+        <span class="enter shut" role="button" tabindex="0">ENTER</span>
+      </article>
+
+    </section>
+
+    <p class="gate-word" id="gate-word" role="status"></p>
+
+    <h2>What I'd add here next</h2>
+    <div class="panel">
+      <ul class="plain">
+        <li>A siege timeline you can scrub — trebuchet, mine, starve — showing which
+          walls were built to answer which method.</li>
+        <li>Plan drawings for each castle at the same scale, so the jump from square keep
+          to concentric ring is something you can see rather than read.</li>
+        <li>A second gate that opens once you've found the first, so the wall has depth.</li>
+      </ul>
+    </div>
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty</span>
+    </div>
+  </footer>
+
+  <script src="js/sfx.js"></script>
+  <script src="js/quest.js"></script>
+  <script src="js/site.js"></script>
+  <script src="js/raccoon.js"></script>
+  <script src="js/rooms/medieval.js"></script>
+</body>
+</html>

@@ -107,73 +107,74 @@
     { title: 'Battle Against a True Hero - Toby Fox', src: 'audio/98-battle-against-a-true-hero.mp3' }
   ];
 
+  var npBox = document.querySelector('#nowplaying');
   var track = document.querySelector('#nowplaying .track');
   var jukeBtn = document.querySelector('#jukebox-btn');
+  var jukeTxt = jukeBtn && jukeBtn.querySelector('.juke-txt');
   var audio = new Audio();
   audio.volume = 0.4;
   var trackIdx = 0;
-  var playing = false;
+  var touched = false;   /* has anyone put a coin in yet this page */
+  var duds = 0;          /* consecutive files that wouldn't load */
 
-  function updateTicker() {
-    if (!track) return;
-    track.style.opacity = 0;
-    setTimeout(function () {
-      track.textContent = TRACKS[trackIdx].title;
-      track.style.opacity = 1;
-    }, 250);
+  /* The ticker used to rotate titles on a timer whether or not anything
+     was coming out of the speakers. Now it reports the audio element and
+     nothing else, so what it says is what you are hearing. */
+  function report() {
+    if (!npBox) return;
+    var live = !audio.paused && !audio.ended;
+    var title = TRACKS[trackIdx].title;
+    npBox.classList.toggle('off', !live);
+    if (track) track.textContent = live ? title : (touched ? 'paused' : 'jukebox off');
+    npBox.title = live ? 'now playing: ' + title : 'the jukebox is quiet';
+    if (jukeBtn) {
+      jukeBtn.classList.toggle('playing', live);
+      if (jukeTxt) jukeTxt.textContent = live ? 'playing' : 'jukebox';
+    }
+    if (live) hideHint();
   }
 
-  if (track) {
-    track.textContent = TRACKS[0].title;
-    track.style.transition = 'opacity .25s';
-  }
-
-  audio.addEventListener('ended', function () {
-    trackIdx = (trackIdx + 1) % TRACKS.length;
+  function playIdx(i) {
+    trackIdx = (i + TRACKS.length) % TRACKS.length;
     audio.src = TRACKS[trackIdx].src;
-    audio.play().catch(function () {});
-    updateTicker();
-  });
-
-  audio.addEventListener('error', function () {
-    trackIdx = (trackIdx + 1) % TRACKS.length;
-    updateTicker();
-    if (playing) {
-      audio.src = TRACKS[trackIdx].src;
-      audio.play().catch(function () {});
-    }
-  });
-
-  if (jukeBtn) {
-    /* the button holds an <img> icon, so only swap the label text */
-    var jukeTxt = jukeBtn.querySelector('.juke-txt');
-    function setJukeLabel(t) {
-      if (jukeTxt) jukeTxt.textContent = t; else jukeBtn.textContent = t;
-    }
-    jukeBtn.addEventListener('click', function () {
-      if (!playing) {
-        audio.src = TRACKS[trackIdx].src;
-        audio.play().catch(function () {});
-        setJukeLabel('playing');
-        jukeBtn.classList.add('playing');
-        playing = true;
-      } else {
-        audio.pause();
-        setJukeLabel('jukebox');
-        jukeBtn.classList.remove('playing');
-        playing = false;
-      }
-    });
+    audio.play().catch(function () { report(); });
   }
 
-  // ticker rotation even when not playing audio
-  if (track) {
-    setInterval(function () {
-      if (!playing) {
-        trackIdx = (trackIdx + 1) % TRACKS.length;
-        updateTicker();
-      }
-    }, 4200);
+  ['play', 'playing', 'pause', 'ended', 'emptied'].forEach(function (ev) {
+    audio.addEventListener(ev, report);
+  });
+  audio.addEventListener('playing', function () { duds = 0; });
+  audio.addEventListener('ended', function () { playIdx(trackIdx + 1); });
+  audio.addEventListener('error', function () {
+    /* a missing mp3 shouldn't spin the machine forever */
+    if (!touched || ++duds >= TRACKS.length) { duds = 0; report(); return; }
+    playIdx(trackIdx + 1);
+  });
+
+  if (jukeBtn) jukeBtn.addEventListener('click', function () {
+    hideHint(true);
+    if (audio.paused) {
+      touched = true;
+      if (!audio.src) playIdx(trackIdx); else audio.play().catch(function () { report(); });
+    } else {
+      audio.pause();
+    }
+  });
+  report();
+
+  /* =================================================================
+     THE ARROW - points at the jukebox until you have used it once
+     ================================================================= */
+  var hint = document.querySelector('#music-hint');
+  var HINT_KEY = 'sjj_music_hint';
+  function hideHint(forGood) {
+    if (hint) hint.hidden = true;
+    if (forGood) { try { localStorage.setItem(HINT_KEY, '1'); } catch (e) {} }
+  }
+  if (hint) {
+    var seen = true;
+    try { seen = localStorage.getItem(HINT_KEY) === '1'; } catch (e) {}
+    if (!seen) setTimeout(function () { if (audio.paused) hint.hidden = false; }, 900);
   }
 
   /* =================================================================
@@ -204,13 +205,18 @@
     var msgI = document.querySelector('#gb-msg');
     var left = document.querySelector('#gb-left');
     var countEl = document.querySelector('#gb-count');
+    var warn = document.querySelector('#gb-warn');
 
     // the raccoon's paw, as an 8x8 stamp
     var PAW = '01100110' + '01100110' + '00000000' + '00111100' +
               '01111110' + '01111110' + '00111100' + '00000000';
 
-    // starter entries (only shown until the visitor saves their own)
-    var seed = [
+    /* The two house entries. These are NOT copied into storage - they are
+       drawn underneath whatever you have signed. Seeding storage with them
+       was how the book used to "clear itself": any hiccup reading the key
+       fell back to the seed, and two familiar entries where your own used
+       to be reads exactly like a wipe. */
+    var HOUSE = [
       { name: 'Swifty', mood: '', host: true, ts: Date.now() - 864e5 * 3,
         msg: 'welcome to the joint! pull up a stool and say hi.' },
       { name: 'the raccoon', mood: '', ts: Date.now() - 36e5 * 5, stamp: PAW,
@@ -262,11 +268,35 @@
       return el;
     }
 
-    function load() {
-      try { var raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {}
-      return seed.slice();
+    /* ---- storage, defensively ---------------------------------------
+       Two rules: never silently drop a signature, and never tell someone
+       their entry was saved when it wasn't. */
+    function ok(en) {
+      return en && typeof en.name === 'string' && typeof en.msg === 'string' && en.name && en.msg;
     }
-    function store(arr) { try { localStorage.setItem(KEY, JSON.stringify(arr.slice(0, 200))); } catch (e) {} }
+    function load() {
+      var raw = null;
+      try { raw = localStorage.getItem(KEY); } catch (e) { return []; }
+      if (!raw) return [];
+      try {
+        var arr = JSON.parse(raw);
+        if (Object.prototype.toString.call(arr) !== '[object Array]') throw 0;
+        return arr.filter(ok);
+      } catch (e) {
+        /* unreadable - park it under a second key instead of overwriting it,
+           so a bad parse can never be what destroys the book */
+        try { localStorage.setItem(KEY + '_broken', raw); } catch (e2) {}
+        return [];
+      }
+    }
+    /* writes, then reads back, and says whether it actually stuck */
+    function store(arr) {
+      var json = JSON.stringify(arr.slice(0, 200));
+      try {
+        localStorage.setItem(KEY, json);
+        return localStorage.getItem(KEY) === json;
+      } catch (e) { return false; }
+    }
     function fmt(ts) {
       var d = new Date(ts);
       return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) +
@@ -274,14 +304,9 @@
     }
 
     function render() {
-      var arr = load();
+      var mine = load();
+      var arr = mine.concat(HOUSE);
       list.textContent = '';
-      if (!arr.length) {
-        var empty = document.createElement('p');
-        empty.className = 'gb-empty';
-        empty.textContent = 'No signatures yet. Be the first!';
-        list.appendChild(empty);
-      }
       arr.forEach(function (en) {
         var card = document.createElement('div');
         card.className = 'gb-entry' + (en.host ? ' host' : '');
@@ -312,7 +337,20 @@
       var stamp = padValue();
       if (stamp) entry.stamp = stamp;
       arr.unshift(entry);
-      store(arr); render();
+
+      if (!store(arr)) {
+        /* the write bounced (private window, storage full, storage off).
+           Leave every word where they typed it and say so - emptying the
+           form here is what used to make a signature vanish on reload. */
+        if (warn) {
+          warn.hidden = false;
+          warn.textContent = "your browser wouldn't let me save that - " +
+            'storage is off or full, so the book can\'t keep it. your words are still in the box.';
+        }
+        return;
+      }
+      if (warn) warn.hidden = true;
+      render();
       nameI.value = ''; msgI.value = ''; updateLeft(); nameI.focus();
       padCells.forEach(function (c) { c.classList.remove('on'); });
     });

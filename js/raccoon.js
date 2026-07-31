@@ -144,7 +144,7 @@
 
   var ANIM = {
     idle: { row: 0, frames: 8, fps: 7 },
-    move: { row: 1, frames: 8, fps: 12 },
+    move: { row: 1, frames: 8, fps: 8 },   /* he ambles now; the walk cycle slowed to match */
     damage: { row: 2, frames: 4, fps: 14 },
     death: { row: 3, frames: 4, fps: 8 }
   };
@@ -231,7 +231,7 @@
   function deathMs() { return ANIM.death.frames / ANIM.death.fps * 1000; }
 
   function poke(now) {
-    if (dead) return;
+    if (dead || heist) return;   /* hands full; he is not taking questions */
     if (now - lastHit > 1600) hits = 0;
     hits++; lastHit = now;
     if (hits >= 3) {
@@ -261,6 +261,76 @@
     mx = e.clientX; my = e.clientY;
     if (Math.hypot(e.clientX - x, e.clientY - y) < HALF * 0.9) poke(performance.now());
   });
+
+  /* ---- he is half a second behind you ---------------------------------
+     He used to steer at the live cursor, which made him snap into motion
+     the instant it twitched and then ride your elbow. Now we keep half a
+     second of cursor history and he walks toward where you WERE, so the
+     move animation starts a beat late and he never quite catches up.
+     ---------------------------------------------------------------------- */
+  var LAG = 500;          /* ms of delay before he reacts */
+  var trail = [];         /* {t,x,y}, oldest first */
+  function laggedTarget(now) {
+    trail.push({ t: now, x: mx, y: my });
+    var want = now - LAG;
+    while (trail.length > 1 && trail[1].t <= want) trail.shift();
+    return trail[0];
+  }
+
+  /* ---- the pouch heist -------------------------------------------------
+     home.js hands him something worth taking. He walks over at his own
+     pace, picks it up, and leaves with it. Nothing else drives him while
+     this is running.
+     ---------------------------------------------------------------------- */
+  var heist = null;
+  function heistStep(now) {
+    var r = heist.node.getBoundingClientRect();
+    if (heist.phase === 'in') {
+      var tx = r.left + r.width / 2, ty = r.top + r.height * 0.62;
+      if (Math.hypot(tx - x, ty - y) < 18) {
+        var art = heist.node.querySelector('img') || heist.node;
+        var ar = art.getBoundingClientRect();
+        heist.loot = art.cloneNode(true);
+        heist.loot.removeAttribute('id');
+        heist.loot.className = 'rac-loot';
+        heist.loot.style.width = ar.width + 'px';
+        heist.loot.style.height = ar.height + 'px';
+        heist.lootW = ar.width; heist.lootH = ar.height;
+        document.body.appendChild(heist.loot);
+        heist.node.style.visibility = 'hidden';
+        heist.phase = 'out';
+        speak('mine now', 1500);
+        if (window.SFX && SFX.deny) SFX.deny();
+      }
+      return { tx: tx, ty: ty, gap: 6, speed: 7 };
+    }
+    /* out the door, stage left */
+    return { tx: -180, ty: y - 30, gap: 4, speed: 8 };
+  }
+  function heistCarry(now) {
+    if (!heist.loot) return;
+    var sway = Math.sin(now / 110) * 7;
+    heist.loot.style.transform =
+      'translate(' + (x - heist.lootW / 2) + 'px,' + (y - heist.lootH * 0.15) + 'px)' +
+      ' rotate(' + sway + 'deg)';
+  }
+  function heistDone() {
+    var cb = heist.done;
+    if (heist.loot) heist.loot.remove();
+    heist = null;
+    trail.length = 0;
+    x = window.innerWidth + 90; y = my;   /* he slinks back in from the other side */
+    if (cb) cb();
+  }
+
+  window.SJJRaccoon = {
+    /* walk over, take `node`, and carry it off the screen */
+    steal: function (node, done) {
+      if (!node || heist) { if (done) done(); return; }
+      heist = { node: node, done: done, phase: 'in', loot: null, lootW: 0, lootH: 0 };
+    },
+    busy: function () { return !!heist; }
+  };
 
   /* ---- keep-out zones --------------------------------------------------
      Some boxes are not his to walk into - the Undertale battle box is your
@@ -352,10 +422,33 @@
   }
 
   /* ---- main loop: follow the cursor, drive the sprite ------------------ */
-  var GAP = 36;
+  var GAP = 96;        /* how much room he keeps between you and him */
+  var EASE = 0.055;    /* fraction of the remaining distance per frame */
+  var TOP = 5.5;       /* and his flat-out top speed, px/frame */
   function frame(now) {
+    var lag = laggedTarget(now);
+
+    /* a heist overrides everything: no cursor, no keep-out zones */
+    if (heist) {
+      var h = heistStep(now);
+      var hd = Math.hypot(h.tx - x, h.ty - y);
+      if (hd > h.gap) {
+        var hs = Math.min(hd, h.speed);
+        x += (h.tx - x) / hd * hs;
+        y += (h.ty - y) / hd * hs;
+        if (Math.abs(h.tx - x) > 2) facing = h.tx < x ? -1 : 1;
+      }
+      setState(hd > h.gap ? 'move' : 'idle', now);
+      heistCarry(now);
+      if (heist.phase === 'out' && x < -120) heistDone();
+      if (REDUCED) { drawnCol = -1; drawSprite(animStart); } else drawSprite(now);
+      el.style.transform = 'translate(' + (x - HALF) + 'px,' + (y - HALF) + 'px) scaleX(' + facing + ')';
+      requestAnimationFrame(frame);
+      return;
+    }
+
     var zone = keepOutZone();
-    var tx = mx, ty = my, gap = GAP, perched = false;
+    var tx = lag.x, ty = lag.y, gap = GAP, perched = false;
 
     if (zone) {
       evict(zone); /* a scroll or a respawn can drop him in - walk him back out */
@@ -374,7 +467,7 @@
     var moving = dist > gap && !dead && now >= damageUntil;
 
     if (moving) {
-      var speed = Math.min(dist * 0.16, 13);
+      var speed = Math.min(dist * EASE, TOP);
       x += dx / dist * speed;
       y += dy / dist * speed;
       if (Math.abs(dx) > 2) facing = dx < 0 ? -1 : 1;

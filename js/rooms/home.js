@@ -47,10 +47,10 @@
     var BAGTOP = PH - 2 - BAGH;              // y of the bag's top edge
     var PCX = PW / 2;
     var WALL = 2;                            // bag wall thickness
-    var CR = 1.8;                            // coin radius
+    var CR = 2.6;                            // coin radius - big enough to read as coinage
     var GRAV = 300;
     var FLOORY = BAGTOP + BAGH * 0.90;       // resting line in the round bottom
-    var SIM_CAP = 110;                       // ~full to the collar, like the art
+    var SIM_CAP = 52;                        // ~full to the collar (area scales with r²)
 
     /* [t down the bag 0..1, outer half-width / bag width] from the png */
     var PROFILE = [
@@ -157,17 +157,18 @@
           }
         }
       }
-      /* overflow coins: the first touch on the packed pile bounces them
-         out of the sim - they arc over the collar and fall down the page */
+      /* Overflow. A bag packed to the collar does not take another coin:
+         it bounces off the pile, arcs over the neck and falls down the
+         page. This used to wait for the newcomer to actually touch the
+         pile, and let it back in if it slipped past the mouth first -
+         which meant that on a bag one coin short of settled, nothing
+         ever spilled at all. Now capacity is capacity. */
       for (i = coins.length - 1; i >= 0; i--) {
         c = coins[i];
         if (!c.spill) continue;
         c.age++;
-        if (c.y > MOUTHY + CR && !c.landed) {
-          c.spill = false;                 /* found room inside after all */
-          continue;
-        }
-        if (c.landed || Math.abs(c.x - PCX) > 13.5 || c.age > 420) {
+        if (c.landed || c.y > MOUTHY + CR ||
+            Math.abs(c.x - PCX) > 13.5 || c.age > 240) {
           coins.splice(i, 1);
           ejectCoin(c);
         }
@@ -180,10 +181,25 @@
           if (++c.still > 20) { c.asleep = true; c.px = c.x; c.py = c.y; }
         } else c.still = 0;
       }
+      /* the spin a coin arrives with. It carries most of the way down,
+         bleeds off on contact, and eases into a resting tilt once the
+         coin is part of the pile - a settled coin lies flat, not askew. */
+      for (i = 0; i < coins.length; i++) {
+        c = coins[i];
+        if (c.asleep) continue;
+        c.tilt += c.spin * DT;
+        c.spin *= (c.landed ? .90 : .995);
+        if (c.landed && Math.abs(c.spin) < .5) {
+          c.spin = 0;
+          c.tilt += (c.rest - c.tilt) * .12;
+        }
+      }
     }
 
     /* an overflowed coin becomes a real element and falls down the page */
     function ejectCoin(c) {
+      spilled++;
+      if (spilled >= SPILLS_BEFORE_HEIST) theHeist();
       if (REDUCED) return;
       var rect = pouchCanvas.getBoundingClientRect();
       var s = rect.width / PW;
@@ -281,7 +297,10 @@
       var vx = (Math.random() * 24 - 12) * DT, vy = (10 + Math.random() * 20) * DT;
       coins.push({
         x: x, y: y, px: x - vx, py: y - vy,
-        pal: pickPal(), tilt: Math.random() * .9 - .45,
+        pal: pickPal(),
+        tilt: Math.random() * 6.283,                             /* flicked in at any angle */
+        spin: (Math.random() < .5 ? -1 : 1) * (7 + Math.random() * 9),
+        rest: Math.random() * .9 - .45,                          /* how it will lie once settled */
         still: 0, asleep: false, landed: false,
         spill: spilling, dir: Math.random() < .5 ? -1 : 1, age: 0
       });
@@ -291,40 +310,43 @@
       } else ensureLoop();
     }
 
-    /* rebuild the saved pile: hex-pack from the floor up, then relax */
-    function prefill(n) {
-      var placed = 0, row = 0;
-      while (placed < n && row < 40) {
-        var y = FLOORY - CR - row * CR * 1.74;
-        var hw = bagHW(y) - CR;
-        if (hw > 0) {
-          var x = PCX - hw + (row % 2 ? CR : 0);
-          while (x <= PCX + hw && placed < n) {
-            var jx = x + (Math.random() * .6 - .3);
-            coins.push({
-              x: jx, y: y, px: jx, py: y,
-              pal: pickPal(), tilt: Math.random() * .9 - .45,
-              still: 0, asleep: false, landed: true,
-              spill: false, dir: 0, age: 0
-            });
-            placed++; x += CR * 2;
-          }
-        }
-        row++;
+    /* ---- the heist ------------------------------------------------------
+       Five coins on the floor is five too many for him. He comes over,
+       takes the whole pouch, and leaves a bottle cap where it stood. */
+    var SPILLS_BEFORE_HEIST = 5;
+    var spilled = 0, robbed = false;
+    var gone = document.querySelector('#tip-gone');
+    var tipNote = document.querySelector('#tip-note');
+
+    function afterHeist() {
+      jar.hidden = true;
+      if (tipNote) tipNote.hidden = true;
+      if (gone) gone.hidden = false;
+      if (window.SJJQuest) SJJQuest.award('tips');
+    }
+    function theHeist() {
+      if (robbed) return;
+      robbed = true;
+      jar.disabled = true;
+      /* he only exists where there is a real pointer; on a touch screen
+         the pouch simply is not there when you look back */
+      if (window.SJJRaccoon && !REDUCED) {
+        setTimeout(function () { SJJRaccoon.steal(jar, afterHeist); }, 350);
+      } else {
+        setTimeout(afterHeist, 400);
       }
-      /* relax with everyone awake - sleepers would freeze overlapped */
-      for (var k = 0; k < 240; k++) {
-        step();
-        for (var j = 0; j < coins.length; j++) { coins[j].asleep = false; coins[j].still = 0; }
-      }
-      for (var i = 0; i < coins.length; i++) {
-        coins[i].asleep = true; coins[i].px = coins[i].x; coins[i].py = coins[i].y;
-      }
-      render();
     }
 
+    /* The pouch starts empty every visit - the pile is this visit's, not
+       a savings account. The running total still counts, for the stats
+       shelf in the back room. */
     var tips = 0;
-    try { tips = parseInt(localStorage.getItem('sjj_tipjar') || '0', 10) || 0; } catch (e) {}
+    function bankIt() {
+      try {
+        var all = parseInt(localStorage.getItem('sjj_tipjar') || '0', 10) || 0;
+        localStorage.setItem('sjj_tipjar', String(all + 1));
+      } catch (e) {}
+    }
     var label = function () {
       jar.title = tips === 0 ? 'the coin pouch. tied shut. it dreams of gold.' :
         'the coin pouch: ' + tips + ' imaginary coin' + (tips === 1 ? '' : 's') + '. thank you.';
@@ -334,10 +356,10 @@
       pouchImg.classList.toggle('closed', closed);
     };
     label();
-    if (tips > 0) prefill(Math.min(tips, SIM_CAP));
     jar.addEventListener('click', function () {
+      if (robbed) return;
       tips++;
-      try { localStorage.setItem('sjj_tipjar', String(tips)); } catch (e) {}
+      bankIt();
       label();
       spawnCoin();
     });

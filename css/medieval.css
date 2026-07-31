@@ -1,0 +1,120 @@
+/* =====================================================================
+   medieval.css - the keep. Cold stone, cold light, one warm door.
+   The card grid is a curtain wall: every castle is a gate, and every
+   gate but one has been struck off the list.
+   ===================================================================== */
+
+/* the wall the castles are set into */
+.curtain{
+  display:grid; grid-template-columns:repeat(2, 1fr); gap:14px; margin:20px 0 6px;
+}
+@media (max-width:620px){ .curtain{ grid-template-columns:1fr; } }
+
+.castle{
+  position:relative; padding:16px 18px 14px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.035), transparent 40%),
+    repeating-linear-gradient(90deg, #1b2027 0 62px, #191e24 62px 64px),
+    var(--bg2);
+  border:1px solid var(--line); border-radius:4px;
+  box-shadow:var(--shadow), inset 0 1px 0 rgba(255,255,255,.05);
+}
+/* crenellations along the top of every card */
+.castle::before{
+  content:""; position:absolute; left:0; right:0; top:-7px; height:7px;
+  background:repeating-linear-gradient(90deg,
+    var(--line) 0 13px, transparent 13px 26px);
+}
+.castle h3{
+  margin:0; font-family:var(--font-pixel); font-size:12.5px; letter-spacing:.4px;
+  color:var(--accent); line-height:1.5;
+}
+.castle .where{
+  display:block; font-family:var(--font-term); font-size:17px; color:var(--accent2);
+  letter-spacing:.04em; margin:2px 0 8px;
+}
+.castle p{ margin:0 0 12px; font-size:14.5px; color:var(--ink); }
+.castle .dates{ color:var(--muted); }
+
+/* ---- the gate ------------------------------------------------------ */
+.enter{
+  position:relative; display:inline-block; font-family:var(--font-pixel);
+  font-size:11px; letter-spacing:.22em; padding:8px 18px; border-radius:3px;
+  border:1px solid var(--line); background:var(--bg3); color:var(--muted);
+}
+/* struck off the list - the line is drawn through the word itself */
+.enter.shut{ cursor:not-allowed; }
+.enter.shut::after{
+  content:""; position:absolute; left:6px; right:6px; top:50%;
+  height:2px; margin-top:-1px; border-radius:2px;
+  background:var(--down); box-shadow:0 0 6px color-mix(in srgb, var(--down) 55%, transparent);
+  transform:rotate(-4deg);
+}
+.enter.shut:hover{ border-color:var(--down); }
+.enter.shut.rattle{ animation:gateRattle .34s; }
+@keyframes gateRattle{ 25%{ transform:translateX(-4px) } 60%{ transform:translateX(3px) } }
+
+/* the one that opens */
+.castle.open{ border-color:color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:0 0 26px color-mix(in srgb, var(--accent) 16%, transparent), var(--shadow); }
+.enter.open{
+  color:#221a06; background:var(--accent); border-color:var(--accent);
+  text-decoration:none; box-shadow:0 0 16px color-mix(in srgb, var(--accent) 45%, transparent);
+  animation:gatePulse 2.6s ease-in-out infinite;
+}
+.enter.open:hover{ text-decoration:none; filter:brightness(1.1); }
+@keyframes gatePulse{ 0%,100%{ box-shadow:0 0 16px color-mix(in srgb, var(--accent) 40%, transparent) }
+  50%{ box-shadow:0 0 26px color-mix(in srgb, var(--accent) 70%, transparent) } }
+
+.gate-word{ min-height:1.6em; margin:14px 0 0; font-family:var(--font-term);
+  font-size:19px; color:var(--muted); text-align:center; }
+
+@media (prefers-reduced-motion:reduce){
+  .enter.open, .enter.shut.rattle{ animation:none; }
+}
+
+/* =====================================================================
+   COUCY :: inside the one door that opens
+   ===================================================================== */
+.donjon{
+  margin:20px 0; padding:20px 18px; text-align:center;
+  background:linear-gradient(180deg,#12161b,#0c0f13);
+  border:1px solid var(--line); border-radius:6px; box-shadow:var(--shadow);
+}
+/* the tower, drawn in stone courses, one band per storey */
+.tower{
+  width:126px; margin:6px auto 14px; display:flex; flex-direction:column-reverse;
+  gap:3px;
+}
+.storey{
+  height:52px; border:1px solid #333c46; border-radius:2px; position:relative;
+  background:repeating-linear-gradient(90deg,#252c34 0 22px,#222831 22px 24px);
+  color:var(--muted); font-family:var(--font-pixel); font-size:9px;
+  display:flex; align-items:center; justify-content:center;
+  transition:background .3s, color .3s, box-shadow .3s;
+}
+.storey.lit{
+  background:repeating-linear-gradient(90deg,#3a3323 0 22px,#332d20 22px 24px);
+  color:var(--accent); box-shadow:inset 0 0 18px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.storey.roof{
+  height:26px; border-radius:3px 3px 0 0;
+  background:repeating-linear-gradient(90deg,#333c46 0 13px,transparent 13px 26px);
+  border:0;
+}
+.climb-note{
+  min-height:3.4em; margin:12px auto 14px; max-width:46ch;
+  font-family:var(--font-term); font-size:20px; line-height:1.35; color:var(--ink);
+}
+.climb-btn{
+  font-family:var(--font-pixel); font-size:11px; letter-spacing:.16em; cursor:pointer;
+  color:#221a06; background:var(--accent); border:0; border-radius:4px; padding:10px 18px;
+}
+.climb-btn:hover{ filter:brightness(1.08); }
+.climb-btn[disabled]{ background:var(--bg3); color:var(--muted); cursor:default; filter:none; }
+
+.ruin{
+  margin:18px 0; padding:14px 18px; border-left:3px solid var(--down);
+  background:color-mix(in srgb, var(--down) 7%, transparent); border-radius:0 8px 8px 0;
+}
+.ruin p{ margin:0; font-size:15px; }

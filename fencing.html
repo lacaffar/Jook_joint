@@ -9,23 +9,30 @@
   <meta name="description" content="Swifty's fencing room. Steel, footwork, and the little red and green lights." />
   <meta name="theme-color" content="#0c0e13" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 13L13 2l1 1L3 14z M11 2h3v3' fill='%233da9fc'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/fencing.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/fencing.css?v=4" />
 </head>
 <body class="room-fencing">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">THE PISTE</h1>
     <p class="tagline">en garde · prêt · <b style="color:var(--accent2)">allez!</b></p>
@@ -44,10 +51,9 @@
         <span class="fencer you" id="fencer-you"></span>
       </div>
       <p class="ref-line" id="ref-line">choose a weapon. salute. begin.</p>
-      <p class="fence-msg">react in the called direction before the window closes.
-        keys: <b>W/A/D</b> or arrows - or tap the buttons. in foil &amp; sabre, right-of-way
-        decides whether you're attacking or parrying - and watch for <b>feints</b>.
-        don't jump the gun.</p>
+      <p class="fence-msg">react in the called direction before the window closes -
+        <b>W/A/D</b>, arrows, or the buttons. in foil &amp; sabre right-of-way decides
+        whether you're attacking or parrying. watch for <b>feints</b>.</p>
       <div class="dir-row" aria-label="direction buttons">
         <button class="dir-btn" id="dir-left" type="button" aria-label="left">←<small>A</small></button>
         <button class="dir-btn" id="dir-high" type="button" aria-label="high">↑<small>W</small></button>
@@ -64,19 +70,9 @@
 
     <div class="panel">
       <p class="lead">Fencing is physical chess with a side of adrenaline.</p>
-      <p>Right-of-way, distance, timing, and the nerve to commit - all decided in fractions of a second
-        under a buzzer and two colored lights. I love that it rewards patience and punishes panic.</p>
-      <p class="note">Make it yours: your weapon, your club, your record, the gear you swear by.</p>
-    </div>
-
-    <h2>My card</h2>
-    <div class="panel tight">
-      <ul class="tick">
-        <li><b>Weapon:</b> Foil / Épée / Sabre <span class="muted">(circle one)</span></li>
-        <li><b>Club:</b> add your club + where you train</li>
-        <li><b>Started:</b> add a year</li>
-        <li><b>Style:</b> patient, counter-attacking <span class="muted">(or whatever yours is)</span></li>
-      </ul>
+      <p>Right-of-way, distance, timing, and the nerve to commit - all settled in
+        fractions of a second under a buzzer and two coloured lights. It rewards
+        patience and punishes panic.</p>
     </div>
 
     <h2>The weapons, quickly</h2>
@@ -86,27 +82,23 @@
       <li> Sabre - cuts &amp; thrusts, fast</li>
     </ul>
 
-    <h2>Working on</h2>
+    <h2>What I'd add to this bout next</h2>
     <div class="panel">
-      <ul class="tick">
-        <li>cleaner footwork - stop over-extending</li>
-        <li>reading tempo instead of reacting late</li>
-        <li class="todo">a reliable second-intention attack</li>
+      <ul class="plain">
+        <li>Distance as a real axis - advance and retreat, so the strip is something you
+          fight over instead of a backdrop.</li>
+        <li>An opponent that learns: punish the same parry three times and it should
+          start feinting into it.</li>
+        <li>Show the right-of-way call after each touch, so the rule teaches itself.</li>
       </ul>
     </div>
 
     <p class="muted"><small>* the raccoon stole a glove. it is now a left-handed fencer.</small></p>
-
-    <nav class="room-nav">
-      <a href="undertale.html">← undertale</a>
-      <a href="hamilton.html">hamilton →</a>
-    </nav>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span><a href="index.html">back to the joint</a></span>
     </div>
   </footer>
 

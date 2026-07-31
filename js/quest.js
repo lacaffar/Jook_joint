@@ -15,6 +15,14 @@ window.SJJQuest = (function () {
     { id: 'fencing', ico: 'E', name: 'Fencing', cap: '▲' },
     { id: 'hamilton', ico: 'H', name: 'Hamilton', cap: '■' }
   ];
+  /* The raccoon's own cap, handed over when he makes off with the tip
+     pouch. It is a bonus: the back room still only wants the five. */
+  var BONUS = { id: 'tips', ico: 'R', name: "the raccoon's own", cap: '◍', bonus: true };
+
+  function find(id) {
+    for (var i = 0; i < ROOMS.length; i++) if (ROOMS[i].id === id) return ROOMS[i];
+    return BONUS.id === id ? BONUS : null;
+  }
 
   function load() {
     try { var raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw) || {}; } catch (e) {}
@@ -51,8 +59,7 @@ window.SJJQuest = (function () {
   }
 
   function award(id) {
-    var room = null;
-    ROOMS.forEach(function (r) { if (r.id === id) room = r; });
+    var room = find(id);
     if (!room) return;
     var caps = load();
     if (caps[id]) {
@@ -63,6 +70,12 @@ window.SJJQuest = (function () {
     store(caps);
     var n = count();
     if (window.SFX) SFX.cap();
+    if (room.bonus) {
+      toast(' the raccoon flicks you his OWN bottle cap. the door still wants the other five.');
+      renderAllShelves();
+      try { window.dispatchEvent(new CustomEvent('sjj:caps', { detail: { count: n, all: n === ROOMS.length } })); } catch (e) {}
+      return;
+    }
     if (n === ROOMS.length) {
       toast(' the raccoon tosses you the LAST bottle cap (5/5)… somewhere in the joint, a door creaks open.', true);
     } else {
@@ -78,16 +91,21 @@ window.SJJQuest = (function () {
     var caps = load();
     el.classList.add('cap-shelf');
     el.textContent = '';
-    ROOMS.forEach(function (r) {
-      var slot = document.createElement('a');
-      slot.className = 'cap-slot' + (caps[r.id] ? ' got' : '');
-      slot.href = r.id + '.html';
-      slot.title = caps[r.id]
-        ? r.name + ' cap - collected!'
-        : r.name + ' cap - win the game in the ' + r.name + ' room';
+    /* the five the back room wants, then his own if he has parted with it */
+    var show = ROOMS.slice();
+    if (caps[BONUS.id]) show.push(BONUS);
+    show.forEach(function (r) {
+      var got = !!caps[r.id];
+      var slot = document.createElement(r.bonus ? 'span' : 'a');
+      slot.className = 'cap-slot' + (got ? ' got' : '') + (r.bonus ? ' bonus' : '');
+      if (!r.bonus) slot.href = r.id + '.html';
+      slot.title = r.bonus
+        ? "the raccoon's own cap - he owed you one"
+        : (got ? r.name + ' cap - collected!'
+               : r.name + ' cap - win the game in the ' + r.name + ' room');
       var ico = document.createElement('span');
       ico.className = 'cap-ico';
-      ico.textContent = caps[r.id] ? r.cap : '·';
+      ico.textContent = got ? r.cap : '·';
       var lab = document.createElement('span');
       lab.className = 'cap-lab';
       lab.textContent = r.ico;

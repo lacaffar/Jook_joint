@@ -9,23 +9,30 @@
   <meta name="description" content="Swifty's Stardew Valley room. A little walkable farm: till, plant, water, sleep, harvest. Talk to the neighbors." />
   <meta name="theme-color" content="#10160e" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M8 2l5 5H3z M5 7h6v7H5z' fill='%238fcf4f'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/stardew.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/stardew.css?v=4" />
 </head>
 <body class="room-stardew">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">RACCOON HOLLOW</h1>
     <p class="tagline">grandpa left you a farm. grandpa also left a note: <b style="color:var(--accent2)">"nine parsnips."</b></p>
@@ -78,9 +85,8 @@
 
     <div class="panel journal">
       <p class="lead">Grandpa left me a farm, and I have never been more at peace.</p>
-      <p>Stardew is my comfort game. Wake up, water the crops, say hi to the town, fall down a mine shaft,
-        go to bed, do it again. There's something deeply right about a game where the whole point is to
-        slow down and tend to things.</p>
+      <p>Wake up, water the crops, say hi to the town, fall down a mine shaft, go to bed,
+        do it again. A game whose whole point is to slow down and tend to things.</p>
     </div>
 
     <h2>How to farm (the journal)</h2>
@@ -100,28 +106,23 @@
       <li> pumpkins</li><li> corn</li><li>★ starfruit</li>
     </ul>
 
-    <h2>This season's to-do</h2>
+    <h2>What I'd add to this farm next</h2>
     <div class="panel journal">
-      <ul class="tick">
-        <li>upgrade the watering can</li>
-        <li>befriend the whole town to 2+ hearts</li>
-        <li class="todo">finish the Community Center pantry bundle</li>
-        <li class="todo">finally beat the desert mines</li>
+      <ul class="plain">
+        <li>Seasons. Right now it's always spring - four tilesets and a crop calendar
+          would make sleeping actually cost something.</li>
+        <li>Give the villagers a schedule so Granny Fern isn't standing in the same
+          square at midnight as at noon.</li>
+        <li>A shipping bin that settles overnight, so the morning has a number in it.</li>
       </ul>
     </div>
 
     <p class="muted"><small>* the raccoon tried to forage your crops. he is in the bush by the south path. you saw NOTHING.</small></p>
-
-    <nav class="room-nav">
-      <a href="fnaf.html">← fnaf</a>
-      <a href="undertale.html">undertale →</a>
-    </nav>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span><a href="index.html">back to the joint</a></span>
     </div>
   </footer>
 

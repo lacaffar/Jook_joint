@@ -9,22 +9,29 @@
   <meta name="description" content="Sign Swifty's guestbook on your way through the joint." />
   <meta name="theme-color" content="#14110f" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 2h10v12H3z M5 5h6v1H5z M5 8h6v1H5z' fill='%23ff5d8f'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
 </head>
 <body class="room-home">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">THE <span class="pink">GUESTBOOK</span></h1>
     <p class="tagline">scribble something on your way through · don't be a stranger</p>
@@ -56,16 +63,12 @@
         <button class="gb-sign" type="submit">sign the book</button>
         <span class="muted small" id="gb-left">280 left</span>
       </div>
+      <p class="note" id="gb-warn" hidden></p>
       <p class="muted small" style="margin:6px 0 0;">entries are saved in your browser on this device.</p>
     </form>
 
     <h2>Signatures <span class="muted small" id="gb-count"></span></h2>
     <div id="gb-list"><!-- entries injected by site.js --></div>
-
-    <nav class="room-nav">
-      <a href="index.html">← home</a>
-      <a href="fnaf.html">explore the rooms →</a>
-    </nav>
   </main>
 
   <footer class="site-foot">
@@ -73,9 +76,9 @@
       <span>© <span class="js-year">2026</span> Swifty · made with late nights</span>
       <span>you are visitor №&nbsp;<b id="hits">000000</b></span>
       <span class="btns88">
+        <a class="btn88" href="https://github.com/lacaffar" target="_blank" rel="noopener">GITHUB</a>
         <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY WORK</a>
-        <a class="btn88" href="undertale.html">STAY DETERMINED</a>
-        <a class="btn88" href="index.html">BEST VIEWED @ NIGHT</a>
+        <span class="btn88">BEST VIEWED @ NIGHT</span>
       </span>
     </div>
   </footer>

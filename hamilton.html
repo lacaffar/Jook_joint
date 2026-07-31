@@ -9,23 +9,30 @@
   <meta name="description" content="Swifty's Hamilton room. Ten questions at dawn in Weehawken - survive the Duel of Wits." />
   <meta name="theme-color" content="#1a1408" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 9h12v2H2z M4 4h8v5H4z' fill='%23e8c15a'/></svg>" />
+  <script src="js/gate.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/hamilton.css" />
+  <link rel="stylesheet" href="css/style.css?v=4" />
+  <link rel="stylesheet" href="css/hamilton.css?v=4" />
 </head>
 <body class="room-hamilton">
 
   <header class="topbar">
     <div class="wrap">
       <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
-      <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
     </div>
   </header>
 
   <main class="wrap">
-    <a class="back-link" href="index.html">← back to the joint</a>
 
     <h1 class="sign">THE ROOM WHERE IT HAPPENS</h1>
     <p class="tagline">how does a bastard, orphan, son of a whore end up humming show tunes at 2am</p>
@@ -40,11 +47,10 @@
       <h2>The Duel of Wits</h2>
       <p class="duel-sub">Alexander Hamilton, 1755&ndash;1804 &middot; a test of the record</p>
 
-      <p class="exhibit-wall">Ten questions drawn from the documented life of Alexander
-        Hamilton: the Caribbean clerk, the aide-de-camp, the author of fifty-one
-        Federalist essays, the first Secretary of the Treasury, and the man who
-        died on a ledge above the Hudson. Every wrong answer brings Burr one pace
-        nearer. Each label carries the source note.</p>
+      <p class="exhibit-wall">Ten questions from the documented life of Alexander
+        Hamilton - Caribbean clerk, aide-de-camp, author of fifty-one Federalist
+        essays, first Secretary of the Treasury. Every wrong answer brings Burr one
+        pace nearer.</p>
 
       <div class="pace-track" aria-hidden="true"></div>
 
@@ -82,7 +88,7 @@
 
       <div class="grind-intro">
         <p>The man wrote <b>51 essays</b> in a hurry, so you will too. Copy each passage
-           before the inkwell runs dry - every finished essay buys you a little more ink,
+           before the inkwell runs dry - every finished essay buys a little more ink,
            and the well drains faster the longer you write.</p>
         <p class="grind-best"></p>
         <button class="duel-start grind-start" type="button">Pick up the quill</button>
@@ -104,10 +110,9 @@
     </section>
 
     <div class="panel">
-      <p class="lead">I did not think I would care about founding-era financial policy this much.</p>
-      <p>Hamilton got me with the rapping and stayed for the tragedy. It's a hip-hop history lesson that turns
-        a treasury report into a plot twist, and somehow makes "the room where it happens" feel like the
-        highest stakes scene ever written. Non-Stop still gives me chills.</p>
+      <p class="lead">I did not think I would care this much about founding-era financial policy.</p>
+      <p>It got me with the rapping and kept me for the tragedy - a history lesson that
+        turns a treasury report into a plot twist. Non-Stop still gives me chills.</p>
     </div>
 
     <!-- ============ playbill ============ -->
@@ -118,7 +123,6 @@
           <li><b>Non-Stop</b> - the act one closer that ends me every time.</li>
           <li><b>The Room Where It Happens</b> - Burr's best number, no notes.</li>
           <li><b>Satisfied</b> - Angelica's rewind is the smartest staging in the show.</li>
-          <li>... (re-order to taste)</li>
         </ol>
 
         <figure class="ham-portrait">
@@ -140,27 +144,23 @@
           <p id="shot-msg" class="muted" style="margin:10px 0 0;">click for a line from the show.</p>
         </div>
 
-        <h2>Hot takes</h2>
-        <ul class="tick">
-          <li>Burr is the actual protagonist and the show knows it</li>
-          <li>King George's numbers are criminally short</li>
-          <li class="todo">finally watch the Disney+ filmed version start to finish</li>
+        <h2>What I'd add to this gallery next</h2>
+        <ul class="plain">
+          <li>Let a wrong answer cost you the pace it claims - Burr should end up close
+            enough that the last question is genuinely tense.</li>
+          <li>Put the source note on every question, right or wrong, so the quiz teaches
+            rather than scores.</li>
+          <li>Non-Stop should pull its passages from actual Federalist text.</li>
         </ul>
       </div>
     </div>
 
     <p class="muted"><small>* the raccoon is not throwing away his shot either. he took the trash instead.</small></p>
-
-    <nav class="room-nav">
-      <a href="fencing.html">← fencing</a>
-      <a href="index.html">home →</a>
-    </nav>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span><a href="index.html">back to the joint</a></span>
     </div>
   </footer>
 
