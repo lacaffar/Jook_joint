@@ -5,6 +5,11 @@
    still and read a few hundred words.
    ===================================================================== */
 
+/* ---- locked: you have not been in the back room yet ------------------ */
+.blog-locked{ border-left:3px solid var(--accent); }
+.blog-locked p{ margin:0 0 10px; }
+.blog-locked p:last-child{ margin-bottom:0; }
+
 /* ---- written by a human --------------------------------------------- */
 .human-made{
   display:flex; align-items:flex-start; gap:14px; margin:18px 0 6px;

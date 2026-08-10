@@ -91,6 +91,17 @@ body.room-backroom{
 @keyframes creditsRoll{ to{ transform:translateY(-100%) } }
 .br-credits:hover > div{ animation-play-state:paused; }
 
+/* the essays: the reward that isn't a certificate */
+.br-essays-panel{ text-align:center; }
+.br-essays-panel p{ margin:0 0 14px; color:var(--muted); font-size:14.5px; }
+.br-essays{
+  display:inline-block; font-family:var(--font-pixel); font-size:12px; letter-spacing:.08em;
+  color:#1d1508; background:var(--accent); border-radius:10px; padding:12px 20px;
+  box-shadow:0 0 18px color-mix(in srgb, var(--accent) 40%, transparent);
+  transition:filter .14s, transform .14s;
+}
+.br-essays:hover{ filter:brightness(1.09); transform:translateY(-2px); text-decoration:none; }
+
 #br-stats{ list-style:none; padding:0; margin:8px 0; }
 #br-stats li{ padding:3px 0; border-bottom:1px dashed var(--line); }
 #br-stats b{ color:var(--accent); float:right; }

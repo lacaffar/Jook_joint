@@ -16,7 +16,7 @@ all new sound is synthesized with the WebAudio API).
 | `hamilton.html` | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
 | `medieval.html` | The keep | Six favourite castles on a curtain wall. Five gates are struck off the list; one still opens |
 | `coucy.html` | The great donjon | Behind the one open gate: an in-depth history of the largest keep ever built, plus **Hold the Donjon** - match each way of taking a castle to the feature built to stop it. Earns a bonus cap |
-| `blog.html` | Essays | Index of essays, rendered from `POSTS` in `js/blog.js`, with automatic tag filtering. **All writing here is Swifty's own — see below** |
+| `blog.html` | Essays | **A reward.** Not on the bar wall — the only link to it is inside the Back Room, and the index stays locked until the Back Room has been opened. Renders from `POSTS` in `js/blog.js` with automatic tag filtering. **All writing here is Swifty's own — see below** |
 | `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
 | `backroom.html` | The back room | **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
 | `404.html` | Lost | Dig a door out of the raccoon's trash can |
@@ -42,6 +42,15 @@ from the five in `ROOMS`:
   it is earned.
 
 ## The essays (`blog.html`)
+**They are a reward.** No door on the bar wall points at them; the only link lives in the
+Back Room, and `js/blog.js` keeps the index locked until the Back Room has been opened —
+same test the den uses, `SJJQuest.all() || sjj_backdoor`. So both routes in (five caps, or
+the sequence Ray knows) also open the essays.
+
+Individual essay pages are deliberately **not** locked. A link to a specific essay always
+opens, so one can be shared without handing over the whole site. It is the shelf that is
+hidden, not the writing.
+
 **Everything on the essays page is written by Swifty. No AI, none of it, ever.** The page
 says so, prominently, and that is a standing rule for this repo: no generated, drafted,
 outlined or "polished" text goes in `blog/` or in `POSTS`. `POSTS` ships empty and the

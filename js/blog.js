@@ -31,6 +31,24 @@
   var tagbar = document.querySelector('#tagbar');
   if (!list) return;
 
+  /* ---- the essays are a reward -----------------------------------------
+     The index only exists once the back room has been opened - by the five
+     caps, or by the sequence Ray knows. Same test both of those use.
+     Individual essays are deliberately NOT gated: a link to one that she
+     has shared should always open. It is the shelf that is hidden. */
+  function unlocked() {
+    try { if (localStorage.getItem('sjj_backdoor') === '1') return true; } catch (e) {}
+    return !!(window.SJJQuest && SJJQuest.all());
+  }
+  var locked = document.querySelector('#blog-locked');
+  if (!unlocked()) {
+    if (locked) locked.hidden = false;
+    if (tagbar) tagbar.hidden = true;
+    list.hidden = true;
+    return;
+  }
+  if (locked) locked.hidden = true;
+
   var active = '';   /* '' means show everything */
 
   function fmtDate(iso) {
