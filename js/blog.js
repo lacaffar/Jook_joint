@@ -25,7 +25,15 @@
          tags:  ['', ''],
          blurb: '' }                 // optional, shows on the index
   */
-  var POSTS = [];
+var POSTS = [
+  {
+    title: "Why I'm Writing Here",
+    file:  'blog/Why.html',
+    date:  '2026-08-10',
+    tags:  [],
+    blurb: ''
+  }
+];
 
   var list = document.querySelector('#post-list');
   var tagbar = document.querySelector('#tagbar');
