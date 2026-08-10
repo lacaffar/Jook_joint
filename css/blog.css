@@ -1,0 +1,108 @@
+/* =====================================================================
+   blog.css - the essay index and the essays themselves.
+   Reading pages get a narrower measure and a bigger line-height than
+   the rest of the joint: this is the one place you are meant to sit
+   still and read a few hundred words.
+   ===================================================================== */
+
+/* ---- written by a human --------------------------------------------- */
+.human-made{
+  display:flex; align-items:flex-start; gap:14px; margin:18px 0 6px;
+  padding:15px 18px; border-radius:12px;
+  background:color-mix(in srgb, var(--ok) 8%, var(--bg2));
+  border:1px solid color-mix(in srgb, var(--ok) 45%, var(--line));
+  box-shadow:0 0 18px color-mix(in srgb, var(--ok) 10%, transparent);
+}
+.human-made .hm-mark{
+  flex:none; font-size:26px; line-height:1.1; color:var(--ok);
+  text-shadow:0 0 10px color-mix(in srgb, var(--ok) 55%, transparent);
+}
+.human-made p{ margin:0; font-size:15px; line-height:1.6; }
+.human-made b{ color:#dfffe6; }
+
+/* ---- the index ------------------------------------------------------ */
+.tagbar{ display:flex; flex-wrap:wrap; gap:7px; margin:16px 0 4px; }
+.tagchip{
+  font-family:var(--font-term); font-size:17px; line-height:1; cursor:pointer;
+  color:var(--muted); background:var(--bg2); border:1px solid var(--line);
+  border-radius:999px; padding:6px 13px;
+  transition:border-color .14s, color .14s, background .14s;
+}
+.tagchip:hover{ border-color:var(--accent); color:var(--ink); }
+.tagchip.on{ background:var(--accent); border-color:var(--accent); color:#1d1508; }
+
+.post{
+  background:var(--bg2); border:1px solid var(--line); border-left:3px solid var(--accent);
+  border-radius:12px; padding:16px 20px; margin:14px 0; box-shadow:var(--shadow);
+  transition:border-color .15s, transform .15s;
+}
+.post:hover{ transform:translateY(-2px); border-left-color:var(--accent2); }
+.post-date{
+  margin:0 0 4px; font-family:var(--font-term); font-size:17px; color:var(--muted);
+  letter-spacing:.03em;
+}
+.post h2{ margin:0; font-size:17px; line-height:1.45; color:var(--accent); }
+.post h2 a{ color:inherit; }
+.post h2 a:hover{ color:var(--accent2); text-decoration:none; }
+.post-blurb{ margin:8px 0 0; font-size:15px; color:var(--ink); }
+.post-tags{ margin:10px 0 0; display:flex; flex-wrap:wrap; gap:6px; }
+.post-tags span{
+  font-family:var(--font-term); font-size:15px; line-height:1;
+  color:var(--muted); background:var(--bg3); border:1px solid var(--line);
+  border-radius:999px; padding:4px 10px;
+}
+
+/* ---- an essay ------------------------------------------------------- */
+.essay-back{
+  display:inline-block; margin:4px 0 10px;
+  font-family:var(--font-term); font-size:18px; color:var(--muted);
+}
+.essay-back:hover{ color:var(--accent); }
+
+.essay{ max-width:34em; margin:0 auto; }
+.essay > h1{
+  font-size:clamp(20px, 4vw, 27px); line-height:1.35; color:var(--ink);
+  margin:.2em 0 .25em; text-shadow:none;
+}
+.essay .essay-meta{
+  margin:0 0 26px; padding-bottom:14px; border-bottom:1px solid var(--line);
+  font-family:var(--font-term); font-size:18px; color:var(--muted);
+}
+.essay p{ font-size:17px; line-height:1.75; margin:0 0 1.15em; }
+.essay h2{
+  font-family:var(--font-pixel); font-size:15px; color:var(--accent);
+  margin:2em 0 .6em; line-height:1.5;
+}
+.essay h3{ font-size:16px; color:var(--ink); margin:1.6em 0 .4em; }
+.essay blockquote{
+  margin:1.4em 0; padding:2px 0 2px 18px; border-left:3px solid var(--accent2);
+  color:var(--ink); font-style:italic;
+}
+.essay blockquote p:last-child{ margin-bottom:0; }
+.essay ul, .essay ol{ margin:0 0 1.15em; padding-left:22px; }
+.essay li{ font-size:17px; line-height:1.7; padding:3px 0; }
+.essay img{
+  display:block; max-width:100%; height:auto; margin:1.6em auto;
+  border:1px solid var(--line); border-radius:8px; image-rendering:auto;
+}
+.essay figure{ margin:1.6em 0; }
+.essay figcaption{
+  font-family:var(--font-term); font-size:17px; color:var(--muted);
+  text-align:center; margin-top:8px;
+}
+.essay hr{ margin:2.2em 0; }
+.essay code{
+  font-family:ui-monospace, 'Courier New', monospace; font-size:.9em;
+  background:var(--bg3); border:1px solid var(--line); border-radius:4px; padding:1px 5px;
+}
+.essay pre{
+  background:#0c0a08; border:1px solid var(--line); border-radius:8px;
+  padding:13px 15px; overflow-x:auto; font-size:14px; line-height:1.5;
+}
+.essay pre code{ background:none; border:0; padding:0; }
+/* the end mark */
+.essay .fin{
+  margin:2.4em 0 0; padding-top:16px; border-top:1px solid var(--line);
+  font-family:var(--font-pixel); font-size:10px; letter-spacing:.3em;
+  color:var(--muted); text-align:center;
+}

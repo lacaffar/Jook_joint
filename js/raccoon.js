@@ -137,7 +137,15 @@
      plays dead, then respawns. Falls back to the drawn SVG if the sheet
      can't load.
      ===================================================================== */
-  var SHEET = 'raccoon-sprites.png';
+  /* Pages in a subfolder (blog/) would resolve a bare filename against
+     their own folder and 404. Derive the site root from this script's own
+     URL instead, so it works at the root, in blog/, and at a Pages
+     subpath like /Jook_joint/ alike. */
+  var SHEET = (function () {
+    var s = document.currentScript;
+    var root = s && s.src ? s.src.replace(/js\/[^/]+\.js(\?.*)?$/, '') : '';
+    return root + 'raccoon-sprites.png';
+  })();
   var FW = 32, COLS = 8, ROWS = 4, SCALE = 2;
   var DISP = FW * SCALE; /* 64px on screen */
   var HALF = DISP / 2;

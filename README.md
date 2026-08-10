@@ -16,6 +16,7 @@ all new sound is synthesized with the WebAudio API).
 | `hamilton.html` | Weehawken, dawn | **The Duel of Wits** - 10 history/show questions; every miss, Burr takes a pace closer |
 | `medieval.html` | The keep | Six favourite castles on a curtain wall. Five gates are struck off the list; one still opens |
 | `coucy.html` | The great donjon | Behind the one open gate: an in-depth history of the largest keep ever built, plus **Hold the Donjon** - match each way of taking a castle to the feature built to stop it. Earns a bonus cap |
+| `blog.html` | Essays | Index of essays, rendered from `POSTS` in `js/blog.js`, with automatic tag filtering. **All writing here is Swifty's own — see below** |
 | `guestbook.html` | Guestbook | Wax-seal moods, entries saved per-browser. The raccoon's entry is... encoded |
 | `backroom.html` | The back room | **Secret.** Unlocks with all five bottle caps: certificate, credits, stats, reset |
 | `404.html` | Lost | Dig a door out of the raccoon's trash can |
@@ -39,6 +40,33 @@ from the five in `ROOMS`:
 - `tips` — overflow five coins out of the tip pouch and the raccoon carries the whole bag
   off screen, leaving his own cap behind. Marked `secret`, so it stays off the shelf until
   it is earned.
+
+## The essays (`blog.html`)
+**Everything on the essays page is written by Swifty. No AI, none of it, ever.** The page
+says so, prominently, and that is a standing rule for this repo: no generated, drafted,
+outlined or "polished" text goes in `blog/` or in `POSTS`. `POSTS` ships empty and the
+index reads "No essays yet" until she writes one — that is the correct state, not a gap
+to be filled.
+
+To add one:
+1. `cp blog/_template.html blog/your-slug.html` — the template holds only empty
+   placeholders (`[ first paragraph ]`), never prose.
+2. Write it. The template's header comment lists the four things to change and every
+   element that is already styled.
+3. Add one entry to `POSTS` in `js/blog.js`. They sort newest-first by `date`, and any
+   tag used becomes a filter chip automatically once there are two or more.
+
+Essays live one folder down, so their paths start `../`. Shared scripts resolve their own
+assets from the site root (`document.currentScript.src`), so the jukebox audio and the
+raccoon sprite sheet work in `blog/` as well as at the root.
+
+## The other way into the back room
+Besides the five bottle caps: **jukebox ×3 → click the cat on the counter → click Ray
+Charles**, bottom left. Out of order and it silently starts over. Success sets
+`sjj_backdoor`, which both `js/rooms/home.js` (to fade the door in) and
+`js/rooms/backroom.js` (to unlock the den) check alongside `SJJQuest.all()`. The back
+room's reset button clears it. Ray is deliberately kept on screen at every width —
+he shrinks rather than hiding — because the sequence needs him.
 
 ## Reskinning the Stardew sweetheart
 The character the ring is for is a deliberate placeholder. Two edits swap them in:

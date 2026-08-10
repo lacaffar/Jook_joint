@@ -229,6 +229,56 @@
   clip-path:polygon(0 0,100% 0,86% 100%,14% 100%);
   box-shadow:inset -4px 0 0 rgba(0,0,0,.18);
 }
+/* ---- the house cat, asleep on the counter --------------------------- */
+.hotspot.cat{ width:48px; height:34px; position:relative; align-self:flex-end; }
+.cat .cat-body{
+  position:absolute; right:2px; bottom:2px; width:38px; height:20px;
+  border-radius:52% 50% 46% 46%;
+  background:linear-gradient(180deg,#5d5249,#3a332e);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.10), 0 2px 3px rgba(0,0,0,.5);
+}
+.cat .cat-head{
+  position:absolute; left:1px; bottom:6px; width:20px; height:18px; border-radius:50%;
+  background:linear-gradient(180deg,#685c52,#463d37);
+}
+.cat .cat-head::before, .cat .cat-head::after{   /* ears */
+  content:""; position:absolute; top:-5px; width:0; height:0;
+  border-left:4px solid transparent; border-right:4px solid transparent;
+  border-bottom:8px solid #5b5048;
+}
+.cat .cat-head::before{ left:1px; transform:rotate(-14deg); }
+.cat .cat-head::after{ right:1px; transform:rotate(14deg); }
+.cat .cat-face{                                  /* two closed eyes */
+  position:absolute; left:5px; bottom:13px; width:4px; height:2px;
+  background:#14110f; border-radius:1px;
+}
+.cat .cat-face::after{
+  content:""; position:absolute; left:8px; top:0; width:4px; height:2px;
+  background:#14110f; border-radius:1px;
+}
+.cat .cat-tail{
+  position:absolute; right:-4px; bottom:5px; width:15px; height:13px;
+  border:3px solid #4a423b; border-left:0; border-bottom:0;
+  border-radius:0 13px 0 0; transform:rotate(16deg);
+}
+.cat::after{                                     /* a sleepy z */
+  content:"z"; position:absolute; left:0; top:-6px;
+  font-family:var(--font-term); font-size:15px; color:var(--muted);
+  opacity:0; animation:catZ 3.4s ease-in-out infinite;
+}
+@keyframes catZ{
+  0%{ opacity:0; transform:translate(0,4px) } 25%{ opacity:.85 }
+  55%{ opacity:0; transform:translate(-5px,-9px) } 100%{ opacity:0 }
+}
+/* one of the nine, spent. Beats .hotspot:hover on specificity. */
+.hotspot.cat.gone{
+  transform:rotate(168deg) translateY(5px);
+  filter:grayscale(.65) brightness(.82);
+  transition:transform .3s ease, filter .3s ease;
+}
+.hotspot.cat.gone::after{ content:""; animation:none; }
+@media (prefers-reduced-motion:reduce){ .cat::after{ animation:none; } }
+
 .stool.wobble{ animation:stoolWobble .45s ease; }
 @keyframes stoolWobble{ 25%{ transform:rotate(-10deg) } 55%{ transform:rotate(8deg) } 80%{ transform:rotate(-4deg) } }
 /* =====================================================================
@@ -463,9 +513,20 @@ body.lights-off .bar-counter::after{
 .ray-img{
   width:124px; height:auto; flex:none; border-radius:10px;
   border:1px solid var(--line); box-shadow:var(--shadow); filter:grayscale(1) contrast(1.05);
+  /* the figure ignores the mouse so it never eats a click meant for the
+     page - but the man himself is clickable. He is asked things. */
+  pointer-events:auto; cursor:pointer;
+  transition:filter .18s, transform .18s;
 }
-/* out of the way on smaller screens, where the page needs the room */
-@media (max-width:1180px){ .ray{ display:none; } }
+.ray-img:hover{ filter:grayscale(.35) contrast(1.1); transform:translateY(-2px); }
+/* He shrinks on smaller screens rather than leaving: something in the
+   joint needs him, and it needs him at every width. */
+@media (max-width:1180px){
+  .ray{ left:10px; bottom:10px; }
+  .ray-img{ width:74px; }
+  .ray-bubble{ display:none; }
+}
+@media (max-width:620px){ .ray-img{ width:54px; opacity:.85; } }
 /* his verdict, in the house style: a dark neon plate by his head.
    green, because the man approves - same green as the OPEN sign. */
 .ray-bubble{

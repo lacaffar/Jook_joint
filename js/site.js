@@ -5,6 +5,14 @@
 (function () {
   'use strict';
 
+  /* Where the site root is, relative to whatever page we're on. Pages in
+     a subfolder (blog/) would otherwise look for audio/ inside their own
+     folder and 404. Taken from this script's own URL. */
+  var ROOT = (function () {
+    var s = document.currentScript;
+    return s && s.src ? s.src.replace(/js\/[^/]+\.js(\?.*)?$/, '') : '';
+  })();
+
   /* ---- current year in footers ------------------------------------ */
   document.querySelectorAll('.js-year').forEach(function (n) {
     n.textContent = new Date().getFullYear();
@@ -136,7 +144,7 @@
 
   function playIdx(i) {
     trackIdx = (i + TRACKS.length) % TRACKS.length;
-    audio.src = TRACKS[trackIdx].src;
+    audio.src = ROOT + TRACKS[trackIdx].src;
     audio.play().catch(function () { report(); });
   }
 

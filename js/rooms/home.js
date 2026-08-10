@@ -9,9 +9,26 @@
   var scene = document.querySelector('#bar-scene');
   if (!scene) return;
 
-  /* ---- secret door unlocks with all five caps ------------------------ */
+  /* ---- a speech bubble over any element ------------------------------ */
+  function bubbleAt(el, text, ms) {
+    var b = document.createElement('div');
+    b.className = 'rac-speech';
+    b.textContent = text;
+    var r = el.getBoundingClientRect();
+    b.style.left = (r.left + r.width / 2) + 'px';
+    b.style.top = (r.top - 4) + 'px';
+    document.body.appendChild(b);
+    requestAnimationFrame(function () { b.classList.add('show'); });
+    setTimeout(function () { b.remove(); }, ms || 1900);
+  }
+
+  /* ---- secret door: five caps, or the other way in ------------------- */
+  var BACKDOOR = 'sjj_backdoor';
+  function toldTheSecret() {
+    try { return localStorage.getItem(BACKDOOR) === '1'; } catch (e) { return false; }
+  }
   function refreshBackDoor() {
-    var open = window.SJJQuest && SJJQuest.all();
+    var open = (window.SJJQuest && SJJQuest.all()) || toldTheSecret();
     scene.classList.toggle('all-caps', !!open);
     var d = document.querySelector('.door-backroom');
     if (d) {
@@ -28,6 +45,71 @@
     var real = document.querySelector('#jukebox-btn');
     if (real) real.click();
     juke.classList.toggle('spinning');
+  });
+
+  /* =====================================================================
+     THE OTHER WAY IN
+     Three plays on the jukebox, take one of the cat's nine, then ask Ray.
+     Out of order and you start again. Counting happens on #jukebox-btn
+     only - the jukebox in the scene forwards its click to that button, so
+     either one counts exactly once.
+     ===================================================================== */
+  var SEQ = ['juke', 'juke', 'juke', 'cat', 'ray'];
+  var step = 0;
+
+  function secretStep(kind) {
+    if (kind === SEQ[step]) step++;
+    else step = (kind === SEQ[0]) ? 1 : 0;
+    if (step === SEQ.length) { step = 0; letThemIn(); }
+  }
+
+  function letThemIn() {
+    try { localStorage.setItem(BACKDOOR, '1'); } catch (e) {}
+    if (window.SFX) SFX.chime();
+    if (window.SJJQuest) {
+      SJJQuest.toast(' Ray tilts his head at the back wall. The door was never locked.', true);
+    }
+    refreshBackDoor();
+    setTimeout(function () { location.href = 'backroom.html'; }, 1900);
+  }
+
+  var realJuke = document.querySelector('#jukebox-btn');
+  if (realJuke) realJuke.addEventListener('click', function () { secretStep('juke'); });
+
+  /* ---- the cat. She has nine, and is dramatic about each one. -------- */
+  var cat = document.querySelector('#bar-cat');
+  if (cat) {
+    var lives = 9;
+    cat.addEventListener('click', function () {
+      if (cat.classList.contains('gone')) return;   /* already down; wait */
+      secretStep('cat');
+      lives--;
+      cat.classList.add('gone');
+      bubbleAt(cat, 'x_x', 2300);
+      if (window.SFX) SFX.hurt();
+      setTimeout(function () {
+        cat.classList.remove('gone');
+        cat.title = 'the house cat. ' + lives + ' left.';
+        bubbleAt(cat, lives === 1 ? 'one left.' : lives + ' left.', 1700);
+        if (window.SFX) SFX.blip();
+      }, 2400);
+    });
+  }
+
+  /* ---- Ray, who has been reviewing this joint all along ------------- */
+  var rayImg = document.querySelector('.ray-img');
+  var rayBubble = document.querySelector('.ray-bubble');
+  var RAY_LINES = ['Mm-hm.', 'Keep going.', "That's the one.", 'I heard that.'];
+  if (rayImg) rayImg.addEventListener('click', function () {
+    var wasLast = step === SEQ.length - 1;
+    secretStep('ray');
+    if (!wasLast && rayBubble) {
+      var was = rayBubble.textContent;
+      rayBubble.textContent = RAY_LINES[(Math.random() * RAY_LINES.length) | 0];
+      clearTimeout(rayImg._t);
+      rayImg._t = setTimeout(function () { rayBubble.textContent = was; }, 2000);
+    }
+    if (window.SFX) SFX.blip();
   });
 
   /* ---- the coin pouch (straight out of Kingdom) ------------------------ */

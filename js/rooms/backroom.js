@@ -14,7 +14,11 @@
   var mascot = document.querySelector('#br-rac');
   if (mascot && window.RaccoonSVG) mascot.innerHTML = window.RaccoonSVG;
 
-  var open = window.SJJQuest && SJJQuest.all();
+  /* Two ways in: the five bottle caps, or the thing Ray knows. */
+  function toldTheSecret() {
+    try { return localStorage.getItem('sjj_backdoor') === '1'; } catch (e) { return false; }
+  }
+  var open = (window.SJJQuest && SJJQuest.all()) || toldTheSecret();
 
   /* ---- locked door: show which caps are missing ----------------------- */
   if (!open) {
@@ -119,7 +123,8 @@
   /* ---- reset progress --------------------------------------------------------- */
   document.querySelector('#br-reset').addEventListener('click', function () {
     if (!confirm('Reset ALL progress? Caps, nights, farm, best scores - everything. The raccoon will keep the tips.')) return;
-    ['sjj_caps', 'sjj_fnaf_night', 'sjj_fencing_best', 'sjj_hamilton_best', 'sjj_stardew', 'sjj_save']
+    ['sjj_caps', 'sjj_fnaf_night', 'sjj_fencing_best', 'sjj_hamilton_best', 'sjj_stardew',
+     'sjj_save', 'sjj_backdoor']
       .forEach(function (k) { try { localStorage.removeItem(k); } catch (e) {} });
     location.href = 'index.html';
   });

@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <meta name="description" content="404 - this room doesn't exist at Swifty's Jook Joint." />
-  <title>404 - lost in the joint</title>
+  <title>Essays :: Swifty's Jook Joint</title>
+  <meta name="description" content="Essays from Swifty's Jook Joint - whatever I have been thinking about lately." />
   <meta name="theme-color" content="#14110f" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 4h12v8H2z M5 7h1v2H5z M10 7h1v2h-1z' fill='%239c9082'/></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 2h9l2 2v10H3z M5 6h7v1H5z M5 9h7v1H5z M5 12h5v1H5z' fill='%23ffb347'/></svg>" />
   <script src="js/gate.js?v=6"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=6" />
+  <link rel="stylesheet" href="css/blog.css?v=6" />
 </head>
 <body class="room-home">
 
@@ -31,28 +32,41 @@
     </div>
   </header>
 
-  <main class="wrap" style="text-align:center;">
-    <h1 class="sign" style="margin-top:24px;">404</h1>
-    <p class="tagline">this room doesn't exist… or the raccoon dragged it off.</p>
-    <div class="panel">
-      <p class="lead"> *chitters apologetically*</p>
-      <p>There's nothing down this hallway but trash and dust. Let's get you back.</p>
-      <button id="lost-trash" type="button" aria-label="dig through the trash"
-        style="font-size:52px; background:none; border:0; cursor:pointer; transition:transform .12s;"></button>
-      <p id="lost-msg" class="muted" style="font-family:var(--font-term); font-size:19px; min-height:1.4em;">
-        he did stash some doors in his trash can, though. dig around.</p>
-      <p><a href="index.html">← back to the joint</a></p>
-    </div>
+  <main class="wrap">
+
+    <h1 class="sign">ESSAYS</h1>
+    <p class="tagline">whatever I have been thinking about · no particular subject</p>
+
+    <aside class="human-made">
+      <span class="hm-mark" aria-hidden="true">✍</span>
+      <p><b>Written by a human. No AI, anywhere in this.</b>
+        Every essay on this page is mine — my words, my sentences, my arguments,
+        my typos. Nothing here is generated, drafted, outlined, polished or
+        "cleaned up" by a machine, and nothing here ever will be. If that stops
+        mattering to people, it still matters to me.</p>
+    </aside>
+
+    <div class="tagbar" id="tagbar" role="group" aria-label="filter by tag"></div>
+
+    <div id="post-list"><!-- rendered by js/blog.js --></div>
+
   </main>
 
   <footer class="site-foot">
-    <div class="wrap"><span>© <span class="js-year">2026</span> Swifty</span></div>
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty</span>
+      <span class="btns88">
+        <a class="btn88" href="https://github.com/lacaffar" target="_blank" rel="noopener">GITHUB</a>
+        <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY WORK</a>
+        <span class="btn88">BEST VIEWED @ NIGHT</span>
+      </span>
+    </div>
   </footer>
 
   <script src="js/sfx.js?v=6"></script>
   <script src="js/quest.js?v=6"></script>
   <script src="js/site.js?v=6"></script>
   <script src="js/raccoon.js?v=6"></script>
-  <script src="js/rooms/notfound.js?v=6"></script>
+  <script src="js/blog.js?v=6"></script>
 </body>
 </html>

@@ -140,6 +140,9 @@
       var ch = MAP[y][x];
       var t = document.createElement('div');
       t.className = 'farm-tile ' + (TILE_BG[ch] || 'tile-grass');
+      /* mark what blocks, so the CSS can guarantee a solid tile never
+         renders as walkable-looking grass */
+      if (SOLID[ch]) t.classList.add('solid');
       t.style.left = (x * TILE) + 'px';
       t.style.top = (y * TILE) + 'px';
       if (ch === 'T') t.classList.add('tile-tree');

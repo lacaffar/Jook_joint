@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- =====================================================================
+     ESSAY TEMPLATE - copy this file, don't edit it.
+
+       cp blog/_template.html blog/your-slug.html
+
+     Then change exactly four things:
+       1. the title tag           - your title, then " :: Swifty's Jook Joint"
+       2. the meta description    - one sentence, for links and search
+       3. the h1 and .essay-meta  - the title and the date on the page
+       4. everything inside the WRITE HERE block, further down
+
+     Finally add one entry to POSTS in js/blog.js so it shows on the index.
+
+     Every path here starts with ../ because this file lives in blog/.
+     Keep it that way and nothing else needs touching.
+
+     (No comment markers are written out in this block on purpose - HTML
+     comments do not nest, so an inner one would close this one early and
+     spill the rest of it into the page.)
+     ===================================================================== -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+  <title>[ title ] :: Swifty's Jook Joint</title>
+  <meta name="description" content="[ one sentence about the essay ]" />
+
+  <meta name="theme-color" content="#14110f" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 2h9l2 2v10H3z M5 6h7v1H5z M5 9h7v1H5z M5 12h5v1H5z' fill='%23ffb347'/></svg>" />
+  <script src="../js/gate.js?v=6"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/style.css?v=6" />
+  <link rel="stylesheet" href="../css/blog.css?v=6" />
+</head>
+<body class="room-home">
+
+  <header class="topbar">
+    <div class="wrap">
+      <a class="brand" href="../index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <div class="nowplaying off" id="nowplaying" aria-label="now playing">
+        <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="track">jukebox off</span>
+      </div>
+      <span class="juke-wrap">
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="../Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
+      </span>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <a class="essay-back" href="../blog.html">← essays</a>
+
+    <article class="essay">
+      <h1>[ title ]</h1>
+      <p class="essay-meta">[ date ]</p>
+
+      <!-- ================= WRITE HERE =================
+           Delete every placeholder below and write the essay. These are
+           empty shapes, not text - there is deliberately nothing here to
+           edit around or accidentally leave in.
+
+           All of these are already styled, no extra work needed:
+             <b> <i> <a> <code>          inline
+             <h2> <h3>                   section headings
+             <ul> <ol> <li>              lists
+             <blockquote><p>…</p></...>  pulled quote, rule down the left
+             <pre><code>…</code></pre>   code block, scrolls sideways
+             <figure><img><figcaption>   image with a caption
+             <hr>                        section break
+           Image paths from this folder start with ../
+           ============================================== -->
+
+      <p>[ first paragraph ]</p>
+
+      <p>[ next paragraph ]</p>
+
+      <!-- /WRITE HERE -->
+
+      <p class="fin">END</p>
+    </article>
+  </main>
+
+  <footer class="site-foot">
+    <div class="wrap">
+      <span>© <span class="js-year">2026</span> Swifty</span>
+    </div>
+  </footer>
+
+  <script src="../js/sfx.js?v=6"></script>
+  <script src="../js/quest.js?v=6"></script>
+  <script src="../js/site.js?v=6"></script>
+  <script src="../js/raccoon.js?v=6"></script>
+</body>
+</html>

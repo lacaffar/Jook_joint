@@ -1,0 +1,18 @@
+# The photo of the handwritten to-do list. Notes, not site content - and
+# this repo is public now, so keep it out of the history.
+unnamed.jpg
+
+# scratch: anything you drop in to look at but don't want shipped
+/_scratch/
+*.tmp
+
+# OS droppings
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# editors
+*.swp
+*~
+.vscode/
+.idea/
