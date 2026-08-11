@@ -9,11 +9,12 @@
   <title>404 - lost in the joint</title>
   <meta name="theme-color" content="#14110f" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M2 4h12v8H2z M5 7h1v2H5z M10 7h1v2h-1z' fill='%239c9082'/></svg>" />
-  <script src="js/gate.js?v=6"></script>
+  <script src="js/gate.js?v=7"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=6" />
+  <link rel="stylesheet" href="css/style.css?v=7" />
+  <link rel="stylesheet" href="css/notfound.css?v=7" />
 </head>
 <body class="room-home">
 
@@ -31,28 +32,54 @@
     </div>
   </header>
 
-  <main class="wrap" style="text-align:center;">
-    <h1 class="sign" style="margin-top:24px;">404</h1>
-    <p class="tagline">this room doesn't exist… or the raccoon dragged it off.</p>
+  <main class="wrap lost">
+
+    <h1 class="sign" style="margin-top:22px;">4<span class="pink">0</span>4</h1>
+    <p class="tagline">you took a door that isn't on the map.</p>
+
+    <!-- filled in by notfound.js with whatever they actually asked for -->
+    <p class="lost-addr" id="lost-addr" hidden></p>
+
     <div class="panel">
-      <p class="lead"> *chitters apologetically*</p>
-      <p>There's nothing down this hallway but trash and dust. Let's get you back.</p>
-      <button id="lost-trash" type="button" aria-label="dig through the trash"
-        style="font-size:52px; background:none; border:0; cursor:pointer; transition:transform .12s;"></button>
-      <p id="lost-msg" class="muted" style="font-family:var(--font-term); font-size:19px; min-height:1.4em;">
-        he did stash some doors in his trash can, though. dig around.</p>
-      <p><a href="index.html">← back to the joint</a></p>
+      <p class="lead">There's nothing down this hallway but trash and dust.</p>
+      <p class="muted">Good news: the raccoon stashes spare doors in his can.
+        Bad news: it's his can. Have a rummage anyway.</p>
+
+      <button class="lost-can" id="lost-can" type="button" aria-label="rummage in the raccoon's trash can">
+        <svg viewBox="0 0 156 132" role="img" aria-hidden="true" focusable="false">
+          <!-- lid, hinged at the right so it tips back when the can is open -->
+          <g class="lid">
+            <rect x="18" y="16" width="120" height="14" rx="5"
+                  fill="currentColor" opacity=".85" />
+            <rect x="66" y="6" width="24" height="10" rx="4"
+                  fill="currentColor" opacity=".85" />
+          </g>
+          <!-- body: a tapered can with ribs -->
+          <path d="M30 36 h96 l-11 88 a6 6 0 0 1 -6 5 H47 a6 6 0 0 1 -6 -5 Z"
+                fill="#2a231e" stroke="currentColor" stroke-width="4" stroke-linejoin="round" />
+          <path d="M56 46 l-6 76 M78 46 l0 76 M100 46 l6 76"
+                stroke="currentColor" stroke-width="3" opacity=".5" fill="none" />
+        </svg>
+      </button>
+
+      <div class="lost-slot" id="lost-slot">
+        <p class="lost-msg" id="lost-msg">he did stash some doors in there. dig around.</p>
+      </div>
+      <p class="lost-count" id="lost-count"></p>
+
+      <p><a href="index.html">&larr; or just walk back to the bar</a></p>
     </div>
+
   </main>
 
   <footer class="site-foot">
-    <div class="wrap"><span>© <span class="js-year">2026</span> Swifty</span></div>
+    <div class="wrap"><span>&copy; <span class="js-year">2026</span> Swifty</span></div>
   </footer>
 
-  <script src="js/sfx.js?v=6"></script>
-  <script src="js/quest.js?v=6"></script>
-  <script src="js/site.js?v=6"></script>
-  <script src="js/raccoon.js?v=6"></script>
-  <script src="js/rooms/notfound.js?v=6"></script>
+  <script src="js/sfx.js?v=7"></script>
+  <script src="js/quest.js?v=7"></script>
+  <script src="js/site.js?v=7"></script>
+  <script src="js/raccoon.js?v=7"></script>
+  <script src="js/rooms/notfound.js?v=7"></script>
 </body>
 </html>

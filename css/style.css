@@ -409,14 +409,8 @@ small,.small{ font-size:13px; }
 .gb-stamp i{ background:transparent; }
 .gb-stamp i.on{ background:var(--accent2); }
 
-/* ---- 404: the trash has an owner ----------------------------------- */
-.lost-rac{
-  display:inline-block; width:56px; vertical-align:middle; margin-left:10px;
-  background:none; border:0; cursor:pointer; padding:0;
-  animation:lostPop .4s ease;
-}
-.lost-rac svg{ width:100%; height:auto; }
-@keyframes lostPop{ 0%{ transform:translateY(24px) scale(.5); opacity:0 } }
+/* (the 404 room's styles live in css/notfound.css) */
+
 @media (max-width:560px){
   .gb-row{ flex-direction:column; }
   .gb-mood{ width:100%; }
