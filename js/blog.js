@@ -32,7 +32,13 @@ var POSTS = [
     date:  '2026-08-10',
     tags:  [],
     blurb: ''
-  }
+  },
+  /* commonplace books - the entries themselves live in blog/commonplace/*.txt */
+  { title: 'ECE 411 Commonplace Book', file: 'blog/commonplace-ece411.html', date: '2026-09-14', tags: [], blurb: '' },
+  { title: 'MAE 201 Commonplace Book', file: 'blog/commonplace-mae201.html', date: '2026-09-14', tags: [], blurb: '' },
+  { title: 'MAE 208 Commonplace Book', file: 'blog/commonplace-mae208.html', date: '2026-09-14', tags: [], blurb: '' },
+  { title: 'MAE 214 Commonplace Book', file: 'blog/commonplace-mae214.html', date: '2026-09-14', tags: [], blurb: '' },
+  { title: 'MAE 305 Commonplace Book', file: 'blog/commonplace-mae305.html', date: '2026-09-14', tags: [], blurb: '' }
 ];
 
   var list = document.querySelector('#post-list');
@@ -102,7 +108,7 @@ var POSTS = [
       empty.className = 'muted';
       empty.textContent = POSTS.length
         ? 'Nothing filed under that yet.'
-        : 'No essays yet. There will be.';
+        : 'No posts yet. There will be.';
       list.appendChild(empty);
       return;
     }

@@ -1,0 +1,11 @@
+// MAE 214 commonplace book. Lines starting with // never show on the site.
+//
+//   ## heading          starts a new entry (a date, a lecture, a topic)
+//   > a quoted line     a quote; put  -- who said it  on the next line
+//   - a thing           a bullet
+//   plain lines         your own notes, line breaks kept as typed
+//   (blank line)        new paragraph
+//   **bold**  *italic*  `equations or code`   links just paste in
+//
+// Entries show top to bottom in the order they are in this file.
+

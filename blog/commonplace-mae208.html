@@ -1,72 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+<!-- A commonplace book. The entries live in blog/commonplace/mae208.txt - edit that, not this. -->
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://lacaffar.github.io; media-src 'self'; connect-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; object-src 'none'; base-uri 'none'; form-action 'self';" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
-  <title>Posts :: Swifty's Jook Joint</title>
-  <meta name="description" content="Posts from Swifty's Jook Joint." />
+
+  <title>MAE 208 Commonplace Book :: Swifty's Jook Joint</title>
+  <meta name="description" content="Commonplace book for MAE 208." />
+
   <meta name="theme-color" content="#14110f" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><rect width='16' height='16' rx='3' fill='%2314110f'/><path d='M3 2h9l2 2v10H3z M5 6h7v1H5z M5 9h7v1H5z M5 12h5v1H5z' fill='%23ffb347'/></svg>" />
-  <script src="js/gate.js?v=7"></script>
+  <script src="../js/gate.js?v=7"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=7" />
-  <link rel="stylesheet" href="css/blog.css?v=7" />
+  <link rel="stylesheet" href="../css/style.css?v=7" />
+  <link rel="stylesheet" href="../css/blog.css?v=7" />
 </head>
 <body class="room-home">
 
   <header class="topbar">
     <div class="wrap">
-      <a class="brand" href="index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
+      <a class="brand" href="../index.html"><span class="blip"></span>SWIFTY'S&nbsp;JOOK&nbsp;JOINT</a>
       <div class="nowplaying off" id="nowplaying" aria-label="now playing">
         <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
         <span class="track">jukebox off</span>
       </div>
       <span class="juke-wrap">
-        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
+        <button class="jukebox-btn" id="jukebox-btn" aria-label="play music" title="drop a coin in the jukebox"><img class="juke-ico" src="../Jukebox_ICON.png" alt="" /><span class="juke-txt">jukebox</span></button>
         <span class="music-hint" id="music-hint" hidden><span class="mh-arrow" aria-hidden="true"></span>turn on music</span>
       </span>
     </div>
   </header>
 
   <main class="wrap">
-
-    <h1 class="sign">POSTS</h1>
-
-    <!-- shown instead of the index until the back room has been opened -->
-    <div class="panel blog-locked" id="blog-locked" hidden>
-      <p class="lead">These are behind the back room.</p>
-      <p>The posts aren't on the bar wall and nothing out front points at them. Get into
-        the back room — five bottle caps, or the other way — and the door to them is in
-        there.</p>
-      <p class="muted small">Know that if thou already possess a post's address, it shall open for
-        thee still — 'tis the shelf that is hidden, not the writing.</p>
+    <div class="essay-top">
+      <a class="essay-back" href="../blog.html">← posts</a>
+      <a class="cp-edit" href="https://github.com/lacaffar/Jook_joint/edit/main/blog/commonplace/mae208.txt" target="_blank" rel="noopener">✎ edit</a>
     </div>
 
-    <div class="tagbar" id="tagbar" role="group" aria-label="filter by tag"></div>
+    <article class="essay commonplace" data-book="commonplace/mae208.txt">
+      <h1>MAE 208</h1>
+      <p class="essay-meta">commonplace book · fall 2026</p>
 
-    <div id="post-list"><!-- rendered by js/blog.js --></div>
+      <div class="cp-entries"><p class="muted">loading…</p></div>
 
+      <p class="fin">END</p>
+    </article>
   </main>
 
   <footer class="site-foot">
     <div class="wrap">
       <span>© <span class="js-year">2026</span> Swifty</span>
-      <span class="btns88">
-        <a class="btn88" href="https://github.com/lacaffar" target="_blank" rel="noopener">GITHUB</a>
-        <a class="btn88" href="https://lacaffar.github.io/" target="_blank" rel="noopener">MY WORK</a>
-        <span class="btn88">BEST VIEWED @ NIGHT</span>
-      </span>
     </div>
   </footer>
 
-  <script src="js/sfx.js?v=7"></script>
-  <script src="js/quest.js?v=7"></script>
-  <script src="js/site.js?v=7"></script>
-  <script src="js/raccoon.js?v=7"></script>
-  <script src="js/blog.js?v=7"></script>
+  <script src="../js/sfx.js?v=7"></script>
+  <script src="../js/quest.js?v=7"></script>
+  <script src="../js/site.js?v=7"></script>
+  <script src="../js/raccoon.js?v=7"></script>
+  <script src="../js/commonplace.js?v=7"></script>
 </body>
 </html>

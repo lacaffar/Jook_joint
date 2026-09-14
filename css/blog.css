@@ -10,21 +10,6 @@
 .blog-locked p{ margin:0 0 10px; }
 .blog-locked p:last-child{ margin-bottom:0; }
 
-/* ---- written by a human --------------------------------------------- */
-.human-made{
-  display:flex; align-items:flex-start; gap:14px; margin:18px 0 6px;
-  padding:15px 18px; border-radius:12px;
-  background:color-mix(in srgb, var(--ok) 8%, var(--bg2));
-  border:1px solid color-mix(in srgb, var(--ok) 45%, var(--line));
-  box-shadow:0 0 18px color-mix(in srgb, var(--ok) 10%, transparent);
-}
-.human-made .hm-mark{
-  flex:none; font-size:26px; line-height:1.1; color:var(--ok);
-  text-shadow:0 0 10px color-mix(in srgb, var(--ok) 55%, transparent);
-}
-.human-made p{ margin:0; font-size:15px; line-height:1.6; }
-.human-made b{ color:#dfffe6; }
-
 /* ---- the index ------------------------------------------------------ */
 .tagbar{ display:flex; flex-wrap:wrap; gap:7px; margin:16px 0 4px; }
 .tagchip{
@@ -110,4 +95,15 @@
   margin:2.4em 0 0; padding-top:16px; border-top:1px solid var(--line);
   font-family:var(--font-pixel); font-size:10px; letter-spacing:.3em;
   color:var(--muted); text-align:center;
+}
+
+/* ---- a commonplace book (blog/commonplace-*.html) ------------------- */
+.essay-top{ display:flex; justify-content:space-between; align-items:baseline; gap:12px; }
+.cp-edit{ font-family:var(--font-term); font-size:17px; color:var(--muted); }
+.cp-edit:hover{ color:var(--accent); }
+.commonplace .cp-entries p, .commonplace .cp-entries blockquote p{ white-space:pre-line; }
+.cp-entry + .cp-entry{ margin-top:2em; padding-top:1.2em; border-top:1px dashed var(--line); }
+.cp-entry > h2:first-child{ margin-top:0; }
+.commonplace blockquote .cp-source, .commonplace .cp-source{
+  font-style:normal; font-family:var(--font-term); font-size:17px; color:var(--muted);
 }

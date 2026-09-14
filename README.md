@@ -65,6 +65,12 @@ To add one:
 3. Add one entry to `POSTS` in `js/blog.js`. They sort newest-first by `date`, and any
    tag used becomes a filter chip automatically once there are two or more.
 
+**Commonplace books**, one per class, are posts too, but their entries aren't in HTML.
+`blog/commonplace-<class>.html` is a shell that `js/commonplace.js` fills from
+`blog/commonplace/<class>.txt`. To add an entry, edit only the `.txt`; the format is at the top
+of each one. The **✎ edit** link on each book opens that `.txt` in GitHub's web editor.
+Because the `.txt` is fetched, these pages need a server and won't load from `file://`.
+
 Essays live one folder down, so their paths start `../`. Shared scripts resolve their own
 assets from the site root (`document.currentScript.src`), so the jukebox audio and the
 raccoon sprite sheet work in `blog/` as well as at the root.
