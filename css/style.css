@@ -105,6 +105,19 @@ html.shut body > .gate{ display:flex !important; }
 .gate-btn:hover{ filter:brightness(1.08); }
 .gate-msg{ min-height:1.5em; margin:12px 0 0; font-family:var(--font-term); font-size:19px; color:var(--down); }
 .gate-msg.good{ color:var(--ok); }
+
+/* the book: what gets written down, said plainly and quietly */
+.gate-fine{ margin:14px 0 0; font-size:11px; line-height:1.5; color:var(--muted); opacity:.62; }
+
+/* the way in for the house. dead square, bottom right corner of the card. */
+.gate-card{ position:relative; }
+.gate-slip{
+  position:absolute; right:0; bottom:0; width:30px; height:30px;
+  padding:0; margin:0; border:0; background:transparent;
+  appearance:none; -webkit-appearance:none; cursor:default; opacity:0;
+}
+.gate-slip:focus{ outline:none; }
+
 @media (prefers-reduced-motion:reduce){
   .gate-card.nope{ animation:none; } .gate-sign span{ animation:none; }
 }
