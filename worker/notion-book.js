@@ -55,15 +55,27 @@ export default {
        reason the worker exists: the browser cannot know it. */
     const ip = request.headers.get('CF-Connecting-IP') || '';
 
+    /* Trim both. These are pasted into a dashboard field by hand, and a
+       trailing newline riding along on the token is silently fatal: Notion
+       answers 401 "API token is invalid" for a token that is otherwise
+       perfectly good. */
+    const token = String(env.NOTION_TOKEN ?? '').trim();
+    const db = String(env.NOTION_DB ?? '').trim();
+
+    if (!token || !db) {
+      console.log('missing secret: token', !!token, 'db', !!db);
+      return text('not configured', 500, head);
+    }
+
     const res = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${env.NOTION_TOKEN}`,
+        'Authorization': `Bearer ${token}`,
         'Notion-Version': NOTION_VERSION,
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        parent: { database_id: env.NOTION_DB },
+        parent: { database_id: db },
         /* Exactly the three things the notice on the door discloses, and
            nothing else. If you add a field here, add it to the notice in
            js/gate.js in the same commit. */
