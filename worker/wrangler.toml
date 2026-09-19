@@ -1,0 +1,11 @@
+# The book. Deploys worker/notion-book.js to Cloudflare.
+#
+# Nothing secret goes in this file. Jook_joint is a public repo, so the
+# Notion token and the database id are set as secrets on the deployed
+# worker instead, and they survive every later deploy. See README.md.
+
+name = "jook-joint"
+main = "notion-book.js"
+compatibility_date = "2026-09-18"
+
+# No [vars] block on purpose. NOTION_TOKEN and NOTION_DB are secrets.
