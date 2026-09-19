@@ -26,18 +26,14 @@
   var PASSWORD = 'stay determined';    /* capitals and extra spaces don't matter */
   var SHUT_FROM = 8, SHUT_UNTIL = 17;  /* closed 8am -> 5pm, visitor's local time */
 
-  /* Where to send the name. Leave it '' and nothing ever leaves the page.
-     Point it at your worker to start keeping the book:
+  /* Where the name goes. The worker is the only thing that ever holds a
+     Notion token, and it is what reads the caller's IP, which this page
+     cannot see. Blank it and nothing ever leaves the page.
 
-       var LOG_TO = 'https://sjj-book.<you>.workers.dev/';
-
-     Two things have to happen together or the browser blocks the call:
-       - set this
-       - add that same origin to connect-src in the CSP meta tag of every
-         page that loads this file
-     The worker is the only thing that ever holds a Notion token, and it is
-     what reads the caller's IP. */
-  var LOG_TO = '';
+     This origin also has to appear in connect-src in the CSP meta tag of
+     every page that loads this file, or the browser blocks the call before
+     it is made. There are 19 of them. Change one, change both. */
+  var LOG_TO = 'https://jook-joint.lacaffar.workers.dev';
 
   var NAME_KEY   = 'sjj_name';
   var PASS_KEY   = 'sjj_pass';
@@ -64,14 +60,21 @@
 
   /* ---- the book ------------------------------------------------------
      fire and forget. if the worker is down, or LOG_TO is blank, or the
-     visitor is offline, the door still opens. */
+     visitor is offline, the door still opens.
+
+     Nothing is sent until the notice has been accepted. The notice is what
+     tells them their name, address and time get kept, so writing the row
+     before they have agreed to it makes the notice decorative. Somebody who
+     types a name and never accepts gets in and is simply not written down.
+
+     Only the name is sent. The worker adds the IP and the time itself. */
   function sign(name) {
-    if (!LOG_TO) return;
+    if (!LOG_TO || !told()) return;
     try {
       fetch(LOG_TO, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: name, page: location.pathname }),
+        body: JSON.stringify({ name: name }),
         keepalive: true,
         mode: 'cors'
       })['catch'](function () {});
@@ -246,6 +249,9 @@
     if (pop) {
       pop.querySelector('.np-ok').addEventListener('click', function () {
         put(NOTICE_KEY, '1');
+        /* the card lingers briefly after a name is submitted, so the notice
+           can be accepted second. sign it now that we are allowed to. */
+        if (named()) sign(get(NAME_KEY));
         pop.classList.add('gone');
         setTimeout(function () { if (pop.parentNode) pop.remove(); }, 260);
         input.focus();
