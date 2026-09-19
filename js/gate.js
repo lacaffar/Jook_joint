@@ -62,10 +62,10 @@
      fire and forget. if the worker is down, or LOG_TO is blank, or the
      visitor is offline, the door still opens.
 
-     Nothing is sent until the notice has been accepted. The notice is what
-     tells them their name, address and time get kept, so writing the row
-     before they have agreed to it makes the notice decorative. Somebody who
-     types a name and never accepts gets in and is simply not written down.
+     Nothing is sent until the notice has been accepted, and nothing can be
+     typed until then either: the field is disabled behind the blur, so the
+     only thing on screen that does anything is Accept. This guard is the
+     backstop, not the gate. Everybody in the room agreed to be in the book.
 
      Only the name is sent. The worker adds the IP and the time itself. */
   function sign(name) {
@@ -223,9 +223,21 @@
     var msg = bookEl.querySelector('.book-msg');
     var input = bookEl.querySelector('.gate-input');
     var shell = bookEl.querySelector('.book-card');
+    var btn = bookEl.querySelector('.book-form .gate-btn');
+
+    /* Shut until the notice is accepted. The blur is the half you can see;
+       disabling the field is the half that matters, because a blurred input
+       still takes a tab stop and still types. */
+    function shut(on) {
+      bookEl.classList.toggle('waiting', on);
+      input.disabled = on;
+      if (btn) btn.disabled = on;
+    }
+    shut(!!withNotice);
 
     bookEl.querySelector('.book-form').addEventListener('submit', function (ev) {
       ev.preventDefault();
+      if (!told()) return;
       var name = String(input.value).trim().replace(/\s+/g, ' ');
       if (name.length < 2) {
         shell.classList.remove('nope'); void shell.offsetWidth; shell.classList.add('nope');
@@ -249,9 +261,7 @@
     if (pop) {
       pop.querySelector('.np-ok').addEventListener('click', function () {
         put(NOTICE_KEY, '1');
-        /* the card lingers briefly after a name is submitted, so the notice
-           can be accepted second. sign it now that we are allowed to. */
-        if (named()) sign(get(NAME_KEY));
+        shut(false);
         pop.classList.add('gone');
         setTimeout(function () { if (pop.parentNode) pop.remove(); }, 260);
         input.focus();

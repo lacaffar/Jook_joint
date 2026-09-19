@@ -112,9 +112,19 @@ html.shut body > .gate{ display:flex !important; }
   position:fixed; inset:0; z-index:9980;
   background:rgba(6,5,5,.46);
   -webkit-backdrop-filter:blur(1.5px); backdrop-filter:blur(1.5px);
+  transition:background .32s ease, backdrop-filter .32s ease;
 }
-.book{ position:fixed; right:18px; bottom:18px; z-index:9982; width:min(330px, calc(100vw - 36px)); }
+/* The card sits in the middle of the room. The wrapper spans the screen so
+   it can centre the card, and takes no clicks itself, or it would swallow
+   the notice sitting over in the corner. */
+.book{
+  position:fixed; inset:0; z-index:9982;
+  display:flex; align-items:center; justify-content:center;
+  padding:18px; pointer-events:none;
+}
 .book-card{
+  width:min(330px, 100%); pointer-events:auto;
+  transition:filter .32s ease;
   position:relative; text-align:left;
   background:var(--bg2); border:1px solid var(--line); border-radius:14px;
   padding:16px 16px 14px; box-shadow:var(--shadow);
@@ -130,13 +140,25 @@ html.shut body > .gate{ display:flex !important; }
 .book-msg{ min-height:1.2em; margin:9px 0 0; font-family:var(--font-term); font-size:16px; color:var(--down); }
 .book-msg.good{ color:var(--ok); }
 
+/* ---- shut until the notice is accepted ------------------------------
+   The room goes soft and the name card goes with it. Blur alone would be
+   theatre, so gate.js disables the field underneath at the same time. */
+.book-wrap.waiting .book-veil{
+  background:rgba(6,5,5,.62);
+  -webkit-backdrop-filter:blur(7px); backdrop-filter:blur(7px);
+}
+.book-wrap.waiting .book-card{
+  filter:blur(4px);
+  pointer-events:none; user-select:none;
+}
+
 /* ---- the privacy notice -------------------------------------------- *
    Standard issue on purpose. A light card, a system face, one button,
    sitting in the opposite corner. It is not part of the joint and is not
    supposed to look like it is.                                          */
 
 .notice-pop{
-  position:fixed; left:18px; bottom:18px; z-index:9982;
+  position:fixed; left:18px; bottom:18px; z-index:9990;
   width:min(340px, calc(100vw - 36px));
   background:#fbfbfa; color:#1c1c1b;
   border:1px solid #d9d9d6; border-radius:8px;
@@ -160,9 +182,8 @@ html.shut body > .gate{ display:flex !important; }
 .np-ok:focus-visible{ outline:2px solid #1a4fd6; outline-offset:2px; }
 
 @media (max-width:720px){
-  .book, .notice-pop{ left:12px; right:12px; width:auto; }
-  .book{ bottom:12px; }
-  .notice-pop{ bottom:calc(12px + 172px); }
+  .book{ padding:12px; }
+  .notice-pop{ left:12px; right:12px; width:auto; bottom:12px; }
 }
 
 /* the way in for the house. dead square, bottom right corner of a card. */
