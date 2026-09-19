@@ -68,23 +68,35 @@ Either way you end up with `https://jook-joint.<subdomain>.workers.dev`.
 
 After the first successful deploy, not before.
 
+There is only one: `NOTION_TOKEN`. The database id lives in
+`wrangler.toml` as a plain var, because it is not secret and because a
+dashboard var gets wiped by the next deploy.
+
 ### From the dashboard
 
-Your worker, Settings, Variables and Secrets, Add. Add two, and set the
-type to **Secret** rather than Text on both:
+Your worker, Settings, **Variables and Secrets**, Add. Set the type to
+**Secret**, not Text.
 
-- `NOTION_TOKEN`, the Internal Integration Secret
-- `NOTION_DB`, the 32 hex characters from the database URL
+Two screens have nearly the same name and only one of them works:
 
-Deploy once more so the running worker picks them up.
+| Screen                            | Lifetime                     |
+|-----------------------------------|------------------------------|
+| Settings, Build, Variables        | only while the build runs    |
+| Settings, Variables and Secrets   | bound to `env` at runtime    |
+
+A value added as **Text** rather than Secret is reconciled against
+`wrangler.toml` on the next deploy and removed if it is not in there. Every
+push to the repo is a deploy, so a Text var set by hand disappears within
+minutes and the worker starts answering `not configured`.
 
 ### From your machine
 
     npx wrangler secret put NOTION_TOKEN
-    npx wrangler secret put NOTION_DB
+    npx wrangler secret list
 
-Secrets survive later deploys, so this is a one time step. Setting them as
-**build** variables does not work: those exist only while the build runs.
+Secrets survive later deploys, so this is a one time step. `secret list`
+prints what is actually attached to the running worker, which is the only
+way to be sure.
 
 ## 4. Point the page at it
 

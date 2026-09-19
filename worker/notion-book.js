@@ -63,7 +63,8 @@ export default {
     const db = String(env.NOTION_DB ?? '').trim();
 
     if (!token || !db) {
-      console.log('missing secret: token', !!token, 'db', !!db);
+      const gone = [!token && 'NOTION_TOKEN', !db && 'NOTION_DB'].filter(Boolean);
+      console.log('not configured, missing:', gone.join(' and '));
       return text('not configured', 500, head);
     }
 

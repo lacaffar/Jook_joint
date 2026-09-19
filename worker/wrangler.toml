@@ -1,14 +1,23 @@
 # The book. Deploys worker/notion-book.js to Cloudflare.
 #
 # Nothing secret goes in this file. Jook_joint is a public repo, so the
-# Notion token and the database id are set as secrets on the deployed
-# worker instead, and they survive every later deploy. See README.md.
+# Notion token is a secret on the deployed worker and never appears here.
+# See README.md.
 
 name = "jook-joint"
 main = "notion-book.js"
 compatibility_date = "2026-09-18"
 
-# No [vars] block on purpose. NOTION_TOKEN and NOTION_DB are secrets.
+# NOTION_TOKEN is the only secret. Set it once with `wrangler secret put`
+# or from Variables and Secrets in the dashboard, type Secret.
+#
+# NOTION_DB is not secret. It is an opaque id that does nothing without the
+# token, and Notion checks auth before it resolves it. It lives here rather
+# than as a dashboard variable because `wrangler deploy` reconciles vars
+# against this file: anything set in the dashboard as Text and absent here
+# gets wiped on the next deploy, and every push to the repo is a deploy.
+[vars]
+NOTION_DB = "59b4e4a00c89424baf599d91f8d6107c"   # Jook Joint visitors
 
 # Keep logs after the fact, so a failed write can be read later instead of
 # only while a live stream happens to be open.
