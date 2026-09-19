@@ -76,10 +76,16 @@ export default {
     });
 
     if (!res.ok) {
-      /* never hand Notion's error back to the browser, it can name the
-         database. log it and tell the page nothing useful. */
+      /* Never hand Notion's message back to the browser, it can name the
+         database. The status alone is safe and is the whole diagnosis:
+           401  the token is wrong
+           403  the integration lacks insert capability
+           404  the database is not shared with the integration, or the id
+                is wrong, or the database is in the trash
+           400  a property name or type does not match the table above
+         Full text goes to the log, readable under Workers, Logs. */
       console.log('notion said', res.status, await res.text());
-      return text('not written', 502, head);
+      return text('not written ' + res.status, 502, head);
     }
 
     return text('written', 200, head);
