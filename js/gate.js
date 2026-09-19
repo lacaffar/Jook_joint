@@ -232,10 +232,11 @@
       }
       put(NAME_KEY, name);
       sign(name);
+      var first = name.split(' ')[0].toLowerCase();
       msg.className = 'book-msg good';
-      msg.textContent = rude(name)
-        ? 'noted, pervert.'
-        : 'noted, ' + name.split(' ')[0].toLowerCase() + '.';
+      msg.textContent = first === 'louisa' ? 'I miss you dear!'
+        : rude(name) ? 'noted, pervert.'
+        : 'noted, ' + first + '.';
       setTimeout(clear, 620);
     });
 
