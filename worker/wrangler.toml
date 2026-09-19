@@ -9,3 +9,8 @@ main = "notion-book.js"
 compatibility_date = "2026-09-18"
 
 # No [vars] block on purpose. NOTION_TOKEN and NOTION_DB are secrets.
+
+# Keep logs after the fact, so a failed write can be read later instead of
+# only while a live stream happens to be open.
+[observability]
+enabled = true
