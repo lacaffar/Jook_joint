@@ -13,11 +13,6 @@
     return s && s.src ? s.src.replace(/js\/[^/]+\.js(\?.*)?$/, '') : '';
   })();
 
-  /* ---- current year in footers ------------------------------------ */
-  document.querySelectorAll('.js-year').forEach(function (n) {
-    n.textContent = new Date().getFullYear();
-  });
-
   /* =================================================================
      SYSTEMS STATUS
      Edit this list to change what shows in the status panel.

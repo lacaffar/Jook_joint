@@ -26,6 +26,16 @@
     scrScare.setAttribute('aria-label', 'jumpscare');
   }
 
+  /* The title screen used to sit on a photograph. It sits on him instead:
+     the same drawn art, half out of the dark on the right of the menu.
+     The poster taped to the wall outside the game gets a friendlier
+     (classic) version of the same raccoon. */
+  var menuArt = $('#fg-menu-art');
+  if (menuArt && scareSVG) menuArt.innerHTML = scareSVG;
+
+  var posterArt = document.querySelector('#cn-poster-art');
+  if (posterArt && window.RaccoonArt) posterArt.innerHTML = RaccoonArt.svg('classic');
+
   var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- the map ------------------------------------------------------ */
@@ -213,6 +223,7 @@
     stopTimers();
     if (window.SFX) SFX.chime();
     try { localStorage.setItem('sjj_fnaf_night', String(st.night + 1)); } catch (e) {}
+    renderCleared();
     endNight(true);
   }
 
@@ -332,6 +343,13 @@
       if (window.SFX) SFX.hum();
     });
   }
+
+  /* the time card on the wall keeps the tally */
+  var clearedEl = document.querySelector('#cn-cleared');
+  function renderCleared() {
+    if (clearedEl) clearedEl.textContent = String(nightSaved() - 1);
+  }
+  renderCleared();
 
   $('#fg-new').addEventListener('click', function () { startNight(1); });
   var contBtn = $('#fg-continue');

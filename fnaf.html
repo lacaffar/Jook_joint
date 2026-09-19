@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/style.css?v=11" />
-  <link rel="stylesheet" href="css/fnaf.css?v=7" />
+  <link rel="stylesheet" href="css/fnaf.css?v=9" />
 </head>
 <body class="room-fnaf">
 
@@ -32,26 +32,43 @@
     </div>
   </header>
 
-  <main class="wrap">
+  <!-- =====================================================================
+       THE CONSOLE. Not a page of stacked sections down a 760px column -
+       a guard post. Door frame bolted down the left, the office filling
+       the middle, the wall by the desk pinned to the right, edge to edge.
+       ===================================================================== -->
+  <main class="cn">
 
-    <h1 class="sign">THE OFFICE</h1>
-    <p class="tagline">night shift, 12AM-6AM · pay: $120/wk · <b style="color:var(--accent)">survivors wanted</b></p>
+    <!-- ---- left: the door frame -------------------------------------- -->
+    <aside class="cn-rail cn-rail-l">
+      <p class="cn-stencil">W. WING<br />GUARD POST 02</p>
 
-    <!-- ============ ONE NIGHT AT SWIFTY'S ============ -->
+      <h1 class="cn-vsign">
+        <span class="a">ONE NIGHT</span><span class="b">AT SWIFTY'S</span>
+      </h1>
+
+      <dl class="cn-stub">
+        <div><dt>shift</dt><dd>12AM&#8239;&rarr;&#8239;6AM</dd></div>
+        <div><dt>pay</dt><dd>$120 / wk</dd></div>
+        <div><dt>hiring</dt><dd class="hot">survivors</dd></div>
+      </dl>
+    </aside>
+
+    <!-- ---- centre: the office ---------------------------------------- -->
     <section class="fnaf-game" id="fnaf-game" aria-label="One Night at Swifty's - a survival game">
 
       <div class="fg-menu" id="fg-menu">
-        <div class="fg-title">One Night<br>at Swifty's</div>
-        <button id="fg-new" type="button">New Game</button>
-        <button id="fg-continue" type="button" hidden>Continue</button>
-        <p class="fg-hint">a raccoon in a bear suit walks the halls.<br>
-          doors stop him. lights find him. cameras slow him.<br>
-          everything costs power. 6AM is a long way off.</p>
-        <p class="fg-star">★ scroll down for the lore files ★</p>
+        <div class="fg-menu-in">
+          <div class="fg-title">One Night<br />at Swifty's</div>
+          <div class="fg-entries">
+            <button id="fg-new" type="button">New Game</button>
+            <button id="fg-continue" type="button" hidden>Continue</button>
+          </div>
+        </div>
+        <div class="fg-menu-art" id="fg-menu-art" aria-hidden="true"></div>
         <div class="fg-menu-bar">
           <span>v 1.032</span>
           <span class="mid">Press and hold DELETE to reset all data.</span>
-          <span>&copy; 2026 Swifty</span>
         </div>
       </div>
 
@@ -60,7 +77,7 @@
           <span id="fg-night">NIGHT 1</span>
           <span id="fg-time">12:00 AM</span>
           <span id="fg-power">POWER: 100%</span>
-          <span id="fg-usage">USAGE: ▮</span>
+          <span id="fg-usage">USAGE: &#9646;</span>
         </div>
         <div class="fg-room">
           <div class="fg-side left">
@@ -78,7 +95,7 @@
             <button class="fg-btn light" id="fg-lightR" type="button">LIGHT</button>
           </div>
         </div>
-        <button id="fg-cams" type="button">▲ ▲ CAMERAS ▲ ▲</button>
+        <button id="fg-cams" type="button">&#9650; &#9650; CAMERAS &#9650; &#9650;</button>
       </div>
 
       <div class="fg-camview" id="fg-camview" hidden>
@@ -94,7 +111,7 @@
           <button class="fg-cam-btn" data-room="hallR" type="button">2B east hall</button>
           <button class="fg-cam-btn" data-room="desk" type="button">3C the desk</button>
         </div>
-        <button id="fg-cams-down" type="button">▼ ▼ OFFICE ▼ ▼</button>
+        <button id="fg-cams-down" type="button">&#9660; &#9660; OFFICE &#9660; &#9660;</button>
       </div>
 
       <div class="fg-jumpscare" id="fg-jumpscare" hidden aria-hidden="true"></div>
@@ -107,74 +124,37 @@
       </div>
     </section>
 
-    <!-- ============ CAM 3C :: the real desk feed ============ -->
-    <h2>CAM 3C - the desk</h2>
-    <section class="deskcam-setup" id="deskcam-setup" aria-label="desk camera feed">
-      <div class="deskcam-screen" id="deskcam-screen">
-        <span class="deskcam-rec">REC</span>
-        <div class="deskcam-placeholder" id="deskcam-placeholder">
-          <p class="deskcam-main">- camera disabled -</p>
-          <p class="deskcam-sub">audio only</p>
-        </div>
-        <img id="deskcam-img" alt="live feed of Swifty's desk" hidden />
+    <!-- ---- right: the wall by the desk -------------------------------- -->
+    <aside class="cn-rail cn-rail-r">
+
+      <div class="cn-card cn-punch">
+        <p class="cn-card-h">TIME CARD <span>no. 02</span></p>
+        <ul class="cn-hours">
+          <li><i></i>12 AM</li>
+          <li><i></i>1 AM</li>
+          <li><i></i>2 AM</li>
+          <li><i></i>3 AM</li>
+          <li><i></i>4 AM</li>
+          <li><i></i>5 AM</li>
+          <li class="goal"><i></i>6 AM</li>
+        </ul>
+        <p class="cn-card-f">nights cleared <b id="cn-cleared">0</b></p>
       </div>
-      <p class="deskcam-note">Meant to be a <b>live camera pointed at my actual desk</b>.
-        Not wired up yet - drop an MJPEG or snapshot URL below and it'll show here.</p>
-      <form class="deskcam-form" id="deskcam-form">
-        <input class="deskcam-input" id="deskcam-url" type="url" inputmode="url"
-               placeholder="https://.../stream.mjpg" aria-label="camera stream URL" />
-        <button class="deskcam-btn" type="submit">connect</button>
-        <button class="deskcam-btn ghost" type="button" id="deskcam-clear">disable</button>
-      </form>
-      <p class="deskcam-status" id="deskcam-status">no feed configured - showing the placeholder.</p>
-    </section>
 
-    <div class="panel incident">
-      <p class="lead">The scariest part was never the jumpscare - it's the lore.</p>
-      <p>A kids' pizzeria with a body count, told through minigames and newspaper
-        clippings, argued over since 2014. I'm in it for the rabbit-holes.</p>
-    </div>
+      <div class="cn-card cn-poster">
+        <div class="cn-poster-art" id="cn-poster-art" aria-hidden="true"></div>
+        <p class="cn-poster-txt">CELEBRATE!</p>
+      </div>
 
-    <h2>Ranking (fight me)</h2>
-    <div class="panel incident">
-      <ol style="margin:0;">
-        <li><b>FNAF 1</b> - nothing beats the original power-management dread.</li>
-        <li><b>Sister Location</b> - voice acting + Circus Baby = elite.</li>
-        <li><b>FNAF 2</b> - the Puppet. the music box. the panic.</li>
-      </ol>
-    </div>
+      <p class="cn-plaque"><span class="blip"></span>GUARD ON DUTY</p>
+    </aside>
 
-    <h2>Favorite animatronics</h2>
-    <ul class="chips">
-      <li>Freddy</li><li>Foxy</li><li>The Puppet</li><li>Circus Baby</li><li>Springtrap</li><li>Mangle</li>
-    </ul>
-
-    <h2>What I'd add to this room next</h2>
-    <div class="panel incident">
-      <ul class="plain">
-        <li>Give the cameras real footage instead of text - even four looping frames of
-          a corridor would beat a label saying CAM 2A.</li>
-        <li>Make power drain per-device rather than a flat rate, so leaving one door shut
-          all night is a decision with a cost.</li>
-        <li>Let night 5 change the office itself: a fan that dies, a poster that moves.</li>
-      </ul>
-    </div>
-
-    <p class="muted"><small>* Let it be recorded: the guard before thee left word that the beast favors
-      the cameras — use that knowledge as thou seest fit.</small></p>
   </main>
-
-  <footer class="site-foot">
-    <div class="wrap">
-      <span>© <span class="js-year">2026</span> Swifty</span>
-    </div>
-  </footer>
 
   <script src="js/sfx.js?v=7"></script>
   <script src="js/quest.js?v=7"></script>
   <script src="js/site.js?v=7"></script>
   <script src="js/raccoon.js?v=7"></script>
-  <script src="js/rooms/fnaf.js?v=7"></script>
-  <script src="js/rooms/deskcam.js?v=7"></script>
+  <script src="js/rooms/fnaf.js?v=8"></script>
 </body>
 </html>
