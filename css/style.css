@@ -106,8 +106,19 @@ html.shut body > .gate{ display:flex !important; }
 .gate-msg{ min-height:1.5em; margin:12px 0 0; font-family:var(--font-term); font-size:19px; color:var(--down); }
 .gate-msg.good{ color:var(--ok); }
 
-/* the book: what gets written down, said plainly and quietly */
-.gate-fine{ margin:14px 0 0; font-size:11px; line-height:1.5; color:var(--muted); opacity:.62; }
+/* The data notice. On purpose this does not match the rest of the joint:
+   a plain system face, left aligned, ruled off. A legal disclosure should
+   look like one, not like set dressing. */
+.gate-legal{
+  margin:18px 0 0; padding:12px 0 0; border-top:1px solid var(--line);
+  text-align:left;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  font-size:10.5px; line-height:1.5; color:var(--muted);
+}
+.gate-legal b{ display:block; margin-bottom:6px; font-size:10.5px; font-weight:600; color:var(--ink); }
+.gate-legal p{ margin:0 0 6px; }
+.gate-legal p:last-child{ margin-bottom:0; }
+.gate-legal a{ color:inherit; text-decoration:underline; }
 
 /* the way in for the house. dead square, bottom right corner of the card. */
 .gate-card{ position:relative; }

@@ -33,6 +33,25 @@
      what reads the caller's IP. See worker/README.md. */
   var LOG_TO = '';
 
+  /* ---- the notice ----------------------------------------------------
+     Deliberately not in the voice of the rest of the site. It is a legal
+     disclosure, so it is plain, plainly worded, and set in a plain face.
+     Keep it accurate: if what the worker writes changes, change this. */
+  var LEGAL =
+    '<div class="gate-legal">' +
+      '<b>Notice: collection of personal information</b>' +
+      '<p>By entering a name and continuing, you consent to the collection and ' +
+      'storage of the name you provide, your IP address, your browser user agent ' +
+      'string, the page you entered from, and the date and time of your visit.</p>' +
+      '<p>This information is stored using a third party service (Notion Labs, Inc.) ' +
+      'and is used only to keep a log of visitors to this site. It is not sold and ' +
+      'it is not shared with anyone else. IP addresses are treated as personal data ' +
+      'under the EU GDPR and under the California Consumer Privacy Act.</p>' +
+      '<p>To ask what is held about you, or to have it deleted, write to ' +
+      '<a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a>. ' +
+      'If you do not consent, please close this page.</p>' +
+    '</div>';
+
   var NAME_KEY = 'sjj_name';
   var PASS_KEY = 'sjj_pass';
 
@@ -89,8 +108,8 @@
     card(
       '<div class="gate-rac" aria-hidden="true"></div>' +
       '<h1>who are you?</h1>' +
-      '<p class="gate-when">the raccoon keeps a book. put a name in it and the ' +
-        'door opens for good on this device.</p>' +
+      "<p class=\"gate-when\">I don't think you've been here before. " +
+        "Please enter your name.</p>" +
       '<form class="gate-form" autocomplete="off">' +
         '<input class="gate-input" type="text" name="who" maxlength="40" ' +
                'placeholder="your name" aria-label="your name" ' +
@@ -98,7 +117,7 @@
         '<button class="gate-btn" type="submit">in</button>' +
       '</form>' +
       '<p class="gate-msg" role="status"></p>' +
-      '<p class="gate-fine">a name and an address go in the book. nothing else.</p>' +
+      LEGAL +
       '<button class="gate-slip" type="button" tabindex="-1" aria-hidden="true"></button>',
       'who are you'
     );
