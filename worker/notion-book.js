@@ -51,13 +51,9 @@ export default {
     const name = String(body?.name ?? '').trim().replace(/\s+/g, ' ').slice(0, 40);
     if (name.length < 2) return text('no name', 400, head);
 
-    const page = String(body?.page ?? '').slice(0, 120);
-
     /* Cloudflare puts the caller's real address here. This is the whole
        reason the worker exists: the browser cannot know it. */
     const ip = request.headers.get('CF-Connecting-IP') || '';
-    const country = request.cf?.country || '';
-    const agent = (request.headers.get('User-Agent') || '').slice(0, 300);
 
     const res = await fetch('https://api.notion.com/v1/pages', {
       method: 'POST',
@@ -68,13 +64,13 @@ export default {
       },
       body: JSON.stringify({
         parent: { database_id: env.NOTION_DB },
+        /* Exactly the three things the notice on the door discloses, and
+           nothing else. If you add a field here, add it to the notice in
+           js/gate.js in the same commit. */
         properties: {
-          'Name':    { title: [{ text: { content: name } }] },
-          'IP':      { rich_text: [{ text: { content: ip } }] },
-          'Country': { rich_text: [{ text: { content: country } }] },
-          'Page':    { rich_text: [{ text: { content: page } }] },
-          'Agent':   { rich_text: [{ text: { content: agent } }] },
-          'Seen':    { date: { start: new Date().toISOString() } }
+          'Name': { title: [{ text: { content: name } }] },
+          'IP':   { rich_text: [{ text: { content: ip } }] },
+          'Seen': { date: { start: new Date().toISOString() } }
         }
       })
     });
