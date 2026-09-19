@@ -82,6 +82,24 @@
      stop, not read out. double click it. */
   var SLIP = '<button class="gate-slip" type="button" tabindex="-1" aria-hidden="true"></button>';
 
+  /* names that are not names. squashed to letters first, so spacing and
+     punctuation do not get anyone past it. real given names are kept off
+     the list on purpose, there are people called Dick and Fanny. */
+  var RUDE = ('penis penises pussy pussies balls ballsack bollocks cock cocks ' +
+    'vagina vulva labia clit clitoris scrotum testicle testicles nutsack ' +
+    'schlong wiener weiner dong phallus foreskin twat cunt tits titties ' +
+    'boobs boobies nipple nipples prick taint gooch dildo anus butthole').split(' ');
+
+  function rude(name) {
+    var flat = String(name).toLowerCase().replace(/[^a-z]/g, '');
+    if (RUDE.indexOf(flat) !== -1) return true;
+    var bits = String(name).toLowerCase().split(/[^a-z]+/);
+    for (var i = 0; i < bits.length; i++) {
+      if (bits[i] && RUDE.indexOf(bits[i]) !== -1) return true;
+    }
+    return false;
+  }
+
   function houseKeys() {
     put(NAME_KEY, 'the house');
     put(PASS_KEY, '1');
@@ -99,8 +117,6 @@
       '<p class="np-h">Privacy notice</p>' +
       '<p>This site records the name you enter, your IP address and the time of ' +
       'your visit, and keeps them in a visitor log. Nothing is sold or shared.</p>' +
-      '<p>To have your entry removed, contact ' +
-      '<a href="mailto:lacaffar@ncsu.edu">lacaffar@ncsu.edu</a>.</p>' +
       '<div class="np-act"><button class="np-ok" type="button">Accept</button></div>' +
     '</aside>';
 
@@ -217,7 +233,9 @@
       put(NAME_KEY, name);
       sign(name);
       msg.className = 'book-msg good';
-      msg.textContent = 'noted, ' + name.split(' ')[0].toLowerCase() + '.';
+      msg.textContent = rude(name)
+        ? 'noted, pervert.'
+        : 'noted, ' + name.split(' ')[0].toLowerCase() + '.';
       setTimeout(clear, 620);
     });
 
